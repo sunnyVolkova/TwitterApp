@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7249BA1C591065005AA2E1 /* LoginService.swift */; };
+		CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */; };
 		CEC7CF491C58FC1300B66BCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */; };
-		CEC7CF4B1C58FC1300B66BCD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF4A1C58FC1300B66BCD /* ViewController.swift */; };
+		CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */; };
 		CEC7CF4E1C58FC1300B66BCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */; };
 		CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF4F1C58FC1300B66BCD /* TwitterApp.xcdatamodeld */; };
 		CEC7CF531C58FC1300B66BCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEC7CF521C58FC1300B66BCD /* Assets.xcassets */; };
@@ -32,12 +34,64 @@
 			remoteGlobalIDString = CEC7CF441C58FC1300B66BCD;
 			remoteInfo = TwitterApp;
 		};
+		CEC89C3C1C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F435027A1A6791B200038A29;
+			remoteInfo = OAuthSwift;
+		};
+		CEC89C3E1C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F451E3C5195B8CD80051434C;
+			remoteInfo = OAuthSwiftDemo;
+		};
+		CEC89C401C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C48B28021AFA598D00C7DEF6;
+			remoteInfo = OAuthSwiftOSX;
+		};
+		CEC89C421C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C49FD5241AFB5DF500791E1A;
+			remoteInfo = OAuthSwiftOSXDemo;
+		};
+		CEC89C441C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4B6EE1E1BF74CE300443596;
+			remoteInfo = OAuthSwiftTVOS;
+		};
+		CEC89C461C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C40890C01C11B37000E3146A;
+			remoteInfo = OAuthSwiftWatchOS;
+		};
+		CEC89C481C5A3B5300B1C986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4D50DF71BFB693F0053B624;
+			remoteInfo = OAuthSwiftTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OAuthSwift.xcodeproj; path = "../../../Downloads/OAuthSwift-master/OAuthSwift.xcodeproj"; sourceTree = "<group>"; };
+		CE7249BA1C591065005AA2E1 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		CEC7CF451C58FC1300B66BCD /* TwitterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CEC7CF4A1C58FC1300B66BCD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CEC7CF4D1C58FC1300B66BCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CEC7CF501C58FC1300B66BCD /* TwitterApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TwitterApp.xcdatamodel; sourceTree = "<group>"; };
 		CEC7CF521C58FC1300B66BCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,6 +133,7 @@
 		CEC7CF3C1C58FC1300B66BCD = {
 			isa = PBXGroup;
 			children = (
+				CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */,
 				CEC7CF471C58FC1300B66BCD /* TwitterApp */,
 				CEC7CF5F1C58FC1400B66BCD /* TwitterAppTests */,
 				CEC7CF6A1C58FC1400B66BCD /* TwitterAppUITests */,
@@ -100,7 +155,9 @@
 			isa = PBXGroup;
 			children = (
 				CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */,
-				CEC7CF4A1C58FC1300B66BCD /* ViewController.swift */,
+				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
+				CE7249BA1C591065005AA2E1 /* LoginService.swift */,
+				CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */,
 				CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */,
 				CEC7CF521C58FC1300B66BCD /* Assets.xcassets */,
 				CEC7CF541C58FC1300B66BCD /* LaunchScreen.storyboard */,
@@ -126,6 +183,20 @@
 				CEC7CF6D1C58FC1400B66BCD /* Info.plist */,
 			);
 			path = TwitterAppUITests;
+			sourceTree = "<group>";
+		};
+		CEC89C331C5A3B5300B1C986 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEC89C3D1C5A3B5300B1C986 /* OAuthSwift.framework */,
+				CEC89C3F1C5A3B5300B1C986 /* OAuthSwiftDemo.app */,
+				CEC89C411C5A3B5300B1C986 /* OAuthSwift.framework */,
+				CEC89C431C5A3B5300B1C986 /* OAuthSwiftOSXDemo.app */,
+				CEC89C451C5A3B5300B1C986 /* OAuthSwift.framework */,
+				CEC89C471C5A3B5300B1C986 /* OAuthSwift.framework */,
+				CEC89C491C5A3B5300B1C986 /* OAuthSwiftTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +289,12 @@
 			mainGroup = CEC7CF3C1C58FC1300B66BCD;
 			productRefGroup = CEC7CF461C58FC1300B66BCD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CEC89C331C5A3B5300B1C986 /* Products */;
+					ProjectRef = CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				CEC7CF441C58FC1300B66BCD /* TwitterApp */,
@@ -226,6 +303,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CEC89C3D1C5A3B5300B1C986 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = CEC89C3C1C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C3F1C5A3B5300B1C986 /* OAuthSwiftDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftDemo.app;
+			remoteRef = CEC89C3E1C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C411C5A3B5300B1C986 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = CEC89C401C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C431C5A3B5300B1C986 /* OAuthSwiftOSXDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftOSXDemo.app;
+			remoteRef = CEC89C421C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C451C5A3B5300B1C986 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = CEC89C441C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C471C5A3B5300B1C986 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = CEC89C461C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEC89C491C5A3B5300B1C986 /* OAuthSwiftTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OAuthSwiftTests.xctest;
+			remoteRef = CEC89C481C5A3B5300B1C986 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CEC7CF431C58FC1300B66BCD /* Resources */ = {
@@ -259,8 +388,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */,
 				CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */,
-				CEC7CF4B1C58FC1300B66BCD /* ViewController.swift in Sources */,
+				CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */,
+				CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */,
 				CEC7CF491C58FC1300B66BCD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +619,7 @@
 				CEC7CF721C58FC1400B66BCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEC7CF731C58FC1400B66BCD /* Build configuration list for PBXNativeTarget "TwitterAppTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +628,7 @@
 				CEC7CF751C58FC1400B66BCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEC7CF761C58FC1400B66BCD /* Build configuration list for PBXNativeTarget "TwitterAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +637,7 @@
 				CEC7CF781C58FC1400B66BCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

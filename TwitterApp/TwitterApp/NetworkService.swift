@@ -11,7 +11,7 @@ import OAuthSwift
 
 class NetworkService {
     static var oauthswift: OAuth1Swift?
-    init(oauthswift: OAuth1Swift){
-        NetworkService.oauthswift = oauthswift
-    }
+//    init(oauthswift: OAuth1Swift){
+//        NetworkService.oauthswift = oauthswift
+//    }
 }

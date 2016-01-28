@@ -44,6 +44,7 @@ class LoginViewController: UIViewController {
             loginButton.hidden = true
             NSLog("load next viewController")
             testTwitter(getOAuthTwitter()!)
+            NetworkService.oauthswift = getOAuthTwitter()!
             //TODO: load next viewController
         } else {
             loginButton.hidden = false

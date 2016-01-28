@@ -17,6 +17,9 @@
 		CEC7CF561C58FC1300B66BCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC7CF541C58FC1300B66BCD /* LaunchScreen.storyboard */; };
 		CEC7CF611C58FC1400B66BCD /* TwitterAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF601C58FC1400B66BCD /* TwitterAppTests.swift */; };
 		CEC7CF6C1C58FC1400B66BCD /* TwitterAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF6B1C58FC1400B66BCD /* TwitterAppUITests.swift */; };
+		CEC89C511C5A554400B1C986 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC89C501C5A554400B1C986 /* HomeViewController.swift */; };
+		CEC89C5A1C5A5BE100B1C986 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC89C591C5A5BE100B1C986 /* TweetCell.swift */; };
+		CEC89C5C1C5A5DAD00B1C986 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +106,9 @@
 		CEC7CF671C58FC1400B66BCD /* TwitterAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwitterAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC7CF6B1C58FC1400B66BCD /* TwitterAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAppUITests.swift; sourceTree = "<group>"; };
 		CEC7CF6D1C58FC1400B66BCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEC89C501C5A554400B1C986 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CEC89C591C5A5BE100B1C986 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +164,10 @@
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
 				CE7249BA1C591065005AA2E1 /* LoginService.swift */,
 				CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */,
+				CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */,
 				CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */,
+				CEC89C591C5A5BE100B1C986 /* TweetCell.swift */,
+				CEC89C501C5A554400B1C986 /* HomeViewController.swift */,
 				CEC7CF521C58FC1300B66BCD /* Assets.xcassets */,
 				CEC7CF541C58FC1300B66BCD /* LaunchScreen.storyboard */,
 				CEC7CF571C58FC1300B66BCD /* Info.plist */,
@@ -388,11 +397,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEC89C5C1C5A5DAD00B1C986 /* HomeTableViewController.swift in Sources */,
 				CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */,
+				CEC89C5A1C5A5BE100B1C986 /* TweetCell.swift in Sources */,
 				CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */,
 				CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */,
 				CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */,
 				CEC7CF491C58FC1300B66BCD /* AppDelegate.swift in Sources */,
+				CEC89C511C5A554400B1C986 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

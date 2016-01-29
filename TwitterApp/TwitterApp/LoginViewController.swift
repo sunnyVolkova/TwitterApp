@@ -15,8 +15,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         let authorized = NSUserDefaults.standardUserDefaults().boolForKey(self.authorizedKey)
         updateUI(authorized)
     }
@@ -42,10 +42,9 @@ class LoginViewController: UIViewController {
     func updateUI(authorized: Bool){
         if(authorized){
             loginButton.hidden = true
-            NSLog("load next viewController")
-            testTwitter(getOAuthTwitter()!)
             NetworkService.oauthswift = getOAuthTwitter()!
-            //TODO: load next viewController
+            let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("HomeTableViewController")
+            self.presentViewController(homeViewController!, animated: true, completion: nil)
         } else {
             loginButton.hidden = false
         }

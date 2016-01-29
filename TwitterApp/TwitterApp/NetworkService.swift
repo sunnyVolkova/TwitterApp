@@ -11,7 +11,22 @@ import OAuthSwift
 
 class NetworkService {
     static var oauthswift: OAuth1Swift?
-//    init(oauthswift: OAuth1Swift){
-//        NetworkService.oauthswift = oauthswift
-//    }
+    
+    static func getTimeline(success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void) {
+        if let oauthswift = oauthswift{
+            oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: [:],
+                success: {
+                    data, response in
+                    let tweets = TwitterParser.parseTwitData(data)
+                    success(tweets)
+                    //print(jsonDict)
+                }, failure: { error in
+                    print(error)
+                    failure(error)
+            })
+        }
+    
+    }
+
+
 }

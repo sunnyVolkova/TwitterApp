@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE50BFE71C5B8689009DE62B /* TwitterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE50BFE61C5B8689009DE62B /* TwitterParser.swift */; };
 		CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7249BA1C591065005AA2E1 /* LoginService.swift */; };
 		CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */; };
+		CE7850841C5A809C00448E5A /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7850831C5A809C00448E5A /* Tweet.swift */; };
 		CEC7CF491C58FC1300B66BCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */; };
 		CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */; };
 		CEC7CF4E1C58FC1300B66BCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */; };
@@ -89,9 +91,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE50BFE61C5B8689009DE62B /* TwitterParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterParser.swift; sourceTree = "<group>"; };
 		CE7249721C5909B5005AA2E1 /* OAuthSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OAuthSwift.xcodeproj; path = "../../../Downloads/OAuthSwift-master/OAuthSwift.xcodeproj"; sourceTree = "<group>"; };
 		CE7249BA1C591065005AA2E1 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		CE7850831C5A809C00448E5A /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		CEC7CF451C58FC1300B66BCD /* TwitterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +168,8 @@
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
 				CE7249BA1C591065005AA2E1 /* LoginService.swift */,
 				CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */,
+				CE50BFE61C5B8689009DE62B /* TwitterParser.swift */,
+				CE7850831C5A809C00448E5A /* Tweet.swift */,
 				CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */,
 				CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */,
 				CEC89C591C5A5BE100B1C986 /* TweetCell.swift */,
@@ -400,6 +406,8 @@
 				CEC89C5C1C5A5DAD00B1C986 /* HomeTableViewController.swift in Sources */,
 				CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */,
 				CEC89C5A1C5A5BE100B1C986 /* TweetCell.swift in Sources */,
+				CE7850841C5A809C00448E5A /* Tweet.swift in Sources */,
+				CE50BFE71C5B8689009DE62B /* TwitterParser.swift in Sources */,
 				CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */,
 				CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */,
 				CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */,

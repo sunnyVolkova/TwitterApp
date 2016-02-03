@@ -12,7 +12,7 @@ class TwitterParser{
     static let tweetTextKey = "text"
     static let tweetDateKey = "created_at"
     static let tweetUserKey = "user"
-    static let tweetEntitiesKey = "entities"
+    static let tweetEntitiesKey = "extended_entities"
     
     //user
     static let userNameKey = "name"
@@ -34,10 +34,21 @@ class TwitterParser{
         let userName = user[userNameKey] as! String
         let userAvatar = user[userImageUrlKey] as! String
         
-        //TODO: parse image URL
-        //let entities = dictionary[tweetEntitiesKey] as! [String: AnyObject]
+        var mediaURLs: [String] = []
 
-        let tweet = Tweet(id: id, username: userName, avatarURL: userAvatar, tweetText: text, date: date, tweetImageURL: "")
+        if let entities = dictionary[tweetEntitiesKey] as? [String: AnyObject]{
+            if let media = entities[mediaKey] as? [AnyObject] {
+                NSLog("media.count =  \(media.count)")
+                for mediaItem in media{
+                    if let mediaDict = mediaItem as? [String: AnyObject]{
+                        if let mediaURL  = mediaDict[mediaUrlKey] as? String {
+                            mediaURLs.append(mediaURL)
+                        }
+                    }
+                }
+            }
+        }
+        let tweet = Tweet(id: id, username: userName, avatarURL: userAvatar, tweetText: text, date: date, tweetImageURLs: mediaURLs)
         return tweet        
     }
     

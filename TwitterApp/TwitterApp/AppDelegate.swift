@@ -22,6 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let authorized = NSUserDefaults.standardUserDefaults().boolForKey(LoginService.authorizedKey)
+        let navigationController = self.window?.rootViewController as? UINavigationController;
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if(authorized){
+            NetworkService.oauthswift = LoginService.getOAuthTwitter()!
+            let viewController: HomeTableViewController = storyboard.instantiateViewControllerWithIdentifier("HomeTableViewController") as! HomeTableViewController
+            navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            let viewController: LoginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+            navigationController?.pushViewController(viewController, animated: true)
+        }
         // Override point for customization after application launch.
         return true
     }

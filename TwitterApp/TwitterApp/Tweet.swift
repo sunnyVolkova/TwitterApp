@@ -13,14 +13,14 @@ class Tweet{
     var avatarURL: String
     var tweetText: String
     var date: NSDate
-    var tweetImageURL: String?
+    var tweetImageURLs: [String]?
     
-    init(id: Int, username: String, avatarURL: String, tweetText: String, date: NSDate, tweetImageURL: String?){
+    init(id: Int, username: String, avatarURL: String, tweetText: String, date: NSDate, tweetImageURLs: [String]?){
         self.id = id
         self.username = username
         self.avatarURL = avatarURL
         self.tweetText = tweetText
         self.date = date
-        self.tweetImageURL = tweetImageURL
+        self.tweetImageURLs = tweetImageURLs
     }
 }

@@ -5,6 +5,7 @@
 //  Created by RWuser on 28/01/16.
 //  Copyright © 2016 RWuser. All rights reserved.
 //
+//TODO: add rate limit check on next step
 
 import Foundation
 import OAuthSwift
@@ -13,7 +14,7 @@ class NetworkService {
     static var oauthswift: OAuth1Swift?
     static var maxId: Int = -1
     static var sinceId: Int = -1
-    static let numberOfTweetsOnPage = 3
+    static let numberOfTweetsOnPage = 20
     
     static func getTimeline(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void) {
          NSLog("getTimeline")

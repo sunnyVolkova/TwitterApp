@@ -12,6 +12,7 @@ import SDWebImage
 class HomeTableViewController: UITableViewController{
     var tweets: [Tweet] = []
     var wasDragged = false;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 20.0;
@@ -33,7 +34,9 @@ class HomeTableViewController: UITableViewController{
                 indexPaths.append(NSIndexPath(forRow: count, inSection: 0))
                 count++
             }
+            self.tableView.beginUpdates()
             self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            self.tableView.endUpdates()
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -51,7 +54,10 @@ class HomeTableViewController: UITableViewController{
                 indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
                 count++
             }
-            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            self.tableView.beginUpdates()
+            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Bottom)
+            self.tableView.endUpdates()
+            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -88,7 +94,7 @@ class HomeTableViewController: UITableViewController{
             self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
         }
         
-        return 0;
+        return 1;
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -100,66 +106,93 @@ class HomeTableViewController: UITableViewController{
         let currentOffset = scrollView.contentOffset.y;
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
         
-        //NSInteger result = maximumOffset - currentOffset;
-        
         // Change 10.0 to adjust the distance from bottom
         if (maximumOffset - currentOffset <= 10.0) {
             getMoreTweets()
         }
-        NSLog("End dragging")
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellIdentifier = "TweetCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
         let tweet = self.tweets[indexPath.row]
+        if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0{
+            let cellIdentifier = "TweetCellWithImage"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCellWithImage
+            fillCellWithImageTweet(cell: cell, tweet: tweet)
+            return cell
+        } else {
+            let cellIdentifier = "TweetCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
+            fillCellWithTweet(cell: cell, tweet: tweet)
+            return cell
+        }
+    }
+    
+    func fillCellWithTweet(cell cell: TweetCell, tweet: Tweet){
         cell.userName.text = tweet.username
         cell.tweetText.lineBreakMode = .ByWordWrapping
         cell.tweetText.numberOfLines = 0
         cell.tweetText.text = tweet.tweetText
-       
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
+        cell.date.sizeToFit()
+        cell.date.text = dateFormatter.stringFromDate(tweet.date)
+        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
-                NSLog("error: \(error.description)")
+                NSLog("error loading image: \(error.description)")
             }
-            if(cacheType == .None){
-                self.tableView.reloadData()
-            }
-            //self.tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
-            //tableView.reloadRowsAtIndexPaths([indexPath, indexPath], withRowAnimation: UITableViewRowAnimation.None)
-        }
-        
-        let block2: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-            if(cacheType == .None){
-                self.tableView.reloadData()
-            }
-            //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
         }
         
         let url = NSURL(string: tweet.avatarURL)
         cell.avatarImage.sd_cancelCurrentImageLoad()
         cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
-        for view in cell.mediaContentView.arrangedSubviews{
-            view.removeFromSuperview()
+    }
+    
+    func fillCellWithImageTweet(cell cell: TweetCellWithImage, tweet: Tweet){
+        
+        cell.userName.text = tweet.username
+        cell.tweetText.lineBreakMode = .ByWordWrapping
+        cell.tweetText.numberOfLines = 0
+        cell.tweetText.text = tweet.tweetText
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
+        cell.date.sizeToFit()
+        cell.date.text = dateFormatter.stringFromDate(tweet.date)
+        
+        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
+            if (error != nil){
+                NSLog("error loading image: \(error.description)")
+            }
         }
-        NSLog("tweet.tweetImageURLs?.count \(tweet.tweetImageURLs?.count)")
-        if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0 {
-            for tweetImageURL in tweet.tweetImageURLs!{
-                if !tweetImageURL.isEmpty {
-                    NSLog("load image \(tweetImageURL)")
-                    let urlMedia = NSURL(string: tweetImageURL)
-                    let imageView = UIImageView()
-                    imageView.clipsToBounds = true
-                    cell.mediaContentView.addArrangedSubview(imageView)
-                    imageView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block2)
+        
+        let url = NSURL(string: tweet.avatarURL)
+        cell.avatarImage.sd_cancelCurrentImageLoad()
+        cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
+        
+        if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0{
+            if(tweet.tweetImageURLs?.count > 1){
+                for i in 0..<tweet.tweetImageURLs!.count{
+                    let urlMedia = NSURL(string: tweet.tweetImageURLs![i])
+                    let imageView: UIImageView
+                    switch(i){
+                    case 0:
+                        imageView = cell.mainImage
+                    case 1:
+                        imageView = cell.additionalImage1
+                    case 2:
+                        imageView = cell.additionalImage2
+                    case 3:
+                        imageView = cell.additionaImage3
+                    default:
+                        imageView = UIImageView()
+                    }
+                    imageView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: {
+                        (image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
+                    })
                 }
             }
         }
-        return cell
     }
     
 }

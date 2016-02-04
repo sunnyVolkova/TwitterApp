@@ -13,9 +13,9 @@ class NetworkService {
     static var oauthswift: OAuth1Swift?
     static var maxId: Int = -1
     static var sinceId: Int = -1
-    static let numberOfTweetsOnPage = 20
+    static let numberOfTweetsOnPage = 3
     
-    static func getTimeline(success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void) {
+    static func getTimeline(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void) {
          NSLog("getTimeline")
         let parameters:Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",

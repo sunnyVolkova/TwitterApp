@@ -51,8 +51,7 @@ class HomeTableViewController: UITableViewController{
                 indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
                 count++
             }
-            //self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-            self.tableView.reloadData()
+            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -61,7 +60,7 @@ class HomeTableViewController: UITableViewController{
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        NetworkService.getTimeline({ tweets in
+        NetworkService.getTimeline(success: { tweets in
             self.tweets = tweets!
             self.tableView.reloadData()
             NSLog("tweets number : \(self.tweets.count)")
@@ -79,16 +78,14 @@ class HomeTableViewController: UITableViewController{
         } else {
             let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
             
-            messageLabel.text = "No data is currently available. Please pull down to refresh."
+            messageLabel.text = "No data is currently available."
             messageLabel.textColor = UIColor.blackColor()
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = NSTextAlignment.Center
-            messageLabel.font = UIFont(name: "Palatino-Italic", size:20)
             messageLabel.sizeToFit()
             
             self.tableView.backgroundView = messageLabel;
             self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
-            
         }
         
         return 0;

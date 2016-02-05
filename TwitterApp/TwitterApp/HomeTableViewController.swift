@@ -52,6 +52,7 @@ class HomeTableViewController: UITableViewController{
                 count++
             }
             self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -70,14 +71,14 @@ class HomeTableViewController: UITableViewController{
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController!.setNavigationBarHidden(false, animated: false)    }
+        self.navigationController!.setNavigationBarHidden(false, animated: false)
+    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if(tweets.count > 0){
             return 1
         } else {
             let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-            
             messageLabel.text = "No data is currently available."
             messageLabel.textColor = UIColor.blackColor()
             messageLabel.numberOfLines = 0;
@@ -87,7 +88,6 @@ class HomeTableViewController: UITableViewController{
             self.tableView.backgroundView = messageLabel;
             self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
         }
-        
         return 0;
     }
     

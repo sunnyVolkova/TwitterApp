@@ -35,9 +35,7 @@ class LoginViewController: UIViewController {
     func updateUI(authorized: Bool){
         if(authorized){
             NetworkService.oauthswift = LoginService.getOAuthTwitter()!
-            //let homeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("HomeTableViewController")
             performSegueWithIdentifier("LoginSuccess", sender: nil)
-            //self.presentViewController(homeViewController!, animated: true, completion: nil)
         }
     }
 

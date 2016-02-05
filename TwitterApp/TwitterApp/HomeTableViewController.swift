@@ -123,41 +123,55 @@ class HomeTableViewController: UITableViewController{
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
-            if(cacheType == .None){
-                self.tableView.reloadData()
-            }
-            //self.tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
-            //tableView.reloadRowsAtIndexPaths([indexPath, indexPath], withRowAnimation: UITableViewRowAnimation.None)
         }
         
         let block2: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
-            if(cacheType == .None){
-                self.tableView.reloadData()
-            }
-            //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
         }
         
         let url = NSURL(string: tweet.avatarURL)
         cell.avatarImage.sd_cancelCurrentImageLoad()
         cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
-        for view in cell.mediaContentView.arrangedSubviews{
+        for view in cell.imagesContainer.subviews{
             view.removeFromSuperview()
-        }
-        NSLog("tweet.tweetImageURLs?.count \(tweet.tweetImageURLs?.count)")
+        }  
         if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0 {
-            for tweetImageURL in tweet.tweetImageURLs!{
-                if !tweetImageURL.isEmpty {
-                    NSLog("load image \(tweetImageURL)")
-                    let urlMedia = NSURL(string: tweetImageURL)
-                    let imageView = UIImageView()
-                    imageView.clipsToBounds = true
-                    cell.mediaContentView.addArrangedSubview(imageView)
-                    imageView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block2)
-                }
+            let margin: CGFloat = 8
+            let marginBetweenImages: CGFloat = 1
+            let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*3
+            let imageCount = tweet.tweetImageURLs!.count
+            let divider: CGFloat = CGFloat(imageCount)
+            let startX = CGFloat(0)
+            let startY = CGFloat(0)
+            var smallSize = CGFloat(0)
+            if(imageCount > 1){
+                smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
             }
+            let mainSize = (containerWidth - marginBetweenImages) - smallSize
+            
+            cell.imageContainerHeightConstraint.constant = mainSize
+            
+            let view1 = UIImageView()
+            view1.frame = CGRectMake(startX, startY, mainSize, mainSize)
+            view1.contentMode = UIViewContentMode.ScaleAspectFill
+            cell.imagesContainer.addSubview(view1)
+            let tweetImageURL = tweet.tweetImageURLs![0]
+            let urlMedia = NSURL(string: tweetImageURL)
+            view1.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block2)
+            
+            for i in 1..<imageCount {
+                let view2 = UIImageView()
+                view2.contentMode = UIViewContentMode.ScaleAspectFill
+                view2.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
+                cell.imagesContainer.addSubview(view2)
+                let tweetImageURL = tweet.tweetImageURLs![i]
+                let urlMedia = NSURL(string: tweetImageURL)
+                view2.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block2)
+            }
+        } else {
+            cell.imageContainerHeightConstraint.constant = 0
         }
         return cell
     }

@@ -11,8 +11,9 @@ import UIKit
 class TweetCell: UITableViewCell{
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imagesContainer: UIView!
     @IBOutlet weak var tweetText: UILabel!
     @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var mediaContentView: UIStackView!
 }
 

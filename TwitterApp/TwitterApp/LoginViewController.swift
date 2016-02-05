@@ -9,16 +9,9 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    let authorizedKey = "authorizedKey"
-    let accessTokenKey = "accessTokenKey"
-    let accessTokenSecretKey = "accessTokenSecretKey"
-    
-    @IBOutlet weak var loginButton: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let authorized = NSUserDefaults.standardUserDefaults().boolForKey(self.authorizedKey)
-        updateUI(authorized)
+   
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,12 +34,8 @@ class LoginViewController: UIViewController {
     
     func updateUI(authorized: Bool){
         if(authorized){
-            loginButton.hidden = true
-            NSLog("load next viewController")
-            testTwitter(getOAuthTwitter()!)
-            //TODO: load next viewController
-        } else {
-            loginButton.hidden = false
+            NetworkService.oauthswift = LoginService.getOAuthTwitter()!
+            performSegueWithIdentifier("LoginSuccess", sender: nil)
         }
     }
 

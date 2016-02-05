@@ -10,6 +10,10 @@ import Foundation
 import OAuthSwift
 
 class LoginService {
+    static let authorizedKey = "authorizedKey"
+    static let accessTokenKey = "accessTokenKey"
+    static let accessTokenSecretKey = "accessTokenSecretKey"
+    
     static let consumerKey = "F4NRQDe9zolrd4kkfN0ckJZWD"
     static let consumerSecret = "bCckYkulnZeY8PP3x677VPcujgtXekjtCSCT2nceyvKFjSlFON"
     
@@ -20,6 +24,20 @@ class LoginService {
         authorizeUrl:    "https://api.twitter.com/oauth/authorize",
         accessTokenUrl:  "https://api.twitter.com/oauth/access_token"
     )
+    
+    static func getOAuthTwitter() -> OAuth1Swift?{
+        let oauthswift = LoginService.oauthswift
+        let authorized = NSUserDefaults.standardUserDefaults().boolForKey(LoginService.authorizedKey)
+        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey(LoginService.accessTokenKey) as! String
+        let accessTokenSecret = NSUserDefaults.standardUserDefaults().objectForKey(LoginService.accessTokenSecretKey) as! String
+        if(authorized){
+            oauthswift.client = OAuthSwiftClient(consumerKey: LoginService.consumerKey, consumerSecret: LoginService.consumerSecret, accessToken: accessToken, accessTokenSecret: accessTokenSecret)
+            return oauthswift
+        } else {
+            return nil
+        }
+    }
+    
 }
 
 // MARK: - do authentification
@@ -40,9 +58,9 @@ extension LoginViewController {
     }
     
     func saveCredentials(authorized authorized: Bool, accessToken: String, accessTokenSecret: String){
-        NSUserDefaults.standardUserDefaults().setBool(authorized, forKey: self.authorizedKey)
-        NSUserDefaults.standardUserDefaults().setObject(accessToken, forKey: self.accessTokenKey)
-        NSUserDefaults.standardUserDefaults().setObject(accessTokenSecret, forKey: self.accessTokenSecretKey)
+        NSUserDefaults.standardUserDefaults().setBool(authorized, forKey: LoginService.authorizedKey)
+        NSUserDefaults.standardUserDefaults().setObject(accessToken, forKey: LoginService.accessTokenKey)
+        NSUserDefaults.standardUserDefaults().setObject(accessTokenSecret, forKey: LoginService.accessTokenSecretKey)
     }
     
     func showTokenAlert(name: String?, credential: OAuthSwiftCredential) {
@@ -51,20 +69,6 @@ extension LoginViewController {
             message += "\n\noauth_token_secret:\(credential.oauth_token_secret)"
         }
         self.showAlertView(name ?? "Service", message: message)
-    }
-    
-    func getOAuthTwitter() -> OAuth1Swift?{
-        let oauthswift = LoginService.oauthswift
-        let authorized = NSUserDefaults.standardUserDefaults().boolForKey(self.authorizedKey)
-        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey(self.accessTokenKey) as! String
-        let accessTokenSecret = NSUserDefaults.standardUserDefaults().objectForKey(self.accessTokenSecretKey) as! String
-        if(authorized){
-            oauthswift.client = OAuthSwiftClient(consumerKey: LoginService.consumerKey, consumerSecret: LoginService.consumerSecret, accessToken: accessToken, accessTokenSecret: accessTokenSecret)
-            return oauthswift
-        } else {
-            return nil
-        }
-        
     }
     
     //TODO: remove later

@@ -25,17 +25,24 @@ class TwitterParser{
     static let mediaUrlKey = "media_url"
     static let typeKey = "type"
     
+    //date format
+    static let dateFormat = "EEE' 'MMM' 'dd' 'HH':'mm':'ss' 'Z' 'yyyy"
+    
     static func parseTwit(dictionary: [String: AnyObject]) -> Tweet{
         let id = dictionary[tweetIdKey] as! Int
         let text = dictionary[tweetTextKey] as! String
-        let date = NSDate()//dictionary[tweetDateKey] as! NSDate
+        let dateString = dictionary[tweetDateKey] as! String
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        let date = dateFormatter.dateFromString(dateString)
         
         let user = dictionary[tweetUserKey] as! [String: AnyObject]
         let userName = user[userNameKey] as! String
         let userAvatar = user[userImageUrlKey] as! String
         
         var mediaURLs: [String] = []
-
+        
         if let entities = dictionary[tweetEntitiesKey] as? [String: AnyObject]{
             if let media = entities[mediaKey] as? [AnyObject] {
                 NSLog("media.count =  \(media.count)")
@@ -48,8 +55,8 @@ class TwitterParser{
                 }
             }
         }
-        let tweet = Tweet(id: id, username: userName, avatarURL: userAvatar, tweetText: text, date: date, tweetImageURLs: mediaURLs)
-        return tweet        
+        let tweet = Tweet(id: id, username: userName, avatarURL: userAvatar, tweetText: text, date: date!, tweetImageURLs: mediaURLs)
+        return tweet
     }
     
     static func parseTwitArray(array: [AnyObject]) -> [Tweet]{
@@ -59,7 +66,7 @@ class TwitterParser{
                 let tweet = parseTwit(tweetDict)
                 tweetArray.append(tweet)
             }
-        
+            
         }
         return tweetArray
     }

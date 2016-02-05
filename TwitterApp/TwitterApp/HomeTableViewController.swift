@@ -117,6 +117,12 @@ class HomeTableViewController: UITableViewController{
         cell.tweetText.numberOfLines = 0
         cell.tweetText.text = tweet.tweetText
        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
+        cell.date.sizeToFit()
+        cell.date.text = dateFormatter.stringFromDate(tweet.date)
+
+        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")

@@ -1,4 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Automatic">
+    <entity name="Entity" syncable="YES">
+        <relationship name="extended_entities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExtendedEntity" syncable="YES"/>
+        <relationship name="hashtags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Hashtag" syncable="YES"/>
+        <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" syncable="YES"/>
+        <relationship name="symbols" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Symbol" syncable="YES"/>
+        <relationship name="urls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Url" syncable="YES"/>
+        <relationship name="user_mentions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserMention" syncable="YES"/>
+    </entity>
+    <entity name="ExtendedEntity" syncable="YES">
+        <attribute name="display_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="duration_millis" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="media_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="media_url_https" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sizes" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="variants" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="video_info" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="Hashtag" syncable="YES">
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Media" syncable="YES">
+        <attribute name="display_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="media_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="media_url_https" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sizes" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="Symbol" syncable="YES">
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Tweet" syncable="YES">
+        <attribute name="coordinates" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="current_user_retweet_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="favorite_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="favorited" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="in_reply_to_screen_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="in_reply_to_status_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="in_reply_to_user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lang" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="place" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="possibly_sensitive" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="quotes_status_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="retweet_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="retweeted" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="truncated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="entities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entity" syncable="YES"/>
+        <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Url" syncable="YES">
+        <attribute name="display_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="expanded_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="User" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="default_profile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="default_profile_image" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="favourites_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="follow_request_sent" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="followers_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="friends_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="geo_enabled" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lang" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_background_color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="profile_background_image_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_background_image_url_https" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_background_tile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="profile_banner_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_image_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_image_url_https" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profile_link_color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="profile_sidebar_fill_color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="profile_text_color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="profile_use_background_image" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="protected" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="screen_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="show_all_inline_media" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="statuses_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="time_zone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_description" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="utc_offset" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="entities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entity" syncable="YES"/>
+        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
+        <relationship name="statuses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
+    </entity>
+    <entity name="UserMention" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="indices" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="screen_name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Tweet" positionX="-252" positionY="378" width="128" height="343"/>
+        <element name="User" positionX="43" positionY="431" width="128" height="568"/>
+        <element name="Entity" positionX="-54" positionY="135" width="128" height="135"/>
+        <element name="Media" positionX="-200" positionY="-6" width="128" height="150"/>
+        <element name="Url" positionX="-335" positionY="90" width="128" height="105"/>
+        <element name="UserMention" positionX="-315" positionY="207" width="128" height="105"/>
+        <element name="Hashtag" positionX="117" positionY="162" width="128" height="75"/>
+        <element name="Symbol" positionX="115" positionY="252" width="128" height="75"/>
+        <element name="ExtendedEntity" positionX="115" positionY="-45" width="128" height="195"/>
+    </elements>
 </model>

@@ -146,7 +146,7 @@ class HomeTableViewController: UITableViewController{
     func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
         let margin: CGFloat = 8
         let marginBetweenImages: CGFloat = 1
-        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*3
+        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*2
         let imageCount = tweet.tweetImageURLs!.count
         let divider: CGFloat = CGFloat(imageCount)
         let startX = CGFloat(0)

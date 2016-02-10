@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OAuthSwift
 
 class LoginViewController: UIViewController {
    
@@ -37,6 +38,28 @@ class LoginViewController: UIViewController {
             NetworkService.oauthswift = LoginService.getOAuthTwitter()!
             performSegueWithIdentifier("LoginSuccess", sender: nil)
         }
+    }
+    
+    func doOAuthTwitter(){
+        LoginService.oauthswift.authorize_url_handler = SafariURLHandler(viewController: self)
+        LoginService.oauthswift.authorizeWithCallbackURL( NSURL(string: "twitterApp://oauth-callback/twitter")!, success: {
+            credential, response, parameters in
+            LoginService.saveCredentials(authorized: true, accessToken: credential.oauth_token, accessTokenSecret: credential.oauth_token_secret)
+            self.updateUI(true)
+            }, failure: { error in
+                print(error.localizedDescription)
+                LoginService.saveCredentials(authorized: false, accessToken: "", accessTokenSecret: "")
+                self.updateUI(false)
+            }
+        )
+    }
+    
+    func showTokenAlert(name: String?, credential: OAuthSwiftCredential) {
+        var message = "oauth_token:\(credential.oauth_token)"
+        if !credential.oauth_token_secret.isEmpty {
+            message += "\n\noauth_token_secret:\(credential.oauth_token_secret)"
+        }
+        self.showAlertView(name ?? "Service", message: message)
     }
 
 }

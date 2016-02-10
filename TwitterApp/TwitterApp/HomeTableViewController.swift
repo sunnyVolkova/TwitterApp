@@ -112,15 +112,15 @@ class HomeTableViewController: UITableViewController{
         let cellIdentifier = "TweetCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
         let tweet = self.tweets[indexPath.row]
-        cell.userName.text = tweet.username
+        cell.userName.text = tweet.user?.name
         cell.tweetText.lineBreakMode = .ByWordWrapping
         cell.tweetText.numberOfLines = 0
-        cell.tweetText.text = tweet.tweetText
+        cell.tweetText.text = tweet.text
        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
         cell.date.sizeToFit()
-        cell.date.text = dateFormatter.stringFromDate(tweet.date)
+        cell.date.text = dateFormatter.stringFromDate(tweet.created_at!)
 
         
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
@@ -129,60 +129,60 @@ class HomeTableViewController: UITableViewController{
             }
         }
         
-        let url = NSURL(string: tweet.avatarURL)
+        let url = NSURL(string: (tweet.user?.profile_image_url)!)
         cell.avatarImage.sd_cancelCurrentImageLoad()
         cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
         for view in cell.imagesContainer.subviews{
             view.removeFromSuperview()
         }  
-        if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0 {
-            drawAdditionalImages(cell: cell, tweet: tweet)
-        } else {
-            cell.imageContainerHeightConstraint.constant = 0
-        }
+//        if tweet.entities == nil && tweet.entities!.count > 0 {
+//           // drawAdditionalImages(cell: cell, tweet: tweet)
+//        } else {
+//            cell.imageContainerHeightConstraint.constant = 0
+//        }
         return cell
     }
     
-    func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
-        let margin: CGFloat = 8
-        let marginBetweenImages: CGFloat = 1
-        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*3
-        let imageCount = tweet.tweetImageURLs!.count
-        let divider: CGFloat = CGFloat(imageCount)
-        let startX = CGFloat(0)
-        let startY = CGFloat(0)
-        var smallSize = CGFloat(0)
-        if(imageCount > 1){
-            smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
-        }
-        let mainSize = (containerWidth - marginBetweenImages) - smallSize
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-        }
-        
-        cell.imageContainerHeightConstraint.constant = mainSize
-        
-        let mainView = UIImageView()
-        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
-        mainView.contentMode = UIViewContentMode.ScaleAspectFill
-        cell.imagesContainer.addSubview(mainView)
-        let tweetImageURL = tweet.tweetImageURLs![0]
-        let urlMedia = NSURL(string: tweetImageURL)
-        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        
-        for i in 1..<imageCount {
-            let additionalView = UIImageView()
-            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
-            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
-            cell.imagesContainer.addSubview(additionalView)
-            let tweetImageURL = tweet.tweetImageURLs![i]
-            let urlMedia = NSURL(string: tweetImageURL)
-            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        }
-    }
+//    func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
+//        let margin: CGFloat = 8
+//        let marginBetweenImages: CGFloat = 1
+//        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*3
+//        let imageCount = tweet.entities!.count
+//        let divider: CGFloat = CGFloat(imageCount)
+//        let startX = CGFloat(0)
+//        let startY = CGFloat(0)
+//        var smallSize = CGFloat(0)
+//        if(imageCount > 1){
+//            smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
+//        }
+//        let mainSize = (containerWidth - marginBetweenImages) - smallSize
+//        
+//        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
+//            if (error != nil){
+//                NSLog("error: \(error.description)")
+//            }
+//        }
+//        
+//        cell.imageContainerHeightConstraint.constant = mainSize
+//        
+//        let mainView = UIImageView()
+//        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
+//        mainView.contentMode = UIViewContentMode.ScaleAspectFill
+//        cell.imagesContainer.addSubview(mainView)
+//        let tweetImageURL = tweet.tweetImageURLs![0]
+//        let urlMedia = NSURL(string: tweetImageURL)
+//        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+//        
+//        for i in 1..<imageCount {
+//            let additionalView = UIImageView()
+//            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
+//            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
+//            cell.imagesContainer.addSubview(additionalView)
+//            let tweetImageURL = tweet.tweetImageURLs![i]
+//            let urlMedia = NSURL(string: tweetImageURL)
+//            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+//        }
+//    }
     
 }
 

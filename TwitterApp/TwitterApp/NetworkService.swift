@@ -24,11 +24,11 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = TwitterParser.parseTwitData(data)
+                    let tweets = Parser.parseTwitData(data)
                     if(tweets.count > 0){
-                        NetworkService.sinceId = tweets[0].id
+                        NetworkService.sinceId = tweets[0].id as! Int
                         NSLog("sinceId: \(NetworkService.sinceId)")
-                        NetworkService.maxId = tweets[tweets.count - 1].id
+                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
                         NSLog("maxId: \(NetworkService.maxId)")
                     }
                     success(tweets)
@@ -52,9 +52,9 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = TwitterParser.parseTwitData(data)
+                    let tweets = Parser.parseTwitData(data)
                     if(tweets.count > 0){
-                        NetworkService.sinceId = tweets[0].id
+                        NetworkService.sinceId = tweets[0].id as! Int
                         NSLog("sinceId: \(NetworkService.sinceId)")
                     }
                     success(tweets)
@@ -77,9 +77,9 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = TwitterParser.parseTwitData(data)
+                    let tweets = Parser.parseTwitData(data)
                     if(tweets.count > 0){
-                        NetworkService.maxId = tweets[tweets.count - 1].id
+                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
                         NSLog("maxId: \(NetworkService.maxId)")
                     }
                     success(tweets)

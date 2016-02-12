@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  TwitterApp
 //
-//  Created by RWuser on 08/02/16.
+//  Created by RWuser on 12/02/16.
 //  Copyright © 2016 RWuser. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -21,7 +21,6 @@ extension User {
     @NSManaged var follow_request_sent: NSNumber?
     @NSManaged var followers_count: NSNumber?
     @NSManaged var following: NSNumber?
-    @NSManaged var user_description: String?
     @NSManaged var friends_count: NSNumber?
     @NSManaged var geo_enabled: NSNumber?
     @NSManaged var id: NSNumber?
@@ -33,10 +32,10 @@ extension User {
     @NSManaged var screen_name: String?
     @NSManaged var statuses_count: NSNumber?
     @NSManaged var time_zone: String?
-    @NSManaged var verified: NSNumber?
+    @NSManaged var user_description: String?
     @NSManaged var utc_offset: NSNumber?
-    @NSManaged var entities: NSSet?
-    @NSManaged var status: NSManagedObject?
+    @NSManaged var verified: NSNumber?
+    @NSManaged var status: Tweet?
     @NSManaged var statuses: NSSet?
 
 }

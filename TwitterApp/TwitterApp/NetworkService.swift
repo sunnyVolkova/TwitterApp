@@ -8,6 +8,7 @@
 
 import Foundation
 import OAuthSwift
+import CoreData
 
 class NetworkService {
     static var oauthswift: OAuth1Swift?
@@ -15,8 +16,13 @@ class NetworkService {
     static var sinceId: Int = -1
     static let numberOfTweetsOnPage = 20
     
-    static func getTimeline(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void) {
+    static func getTimeline() {
          NSLog("getTimeline")
+        //get from core data
+        //sort by id
+        //send update request
+        //success(getTweetsFromCoreData())
+        
         let parameters:Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
         ]
@@ -24,20 +30,29 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = Parser.parseTwitData(data)
-                    if(tweets.count > 0){
-                        NetworkService.sinceId = tweets[0].id as! Int
-                        NSLog("sinceId: \(NetworkService.sinceId)")
-                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
-                        NSLog("maxId: \(NetworkService.maxId)")
-                    }
-                    success(tweets)
+                   DataService.parseAndStoreTwitData(data)
                 }, failure: { error in
                     print(error)
-                    failure(error)
             })
         }
     
+    }
+    
+    static func getTweetsFromCoreData() -> [Tweet]?{
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let request = NSFetchRequest(entityName:"Tweet")
+        let sortDescriptor = NSSortDescriptor(key: "id", ascending: false)
+        let sortDescriptors = [sortDescriptor]
+        request.sortDescriptors = sortDescriptors
+        do{
+            let results =
+            try managedContext.executeFetchRequest(request) as! [Tweet] //4
+            return results
+        } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
     }
     
     static func getNewTweets(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void, sinceId: Int) {
@@ -52,12 +67,14 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = Parser.parseTwitData(data)
-                    if(tweets.count > 0){
-                        NetworkService.sinceId = tweets[0].id as! Int
-                        NSLog("sinceId: \(NetworkService.sinceId)")
-                    }
-                    success(tweets)
+                    //let tweets = Parser.parseTwitData(data)
+                    //let tweets =
+                    DataService.parseAndStoreTwitData(data)
+//                    if(tweets.count > 0){
+//                        NetworkService.sinceId = tweets[0].id as! Int
+//                        NSLog("sinceId: \(NetworkService.sinceId)")
+//                    }
+//                    success(tweets)
                 }, failure: { error in
                     print(error)
                     failure(error)
@@ -77,18 +94,19 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    let tweets = Parser.parseTwitData(data)
-                    if(tweets.count > 0){
-                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
-                        NSLog("maxId: \(NetworkService.maxId)")
-                    }
-                    success(tweets)
+                    DataService.parseAndStoreTwitData(data)
+//                    if(tweets.count > 0){
+//                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
+//                        NSLog("maxId: \(NetworkService.maxId)")
+//                    }
+//                    success(tweets)
                 }, failure: { error in
                     print(error)
                     failure(error)
             })
         }
     }
+
 
 
 }

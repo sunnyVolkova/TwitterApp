@@ -2,7 +2,7 @@
 //  Url+CoreDataProperties.swift
 //  TwitterApp
 //
-//  Created by RWuser on 08/02/16.
+//  Created by RWuser on 12/02/16.
 //  Copyright © 2016 RWuser. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,9 +14,10 @@ import CoreData
 
 extension Url {
 
-    @NSManaged var url: String?
     @NSManaged var display_url: String?
     @NSManaged var expanded_url: String?
     @NSManaged var indices: NSObject?
+    @NSManaged var url: String?
+    @NSManaged var url_entity: Entity?
 
 }

@@ -2,7 +2,7 @@
 //  Symbol+CoreDataProperties.swift
 //  TwitterApp
 //
-//  Created by RWuser on 08/02/16.
+//  Created by RWuser on 12/02/16.
 //  Copyright © 2016 RWuser. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,7 +13,9 @@ import Foundation
 import CoreData
 
 extension Symbol {
-    @NSManaged var text: String?
+
     @NSManaged var indices: NSObject?
+    @NSManaged var text: String?
+    @NSManaged var symbol_entity: Entity?
 
 }

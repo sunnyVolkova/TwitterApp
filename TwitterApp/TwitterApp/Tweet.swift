@@ -56,7 +56,6 @@ class Tweet: NSManagedObject{
                     if let userDictionary  = value as? [String: AnyObject] {
                         let user = User.getUserForDictionary(userDictionary, managedContext: managedContext)
                         self.setValue(user, forKey: keyName)
-                        //self.user = user
                     }
                 case Tweet.tweetEntitiesKey:
                     if let entitiesDictionary  = value as? [String: AnyObject] {
@@ -66,10 +65,7 @@ class Tweet: NSManagedObject{
                         }
                     }
                 case Tweet.tweetRetweetedStatusKey:
-                    if let retweetStatusDictionary  = value as? [String: AnyObject] {
-                        let tweet = Tweet.getTweetForDictionary(retweetStatusDictionary, managedContext: managedContext)
-                        self.setValue(tweet, forKey: keyName)
-                    }
+                    NSLog("skip status parsing")
                 case Tweet.tweetExtendedEntitiesKey:
                     if let extendedEntitiesDictionary = value as? [String: AnyObject] {
                         if tweetId != nil {
@@ -78,7 +74,9 @@ class Tweet: NSManagedObject{
                         }
                     }
                 default:
-                   self.setValue(keyValue, forKey: keyName)
+                    if !(value is NSNull) {
+                        self.setValue(value, forKey: keyName)
+                    }
                 }
             }
         }

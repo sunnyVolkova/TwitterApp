@@ -12,7 +12,11 @@ import CoreData
 
 class HomeTableViewController: UITableViewController{
     var tweets: [Tweet] = []
-    var wasDragged = false;
+    var observer: AnyObject!
+    
+    var maxId: Int = -1
+    var sinceId: Int = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 20.0;
@@ -21,43 +25,53 @@ class HomeTableViewController: UITableViewController{
         self.refreshControl?.backgroundColor = UIColor.whiteColor()
         self.refreshControl?.tintColor = UIColor.redColor()
         self.refreshControl?.addTarget(self, action: Selector("getNewTweets"), forControlEvents: UIControlEvents.ValueChanged)
+        addObserver()
         
     }
     
+    func addObserver(){
+        observer = NSNotificationCenter.defaultCenter().addObserverForName(DataService.timelineGotNotificationName, object: nil, queue: NSOperationQueue.mainQueue()){_ in
+            self.reloadTimelineFromCoreData()
+        }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(observer)
+    }
     func getNewTweets(){
-        NetworkService.getNewTweets(success: {tweets in
+        NetworkService.getNewTweets(success: {
             self.refreshControl?.endRefreshing()
-            var indexPaths: [NSIndexPath] = []
-            var count = 0
-            for tweet in tweets! {
-                self.tweets.insert(tweet, atIndex: count)
-                indexPaths.append(NSIndexPath(forRow: count, inSection: 0))
-                count++
-            }
-            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+//            var indexPaths: [NSIndexPath] = []
+//            var count = 0
+//            for tweet in tweets! {
+//                self.tweets.insert(tweet, atIndex: count)
+//                indexPaths.append(NSIndexPath(forRow: count, inSection: 0))
+//                count++
+//            }
+//            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
-            }, sinceId: NetworkService.sinceId)
+            }, sinceId: sinceId)
     }
     
     func getMoreTweets(){
-        NetworkService.getMoreTweets(success: {tweets in
+        NetworkService.getMoreTweets(success: {
             self.refreshControl?.endRefreshing()
-            var indexPaths: [NSIndexPath] = []
-            var count = 0
-            let prevRowCount = self.tweets.count
-            for tweet in tweets! {
-                self.tweets.append(tweet)
-                indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
-                count++
-            }
-            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
+//            var indexPaths: [NSIndexPath] = []
+//            var count = 0
+//            let prevRowCount = self.tweets.count
+//            for tweet in tweets! {
+//                self.tweets.append(tweet)
+//                indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
+//                count++
+//            }
+//            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+//            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
-            }, maxId: NetworkService.maxId)
+            }, maxId: maxId)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -67,6 +81,7 @@ class HomeTableViewController: UITableViewController{
     }
     
     func reloadTimelineFromCoreData(){
+        NSLog("Reload timeline")
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let request = NSFetchRequest(entityName: Tweet.entityName)
@@ -77,6 +92,8 @@ class HomeTableViewController: UITableViewController{
             let results = try managedContext.executeFetchRequest(request) as! [Tweet]
             NSLog("results count = \(results.count)")
             self.tweets = results
+            sinceId = tweets[0].id as! Int
+            maxId = tweets[tweets.count - 1].id as! Int
             self.tableView.reloadData()
             
         } catch let error as NSError {

@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class DataService{
+    static let timelineGotNotificationName = "timelineGotNotification"
     static func parseAndStoreTwitData(data: NSData) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -34,9 +35,28 @@ class DataService{
         do {
             try childContext.save()
             try managedContext.save()
+            NSNotificationCenter.defaultCenter().postNotificationName(timelineGotNotificationName, object: nil)
+
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }
         
+    }
+    
+    static func getTweetsFromCoreData() -> [Tweet]?{
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let request = NSFetchRequest(entityName:"Tweet")
+        let sortDescriptor = NSSortDescriptor(key: "id", ascending: false)
+        let sortDescriptors = [sortDescriptor]
+        request.sortDescriptors = sortDescriptors
+        do {
+            let results =
+            try managedContext.executeFetchRequest(request) as! [Tweet]
+            return results
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
     }
 }

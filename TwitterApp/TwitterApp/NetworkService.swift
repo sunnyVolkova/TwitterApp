@@ -12,18 +12,11 @@ import CoreData
 
 class NetworkService {
     static var oauthswift: OAuth1Swift?
-    static var maxId: Int = -1
-    static var sinceId: Int = -1
     static let numberOfTweetsOnPage = 20
     
     static func getTimeline() {
          NSLog("getTimeline")
-        //get from core data
-        //sort by id
-        //send update request
-        //success(getTweetsFromCoreData())
-        
-        let parameters:Dictionary = [
+        let parameters: Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
         ]
         if let oauthswift = oauthswift{
@@ -37,25 +30,9 @@ class NetworkService {
         }
     
     }
+
     
-    static func getTweetsFromCoreData() -> [Tweet]?{
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let request = NSFetchRequest(entityName:"Tweet")
-        let sortDescriptor = NSSortDescriptor(key: "id", ascending: false)
-        let sortDescriptors = [sortDescriptor]
-        request.sortDescriptors = sortDescriptors
-        do{
-            let results =
-            try managedContext.executeFetchRequest(request) as! [Tweet] //4
-            return results
-        } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
-        }
-        return nil
-    }
-    
-    static func getNewTweets(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void, sinceId: Int) {
+    static func getNewTweets(success success: () -> Void, failure: (ErrorType) -> Void, sinceId: Int) {
          NSLog("getNewTweets")
         var parameters:Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
@@ -67,14 +44,8 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                    //let tweets = Parser.parseTwitData(data)
-                    //let tweets =
                     DataService.parseAndStoreTwitData(data)
-//                    if(tweets.count > 0){
-//                        NetworkService.sinceId = tweets[0].id as! Int
-//                        NSLog("sinceId: \(NetworkService.sinceId)")
-//                    }
-//                    success(tweets)
+                    success()
                 }, failure: { error in
                     print(error)
                     failure(error)
@@ -82,7 +53,7 @@ class NetworkService {
         
     }
     
-    static func getMoreTweets(success success: ([Tweet]?) -> Void, failure: (ErrorType) -> Void, maxId: Int) {
+    static func getMoreTweets(success success: () -> Void, failure: (ErrorType) -> Void, maxId: Int) {
         NSLog("getMoreTweets")
         var parameters:Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
@@ -95,18 +66,11 @@ class NetworkService {
                 success: {
                     data, response in
                     DataService.parseAndStoreTwitData(data)
-//                    if(tweets.count > 0){
-//                        NetworkService.maxId = tweets[tweets.count - 1].id as! Int
-//                        NSLog("maxId: \(NetworkService.maxId)")
-//                    }
-//                    success(tweets)
+                    success()
                 }, failure: { error in
                     print(error)
                     failure(error)
             })
         }
     }
-
-
-
 }

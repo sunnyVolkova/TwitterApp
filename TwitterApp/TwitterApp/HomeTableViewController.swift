@@ -11,9 +11,7 @@ import SDWebImage
 import CoreData
 
 class HomeTableViewController: UITableViewController{
-    var tweets: [Tweet] = []
-    var observer: AnyObject!
-    
+    var fetchedResultsController: NSFetchedResultsController!
     var maxId: Int = -1
     var sinceId: Int = -1
     
@@ -25,30 +23,26 @@ class HomeTableViewController: UITableViewController{
         self.refreshControl?.backgroundColor = UIColor.whiteColor()
         self.refreshControl?.tintColor = UIColor.redColor()
         self.refreshControl?.addTarget(self, action: Selector("getNewTweets"), forControlEvents: UIControlEvents.ValueChanged)
-        addObserver()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
         
-    }
-    
-    func addObserver(){
-        observer = NSNotificationCenter.defaultCenter().addObserverForName(DataService.timelineGotNotificationName, object: nil, queue: NSOperationQueue.mainQueue()){_ in
-            self.reloadTimelineFromCoreData()
+        let fetchedRequest = NSFetchRequest(entityName: Tweet.entityName)
+        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
+        let sortDescriptors = [sortDescriptor]
+        fetchedRequest.sortDescriptors = sortDescriptors
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            NSLog("Error: \(error.localizedDescription)")
         }
     }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(observer)
-    }
+
     func getNewTweets(){
         NetworkService.getNewTweets(success: {
             self.refreshControl?.endRefreshing()
-//            var indexPaths: [NSIndexPath] = []
-//            var count = 0
-//            for tweet in tweets! {
-//                self.tweets.insert(tweet, atIndex: count)
-//                indexPaths.append(NSIndexPath(forRow: count, inSection: 0))
-//                count++
-//            }
-//            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -58,16 +52,6 @@ class HomeTableViewController: UITableViewController{
     func getMoreTweets(){
         NetworkService.getMoreTweets(success: {
             self.refreshControl?.endRefreshing()
-//            var indexPaths: [NSIndexPath] = []
-//            var count = 0
-//            let prevRowCount = self.tweets.count
-//            for tweet in tweets! {
-//                self.tweets.append(tweet)
-//                indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
-//                count++
-//            }
-//            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-//            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
@@ -76,39 +60,17 @@ class HomeTableViewController: UITableViewController{
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        reloadTimelineFromCoreData()
         NetworkService.getTimeline()
     }
     
-    func reloadTimelineFromCoreData(){
-        NSLog("Reload timeline")
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let request = NSFetchRequest(entityName: Tweet.entityName)
-        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
-        let sortDescriptors = [sortDescriptor]
-        request.sortDescriptors = sortDescriptors
-        do{
-            let results = try managedContext.executeFetchRequest(request) as! [Tweet]
-            NSLog("results count = \(results.count)")
-            self.tweets = results
-            sinceId = tweets[0].id as! Int
-            maxId = tweets[tweets.count - 1].id as! Int
-            self.tableView.reloadData()
-            
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
     
-    }
     override func viewWillAppear(animated: Bool) {
         self.navigationController!.setNavigationBarHidden(false, animated: false)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if(tweets.count > 0){
-            return 1
+        if(fetchedResultsController.sections!.count > 0){
+            return fetchedResultsController.sections!.count
         } else {
             let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
             messageLabel.text = "No data is currently available."
@@ -124,7 +86,8 @@ class HomeTableViewController: UITableViewController{
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets.count
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -133,7 +96,7 @@ class HomeTableViewController: UITableViewController{
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
         
         // Change 10.0 to adjust the distance from bottom
-        if (maximumOffset - currentOffset <= 10.0) {
+        if (maximumOffset - currentOffset <= 10.0) { 
             getMoreTweets()
         }
     }
@@ -142,17 +105,22 @@ class HomeTableViewController: UITableViewController{
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellIdentifier = "TweetCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
-        let tweet = self.tweets[indexPath.row]
+        configureCell(cell, indexPath: indexPath)
+        return cell
+    }
+    
+    func configureCell(cell: TweetCell, indexPath: NSIndexPath){
+        let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
         cell.userName.text = tweet.user?.name
         cell.tweetText.lineBreakMode = .ByWordWrapping
         cell.tweetText.numberOfLines = 0
         cell.tweetText.text = tweet.text
-       
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
         cell.date.sizeToFit()
         cell.date.text = dateFormatter.stringFromDate(tweet.created_at!)
-
+        
         
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
@@ -169,10 +137,9 @@ class HomeTableViewController: UITableViewController{
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0{
             drawAdditionalImages(cell: cell, tweet: tweet)
         } else {
-
+            
             cell.imageContainerHeightConstraint.constant = 0
         }
-        return cell
     }
     
     func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
@@ -219,5 +186,40 @@ class HomeTableViewController: UITableViewController{
         }
     }
     
+}
+
+extension HomeTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .Insert:
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        case .Delete:
+            tableView.deleteRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        case .Update:
+            if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? TweetCell {
+                configureCell(cell, indexPath: indexPath!)
+            }
+        case .Move:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        }
+        
+        if let firstTweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
+            sinceId = firstTweet.id as! Int
+        }
+        
+        if let lastTweet = fetchedResultsController.fetchedObjects?[(fetchedResultsController.fetchedObjects?.count)! - 1] as? Tweet {
+            maxId = lastTweet.id as! Int
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        tableView.endUpdates()
+        //TODO: add correct scrolling
+    }
 }
 

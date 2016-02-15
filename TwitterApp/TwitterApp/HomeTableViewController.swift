@@ -219,7 +219,14 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.endUpdates()
-        //TODO: add correct scrolling
+        let lastIndex: NSIndexPath = lastIndexPath()
+        tableView.scrollToRowAtIndexPath(lastIndex, atScrollPosition: .Bottom, animated: true)
+    }
+    
+    func lastIndexPath() -> NSIndexPath {
+        let lastSectionIndex = max(0, self.numberOfSectionsInTableView(tableView) - 1)
+        let lastRowIndex = max(0, tableView.numberOfRowsInSection(lastSectionIndex))
+        return NSIndexPath(forRow: lastRowIndex, inSection: lastSectionIndex)
     }
 }
 

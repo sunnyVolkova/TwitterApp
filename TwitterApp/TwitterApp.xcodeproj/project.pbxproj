@@ -31,6 +31,8 @@
 		CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7683B21C6C76A0002FD46B /* DataService.swift */; };
 		CE7850841C5A809C00448E5A /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7850831C5A809C00448E5A /* Tweet.swift */; };
 		CEB921A01C61F0D80060E619 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9219F1C61F0D80060E619 /* ReplaceSegue.swift */; };
+		CEC1BD8B1C732E6400001203 /* TweetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */; };
+		CEC1BD8D1C73328B00001203 /* ExtendedTweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC1BD8C1C73328B00001203 /* ExtendedTweetCell.swift */; };
 		CEC7CF491C58FC1300B66BCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */; };
 		CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */; };
 		CEC7CF4E1C58FC1300B66BCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC7CF4C1C58FC1300B66BCD /* Main.storyboard */; };
@@ -87,6 +89,8 @@
 		CE7683B21C6C76A0002FD46B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CE7850831C5A809C00448E5A /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		CEB9219F1C61F0D80060E619 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
+		CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewController.swift; sourceTree = "<group>"; };
+		CEC1BD8C1C73328B00001203 /* ExtendedTweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedTweetCell.swift; sourceTree = "<group>"; };
 		CEC7CF451C58FC1300B66BCD /* TwitterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC7CF481C58FC1300B66BCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 			children = (
 				CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */,
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
+				CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 			children = (
 				CEB9219F1C61F0D80060E619 /* ReplaceSegue.swift */,
 				CEC89C591C5A5BE100B1C986 /* TweetCell.swift */,
+				CEC1BD8C1C73328B00001203 /* ExtendedTweetCell.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -460,6 +466,7 @@
 				CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */,
 				CE5DDAC01C68E31000A92BAC /* Entity+CoreDataProperties.swift in Sources */,
 				CE5DDAC61C68E31000A92BAC /* Hashtag.swift in Sources */,
+				CEC1BD8D1C73328B00001203 /* ExtendedTweetCell.swift in Sources */,
 				CE5DDAB81C68E31000A92BAC /* Symbol+CoreDataProperties.swift in Sources */,
 				CE7850841C5A809C00448E5A /* Tweet.swift in Sources */,
 				CE5DDAB91C68E31000A92BAC /* Symbol.swift in Sources */,
@@ -468,6 +475,7 @@
 				CE5DDABC1C68E31000A92BAC /* User+CoreDataProperties.swift in Sources */,
 				CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */,
 				CE5DDAC31C68E31000A92BAC /* Media+CoreDataProperties.swift in Sources */,
+				CEC1BD8B1C732E6400001203 /* TweetTableViewController.swift in Sources */,
 				CE5DDABE1C68E31000A92BAC /* UserMention+CoreDataProperties.swift in Sources */,
 				CE7249BB1C591065005AA2E1 /* LoginService.swift in Sources */,
 				CEC7CF4B1C58FC1300B66BCD /* LoginViewController.swift in Sources */,

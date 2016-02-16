@@ -63,11 +63,6 @@ class HomeTableViewController: UITableViewController{
         NetworkService.getTimeline()
     }
     
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController!.setNavigationBarHidden(false, animated: false)
-    }
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if(fetchedResultsController.sections!.count > 0){
             return fetchedResultsController.sections!.count
@@ -183,6 +178,15 @@ class HomeTableViewController: UITableViewController{
             let tweetImageURL = tweetMedia.media_url!
             let urlMedia = NSURL(string: tweetImageURL)
             additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ViewTweet"{
+            let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
+            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                tweetTableViewController.tweet = fetchedResultsController.fetchedObjects![indexPath.row] as! Tweet
+            }
         }
     }
     

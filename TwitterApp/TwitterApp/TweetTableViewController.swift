@@ -17,12 +17,23 @@ class TweetTableViewController: UITableViewController {
     let tweetCellIdentifier = "MainTweetCell"
     let likeRetweetCellIdentifier = "Like Retweet Cell"
     let buttonsCellIdentifier = "Buttons Cell"
-
+    let isRetweeted = 0
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
         NSLog("sendButtonPressed")
     }
     @IBAction func likeButtonPressed(sender: AnyObject) {
+        if tweet?.favorited == 1 {
+            NetworkService.sendUnFavorite(success: {
+                self.tweet?.favorited = 0
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
+                }, failure: {_ in }, tweetId: tweet?.id as! Int)
+        } else {
+            NetworkService.sendFavorite(success: {
+                self.tweet?.favorited = 1
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
+                }, failure: {_ in}, tweetId: tweet?.id as! Int)
+        }
         NSLog("likeButtonPressed")
     }
     @IBAction func retweetButtonPressed(sender: AnyObject) {
@@ -34,8 +45,9 @@ class TweetTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.estimatedRowHeight = 20.0;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
+        self.tableView.estimatedRowHeight = 20.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.tableFooterView = UIView()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -48,7 +60,7 @@ class TweetTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section == 0){
-            return 4
+            return 3 + isRetweeted
         } else {
             return 0
         }
@@ -56,14 +68,14 @@ class TweetTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if(indexPath.section == 0){
-            let isRetweeted = 0;
             switch indexPath.row {
-            case 0 + isRetweeted:
+            case 0 + self.isRetweeted:
                 let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath)  as! ExtendedTweetCell
                 let margin: CGFloat = 8
                 let containerWidth = self.tableView.frame.size.width - margin*2
                 cell.configureCell(tweet!, containerWidth: containerWidth)
                 return cell
+                
             case 1 + isRetweeted:
                 let cell = tableView.dequeueReusableCellWithIdentifier(likeRetweetCellIdentifier, forIndexPath: indexPath) as! SimpleTextCell
                 let retweetCountString = "\(((tweet?.retweet_count) != nil) ? (tweet!.retweet_count)! : 0)"
@@ -77,10 +89,18 @@ class TweetTableViewController: UITableViewController {
                 attributedStringToDisplay.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize((cell.simpleTextLabel?.font.pointSize)!), range: range1)
                 attributedStringToDisplay.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize((cell.simpleTextLabel?.font.pointSize)!), range: range2)
                 cell.simpleTextLabel?.attributedText = attributedStringToDisplay
+                
                 return cell
+                
             case 2 + isRetweeted:
-                let cell = tableView.dequeueReusableCellWithIdentifier(buttonsCellIdentifier, forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCellWithIdentifier(buttonsCellIdentifier, forIndexPath: indexPath) as! TweetButtonsCell
+                if tweet?.favorited == 1 {
+                    cell.likeButton.setTitle("UnFavorite", forState: UIControlState.Normal)
+                } else {
+                    cell.likeButton.setTitle("Favorite", forState: UIControlState.Normal)
+                }
                 return cell
+                
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath)
                 if tweet!.retweeted == 1 {

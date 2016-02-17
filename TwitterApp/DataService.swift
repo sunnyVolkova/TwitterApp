@@ -18,6 +18,12 @@ class DataService{
         
     }
     
+    static func parseAndStoreSingleTwitData(data: NSData) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        parseAndStoreSingleTwitData(data, managedContext: managedContext)
+        
+    }
     
     static func parseAndStoreTwitData(data: NSData, managedContext: NSManagedObjectContext) {
         let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
@@ -37,6 +43,26 @@ class DataService{
             try managedContext.save()
             NSNotificationCenter.defaultCenter().postNotificationName(timelineGotNotificationName, object: nil)
 
+        } catch let error as NSError {
+            NSLog("Could not save \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    static func parseAndStoreSingleTwitData(data: NSData, managedContext: NSManagedObjectContext) {
+        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        childContext.parentContext = managedContext
+        
+        if let tweetDict = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+            let id = tweetDict![Tweet.tweetIdKey] as! Int
+            let tweet = Tweet.objectForTweet(childContext, tweetId: id)
+            tweet.dataFromDictionary(tweetDict!, managedContext: childContext)
+        }
+        do {
+            try childContext.save()
+            try managedContext.save()
+            NSNotificationCenter.defaultCenter().postNotificationName(timelineGotNotificationName, object: nil)
+            
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }

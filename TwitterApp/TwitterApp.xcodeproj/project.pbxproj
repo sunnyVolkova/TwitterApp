@@ -10,6 +10,7 @@
 		11F9D3407AF4AE8E94941FEF /* Pods_TwitterApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A0C633E4E0B29F08399A32 /* Pods_TwitterApp.framework */; };
 		36EBC7E3A4DACC47B2290793 /* Indices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EBC95815585CD747756DF1 /* Indices.swift */; };
 		CE0258721C748153007EBAC0 /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258711C748153007EBAC0 /* SimpleTextCell.swift */; };
+		CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */; };
 		CE5DDAB81C68E31000A92BAC /* Symbol+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA71C68E31000A92BAC /* Symbol+CoreDataProperties.swift */; };
 		CE5DDAB91C68E31000A92BAC /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA81C68E31000A92BAC /* Symbol.swift */; };
 		CE5DDABA1C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA91C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift */; };
@@ -69,6 +70,7 @@
 		B4211BD14001D4B39953986A /* Pods-TwitterApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TwitterApp/Pods-TwitterApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B5E0169DD325CA36D9058219 /* Pods-TwitterApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TwitterApp/Pods-TwitterApp.release.xcconfig"; sourceTree = "<group>"; };
 		CE0258711C748153007EBAC0 /* SimpleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTextCell.swift; sourceTree = "<group>"; };
+		CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetButtonsCell.swift; sourceTree = "<group>"; };
 		CE5DDAA71C68E31000A92BAC /* Symbol+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Symbol+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE5DDAA81C68E31000A92BAC /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
 		CE5DDAA91C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExtendedEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				CEC89C591C5A5BE100B1C986 /* TweetCell.swift */,
 				CEC1BD8C1C73328B00001203 /* ExtendedTweetCell.swift */,
 				CE0258711C748153007EBAC0 /* SimpleTextCell.swift */,
+				CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				CE5DDABD1C68E31000A92BAC /* User.swift in Sources */,
 				CE5DDAC41C68E31000A92BAC /* Media.swift in Sources */,
 				CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */,
+				CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */,
 				CE5DDAC01C68E31000A92BAC /* Entity+CoreDataProperties.swift in Sources */,
 				CE5DDAC61C68E31000A92BAC /* Hashtag.swift in Sources */,
 				CEC1BD8D1C73328B00001203 /* ExtendedTweetCell.swift in Sources */,

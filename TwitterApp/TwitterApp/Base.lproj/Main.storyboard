@@ -84,7 +84,7 @@
                                             <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p12-oz-CAd" userLabel="Images Container">
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p12-oz-CAd" userLabel="Images Container">
                                             <rect key="frame" x="8" y="84" width="584" height="178"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -167,7 +167,7 @@
                                     <outlet property="simpleTextLabel" destination="7mL-9x-6ar" id="zXb-FX-cPE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Buttons Cell" id="k0Q-dB-2db" userLabel="Buttons Cell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Buttons Cell" id="k0Q-dB-2db" userLabel="Buttons Cell" customClass="TweetButtonsCell" customModule="TwitterApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k0Q-dB-2db" id="CIx-Nb-WzN">
@@ -234,6 +234,12 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="likeButton" destination="Chg-CZ-h0N" id="Tgl-MP-rMF"/>
+                                    <outlet property="replyButton" destination="9wf-dv-f0G" id="srQ-eQ-B04"/>
+                                    <outlet property="retweetButton" destination="JzQ-ct-Qxx" id="UrW-LC-xeZ"/>
+                                    <outlet property="sendButton" destination="d0o-og-MVq" id="phM-iH-Hhi"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>

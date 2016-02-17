@@ -73,4 +73,40 @@ class NetworkService {
             })
         }
     }
+    
+    static func sendFavorite(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
+        NSLog("sendFavorite")
+        let parameters:Dictionary = [
+            "id"           : "\(tweetId)",
+        ]
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/favorites/create.json", parameters: parameters,
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    print(error)
+                    failure(error)
+            })
+        }
+    }
+    
+    static func sendUnFavorite(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
+        NSLog("sendUnFavorite")
+        let parameters:Dictionary = [
+            "id"           : "\(tweetId)",
+        ]
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/favorites/destroy.json", parameters: parameters,
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    print(error)
+                    failure(error)
+            })
+        }
+    }
 }

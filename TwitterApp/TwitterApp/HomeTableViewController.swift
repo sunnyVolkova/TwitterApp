@@ -106,90 +106,19 @@ class HomeTableViewController: UITableViewController{
     
     func configureCell(cell: TweetCell, indexPath: NSIndexPath){
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
-        cell.userName.text = tweet.user?.name
-        cell.tweetText.lineBreakMode = .ByWordWrapping
-        cell.tweetText.numberOfLines = 0
-        cell.tweetText.text = tweet.text
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
-        cell.date.sizeToFit()
-        cell.date.text = dateFormatter.stringFromDate(tweet.created_at!)
-        
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-        }
-        
-        let url = NSURL(string: (tweet.user?.profile_image_url)!)
-        cell.avatarImage.sd_cancelCurrentImageLoad()
-        cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
-        for view in cell.imagesContainer.subviews{
-            view.removeFromSuperview()
-        }
-        if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0{
-            drawAdditionalImages(cell: cell, tweet: tweet)
-        } else {
-            
-            cell.imageContainerHeightConstraint.constant = 0
-        }
-    }
-    
-    func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
         let margin: CGFloat = 8
-        let marginBetweenImages: CGFloat = 1
         let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*2
-        let imageCount = tweet.extended_entities!.media!.count
-        let images = tweet.extended_entities!.media!.allObjects
-        let divider: CGFloat = CGFloat(imageCount)
-        let startX = CGFloat(0)
-        let startY = CGFloat(0)
-        var smallSize = CGFloat(0)
-        if(imageCount > 1){
-            smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
-        }
-        let mainSize = (containerWidth - marginBetweenImages) - smallSize
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-        }
-        
-        cell.imageContainerHeightConstraint.constant = mainSize
-        
-        let mainView = UIImageView()
-        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
-        mainView.contentMode = UIViewContentMode.ScaleAspectFill
-        cell.imagesContainer.addSubview(mainView)
-        let tweetMedia =  images[0] as! Media
-        let tweetImageURL = tweetMedia.media_url!
-        let urlMedia = NSURL(string: tweetImageURL)
-        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        
-        for i in 1..<imageCount {
-            let additionalView = UIImageView()
-            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
-            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
-            cell.imagesContainer.addSubview(additionalView)
-            let tweetMedia =  images[i] as! Media
-            let tweetImageURL = tweetMedia.media_url!
-            let urlMedia = NSURL(string: tweetImageURL)
-            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        }
+        cell.configureCell(tweet, containerWidth: containerWidth)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ViewTweet"{
             let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
-                tweetTableViewController.tweet = fetchedResultsController.fetchedObjects![indexPath.row] as! Tweet
+                tweetTableViewController.tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
             }
         }
     }
-    
 }
 
 extension HomeTableViewController: NSFetchedResultsControllerDelegate {

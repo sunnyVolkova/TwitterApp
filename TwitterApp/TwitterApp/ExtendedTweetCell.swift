@@ -8,9 +8,20 @@
 
 import UIKit
 class ExtendedTweetCell: TweetCell{
-    //@IBOutlet weak var AvatarImage: UIView!
     @IBOutlet weak var screenName: UILabel!
+    @IBOutlet weak var followButton: UIButton!
     @IBAction func followButtonPressed(sender: AnyObject) {
     }
     
+    override func configureCell(tweet: Tweet, containerWidth: CGFloat) {
+        super.configureCell(tweet, containerWidth: containerWidth)
+        if let screenNameText = tweet.user?.screen_name {
+            screenName.text = "@" + screenNameText
+        }        
+        if tweet.user?.following == 1 || tweet.user?.follow_request_sent == 1 {
+            followButton.hidden = false
+        } else {
+            followButton.hidden = true
+        }
+    }
 }

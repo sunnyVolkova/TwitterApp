@@ -24,4 +24,9 @@ class ExtendedTweetCell: TweetCell{
             followButton.hidden = true
         }
     }
+    
+    
+    override func getImageContainerWidth(containerWidth: CGFloat) -> CGFloat{
+        return containerWidth
+    }
 }

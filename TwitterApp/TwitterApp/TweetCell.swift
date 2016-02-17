@@ -49,6 +49,7 @@ class TweetCell: UITableViewCell{
     }
     
     func drawAdditionalImages(tweet: Tweet, containerWidth: CGFloat) {
+        let imageContainerWidth = getImageContainerWidth(containerWidth)
         let marginBetweenImages: CGFloat = 1
         let imageCount = tweet.extended_entities!.media!.count
         let images = tweet.extended_entities!.media!.allObjects
@@ -57,9 +58,9 @@ class TweetCell: UITableViewCell{
         let startY = CGFloat(0)
         var smallSize = CGFloat(0)
         if(imageCount > 1){
-            smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
+            smallSize = CGFloat(imageContainerWidth - marginBetweenImages)/divider
         }
-        let mainSize = (containerWidth - marginBetweenImages) - smallSize
+        let mainSize = (imageContainerWidth - marginBetweenImages) - smallSize
         
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
@@ -88,6 +89,10 @@ class TweetCell: UITableViewCell{
             let urlMedia = NSURL(string: tweetImageURL)
             additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
         }
+    }
+    
+    func getImageContainerWidth(containerWidth: CGFloat) -> CGFloat{
+        return containerWidth - self.avatarImage.frame.size.width
     }
 }
 

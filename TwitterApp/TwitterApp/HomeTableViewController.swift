@@ -107,7 +107,7 @@ class HomeTableViewController: UITableViewController{
     func configureCell(cell: TweetCell, indexPath: NSIndexPath){
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
         let margin: CGFloat = 8
-        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*2
+        let containerWidth = self.tableView.frame.size.width - margin*2
         cell.configureCell(tweet, containerWidth: containerWidth)
     }
     

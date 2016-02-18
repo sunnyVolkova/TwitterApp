@@ -115,7 +115,8 @@ class HomeTableViewController: UITableViewController{
         if segue.identifier == "ViewTweet"{
             let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
-                tweetTableViewController.tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
+                let tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
+                tweetTableViewController.tweetId = (tweet?.id)!
             }
         }
     }

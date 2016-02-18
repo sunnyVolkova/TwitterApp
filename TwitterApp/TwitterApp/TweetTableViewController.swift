@@ -15,10 +15,10 @@ class TweetTableViewController: UITableViewController {
     var fetchedResultsController: NSFetchedResultsController!
     var tweetId: NSNumber = 0
 
-    let retweetedtweetCellIdentifier =  "Retweeted Cell"
     let tweetCellIdentifier = "MainTweetCell"
-    let likeRetweetCellIdentifier = "Like Retweet Cell"
     let buttonsCellIdentifier = "Buttons Cell"
+    let likeRetweetCellIdentifier = "Like Retweet Cell"
+    let retweetedtweetCellIdentifier =  "Retweeted Cell"
     
     var isConversationPresent = false;
     let isRetweeted = 0
@@ -34,11 +34,19 @@ class TweetTableViewController: UITableViewController {
                 NetworkService.sendFavorite(success: {}, failure: {_ in}, tweetId: tweet.id as! Int)
             }
         }
-        NSLog("likeButtonPressed")
     }
+    
     @IBAction func retweetButtonPressed(sender: AnyObject) {
-        NSLog("retweetButtonPressed")
+        if let tweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
+            if tweet.retweeted == 1 {
+                //works only on second time ????
+                NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
+            } else {
+                NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweet.id as! Int)
+            }
+        }
     }
+    
     @IBAction func replyButtonPressed(sender: AnyObject) {
         NSLog("replyButtonPressed")
     }
@@ -118,6 +126,13 @@ class TweetTableViewController: UITableViewController {
                     } else {
                         cell.likeButton.setTitle("Favorite", forState: UIControlState.Normal)
                     }
+                    
+                    if tweet.retweeted == 1 {
+                        cell.retweetButton.setTitle("UnRetweet", forState: UIControlState.Normal)
+                    } else {
+                        cell.retweetButton.setTitle("Retweet", forState: UIControlState.Normal)
+                    }
+                    
                     return cell
                     
                 default:

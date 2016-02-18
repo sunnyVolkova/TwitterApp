@@ -109,4 +109,34 @@ class NetworkService {
             })
         }
     }
+    
+    static func sendRetweet(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
+        NSLog("sendRetweet")
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/statuses/retweet/\(tweetId).json",
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    print(error)
+                    failure(error)
+            })
+        }
+    }
+    
+    static func sendUnRetweet(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
+        NSLog("sendUnRetweet")
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/statuses/unretweet/\(tweetId).json",
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    print(error)
+                    failure(error)
+            })
+        }
+    }
 }

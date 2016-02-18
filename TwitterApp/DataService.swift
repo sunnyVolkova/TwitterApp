@@ -54,6 +54,7 @@ class DataService{
         childContext.parentContext = managedContext
         
         if let tweetDict = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                                 NSLog("data: \(tweetDict)")
             let id = tweetDict![Tweet.tweetIdKey] as! Int
             let tweet = Tweet.objectForTweet(childContext, tweetId: id)
             tweet.dataFromDictionary(tweetDict!, managedContext: childContext)

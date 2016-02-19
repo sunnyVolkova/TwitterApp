@@ -27,7 +27,6 @@ class NetworkService {
                     NSLog("error \(error) \(error.userInfo)")
             })
         }
-        
     }
     
     
@@ -47,8 +46,8 @@ class NetworkService {
                 }, failure: { error in
                     NSLog("error \(error) \(error.userInfo)")
                     failure(error)
-            })        }
-        
+            })
+        }
     }
     
     static func getMoreTweets(success success: () -> Void, failure: (ErrorType) -> Void, maxId: Int) {

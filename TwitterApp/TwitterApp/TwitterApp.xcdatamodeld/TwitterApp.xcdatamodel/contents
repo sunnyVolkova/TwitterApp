@@ -48,6 +48,7 @@
         <attribute name="quotes_status_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="retweet_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="retweeted" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="2" defaultValueString="0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="truncated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="entities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entity" inverseName="tweet" inverseEntity="Entity" syncable="YES"/>
@@ -100,7 +101,7 @@
         <element name="Hashtag" positionX="115" positionY="135" width="128" height="88"/>
         <element name="Media" positionX="-200" positionY="-6" width="128" height="178"/>
         <element name="Symbol" positionX="99" positionY="252" width="128" height="88"/>
-        <element name="Tweet" positionX="-252" positionY="378" width="128" height="343"/>
+        <element name="Tweet" positionX="-252" positionY="378" width="128" height="360"/>
         <element name="Url" positionX="-335" positionY="90" width="128" height="118"/>
         <element name="User" positionX="43" positionY="431" width="128" height="388"/>
         <element name="UserMention" positionX="-315" positionY="207" width="128" height="118"/>

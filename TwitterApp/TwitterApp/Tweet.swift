@@ -21,7 +21,14 @@ class Tweet: NSManagedObject{
     static let tweetRetweetedStatusKey = "retweeted_status"
     static let tweetExtendedEntitiesKey = "extended_entities"
     
+    @objc enum StateType: Int16 {
+        case Updating = 0
+        case Updated = 1
+        case Removed = 2
+    }
+    
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    
     static func objectForTweet(managedContext: NSManagedObjectContext, tweetId: Int) -> Tweet {
         var tweet: Tweet
         var results: [Tweet]? = nil
@@ -72,7 +79,6 @@ class Tweet: NSManagedObject{
                             self.setValue(tweet, forKey: keyName)
                         }
                     }
-                    NSLog("skip status parsing")
                 case Tweet.tweetExtendedEntitiesKey:
                     if let extendedEntitiesDictionary = value as? [String: AnyObject] {
                         if tweetId != nil {

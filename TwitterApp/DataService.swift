@@ -114,7 +114,7 @@ class DataService{
     static func removeTweetsWithIdsFromCoreData(tweetIds: [NSNumber], managedContext: NSManagedObjectContext){
         do {
             for tweetId in tweetIds {
-                let request = NSFetchRequest(entityName:"Tweet")
+                let request = NSFetchRequest(entityName: "Tweet")
                 let predicate = NSPredicate(format: "id == \(tweetId)")
                 request.predicate = predicate
                 
@@ -127,5 +127,20 @@ class DataService{
         } catch let error as NSError {
             NSLog("Could not delete objects \(error), \(error.userInfo)")
         }
+    }
+    
+    static func changeTweetsState(newState: Tweet.StateType, startId: NSNumber, endId: NSNumber, managedContext: NSManagedObjectContext){
+        let batchUpdate = NSBatchUpdateRequest(entityName: "Tweet")
+        batchUpdate.propertiesToUpdate = ["state" : Tweet.StateType.Updating as! AnyObject]
+        let predicate = NSPredicate(format: "id >= \(startId) && id <= \(startId)")
+        batchUpdate.predicate = predicate
+        batchUpdate.resultType = .UpdatedObjectsCountResultType
+        do {
+            let batchResult = try managedContext.executeRequest(batchUpdate) as! NSBatchUpdateResult
+            print("Records updated \(batchResult)")
+        } catch let error as NSError {
+            NSLog("Could not update objects \(error), \(error.userInfo)")
+        }
+    
     }
 }

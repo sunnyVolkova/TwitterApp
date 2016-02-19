@@ -15,7 +15,6 @@ class NetworkService {
     static let numberOfTweetsOnPage = 20
     
     static func getTimeline() {
-         NSLog("getTimeline")
         let parameters: Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
         ]
@@ -23,17 +22,16 @@ class NetworkService {
             oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json", parameters: parameters,
                 success: {
                     data, response in
-                   DataService.parseAndStoreTwitData(data)
+                    DataService.parseAndStoreTwitData(data)
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
             })
         }
-    
+        
     }
-
+    
     
     static func getNewTweets(success success: () -> Void, failure: (ErrorType) -> Void, sinceId: Int) {
-         NSLog("getNewTweets")
         var parameters:Dictionary = [
             "count"           : "\(numberOfTweetsOnPage)",
         ]
@@ -47,7 +45,7 @@ class NetworkService {
                     DataService.parseAndStoreTwitData(data)
                     success()
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })        }
         
@@ -68,14 +66,13 @@ class NetworkService {
                     DataService.parseAndStoreTwitData(data)
                     success()
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })
         }
     }
     
     static func sendFavorite(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
-        NSLog("sendFavorite")
         let parameters:Dictionary = [
             "id"           : "\(tweetId)",
         ]
@@ -86,14 +83,13 @@ class NetworkService {
                     DataService.parseAndStoreSingleTwitData(data)
                     success()
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })
         }
     }
     
     static func sendUnFavorite(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
-        NSLog("sendUnFavorite")
         let parameters:Dictionary = [
             "id"           : "\(tweetId)",
         ]
@@ -104,14 +100,13 @@ class NetworkService {
                     DataService.parseAndStoreSingleTwitData(data)
                     success()
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })
         }
     }
     
     static func sendRetweet(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
-        NSLog("sendRetweet")
         if let oauthswift = oauthswift{
             oauthswift.client.post("https://api.twitter.com/1.1/statuses/retweet/\(tweetId).json",
                 success: {
@@ -119,23 +114,36 @@ class NetworkService {
                     DataService.parseAndStoreSingleTwitData(data)
                     success()
                 }, failure: { error in
-                    print(error)
+                    NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })
         }
     }
     
     static func sendUnRetweet(success success: () -> Void, failure: (ErrorType) -> Void, tweetId: Int){
-        NSLog("sendUnRetweet")
         if let oauthswift = oauthswift{
             oauthswift.client.post("https://api.twitter.com/1.1/statuses/unretweet/\(tweetId).json",
                 success: {
                     data, response in
+                    reloadSungleTweet(tweetId)
                     DataService.parseAndStoreSingleTwitData(data)
+                    DataService.removeTweetsWithIdsFromCoreData(DataService.getMyRetweetIdsForTweet(tweetId: tweetId)!)
                     success()
                 }, failure: { error in
-                    print(error)
-                    failure(error)
+                    NSLog("sendUnRetweet failure \(error) \(error.userInfo)")
+                    failure(error )
+            })
+        }
+    }
+    
+    static func reloadSungleTweet(tweetId: Int){
+        if let oauthswift = oauthswift{
+            oauthswift.client.get("https://api.twitter.com/1.1/statuses/show/\(tweetId).json",
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                }, failure: { error in
+                    NSLog("reload tweet failure \(error) \(error.userInfo)")
             })
         }
     }

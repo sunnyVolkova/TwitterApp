@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 class DataService{
-    static let timelineGotNotificationName = "timelineGotNotification"
     static func parseAndStoreTwitData(data: NSData) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -41,8 +40,6 @@ class DataService{
         do {
             try childContext.save()
             try managedContext.save()
-            NSNotificationCenter.defaultCenter().postNotificationName(timelineGotNotificationName, object: nil)
-
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }
@@ -62,12 +59,9 @@ class DataService{
         do {
             try childContext.save()
             try managedContext.save()
-            NSNotificationCenter.defaultCenter().postNotificationName(timelineGotNotificationName, object: nil)
-            
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }
-        
     }
     
     static func getTweetsFromCoreData() -> [Tweet]?{
@@ -82,8 +76,56 @@ class DataService{
             try managedContext.executeFetchRequest(request) as! [Tweet]
             return results
         } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+            NSLog("Could not fetch \(error), \(error.userInfo)")
         }
         return nil
+    }
+    
+    static func getMyRetweetIdsForTweet(tweetId tweetId: NSNumber) -> [NSNumber]?{
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        return getMyRetweetIdsForTweet(tweetId: tweetId, managedContext: managedContext)
+    }
+    
+    static func getMyRetweetIdsForTweet(tweetId tweetId: NSNumber, managedContext: NSManagedObjectContext) -> [NSNumber]?{
+        let request = NSFetchRequest(entityName: "Tweet")
+        let predicate = NSPredicate(format: "retweeted_status.id == \(tweetId)")
+        request.predicate = predicate
+        do {
+            var resultIds = [NSNumber]()
+            let results =
+            try managedContext.executeFetchRequest(request) as! [Tweet]
+            for tweet in results {
+                resultIds.append(tweet.id!)
+            }
+            return resultIds
+        } catch let error as NSError {
+            NSLog("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+    
+    static func removeTweetsWithIdsFromCoreData(tweetIds: [NSNumber]){
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        return removeTweetsWithIdsFromCoreData(tweetIds, managedContext: managedContext)
+    }
+    
+    static func removeTweetsWithIdsFromCoreData(tweetIds: [NSNumber], managedContext: NSManagedObjectContext){
+        do {
+            for tweetId in tweetIds {
+                let request = NSFetchRequest(entityName:"Tweet")
+                let predicate = NSPredicate(format: "id == \(tweetId)")
+                request.predicate = predicate
+                
+                let results = try managedContext.executeFetchRequest(request)
+                for object in results {
+                    managedContext.deleteObject(object as! NSManagedObject)
+                }
+            }
+            try managedContext.save()
+        } catch let error as NSError {
+            NSLog("Could not delete objects \(error), \(error.userInfo)")
+        }
     }
 }

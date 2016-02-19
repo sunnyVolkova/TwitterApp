@@ -40,7 +40,7 @@ class TweetTableViewController: UITableViewController {
         if let tweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
             if tweet.retweeted == 1 {
                 //works only on second time ????
-                NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
+                NetworkService.unRetweet(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
             } else {
                 NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweet.id as! Int)
             }

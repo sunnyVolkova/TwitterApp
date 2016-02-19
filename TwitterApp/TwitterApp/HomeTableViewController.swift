@@ -132,7 +132,8 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
         case .Insert:
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
         case .Delete:
-            tableView.deleteRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+            NSLog("deleteRowsAtIndexPaths)")
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
         case .Update:
             if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? TweetCell {
                 configureCell(cell, indexPath: indexPath!)

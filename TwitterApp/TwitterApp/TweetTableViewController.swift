@@ -12,22 +12,25 @@ import CoreData
 
 class TweetTableViewController: UITableViewController {
     @IBOutlet weak var likeRetweetLabel: UIView!
-    var fetchedResultsController: NSFetchedResultsController!
+    var twitterFetchedResultsController: NSFetchedResultsController!
+    var conversationFetchedResultsController: NSFetchedResultsController!
     var tweetId: NSNumber = 0
 
     let tweetCellIdentifier = "MainTweetCell"
     let buttonsCellIdentifier = "Buttons Cell"
     let likeRetweetCellIdentifier = "Like Retweet Cell"
     let retweetedtweetCellIdentifier =  "Retweeted Cell"
+    let repliedTweetCellIdentifier =  "ReplyCell"
     
-    var isConversationPresent = false;
+    var isConversationPresent = true;
     let isRetweeted = 0
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
         NSLog("sendButtonPressed")
     }
+    
     @IBAction func likeButtonPressed(sender: AnyObject) {
-        if let tweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
+        if let tweet = twitterFetchedResultsController.fetchedObjects?[0] as? Tweet {
             if tweet.favorited == 1 {
                 NetworkService.sendUnFavorite(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
             } else {
@@ -37,9 +40,8 @@ class TweetTableViewController: UITableViewController {
     }
     
     @IBAction func retweetButtonPressed(sender: AnyObject) {
-        if let tweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
+        if let tweet = twitterFetchedResultsController.fetchedObjects?[0] as? Tweet {
             if tweet.retweeted == 1 {
-                //works only on second time ????
                 NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
             } else {
                 NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweet.id as! Int)
@@ -56,45 +58,76 @@ class TweetTableViewController: UITableViewController {
         self.tableView.estimatedRowHeight = 20.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.tableFooterView = UIView()
+        initTweetFetchedResultsController()
+        initConversationFetchedResultsController()
+        //TODO: add request conversation
+        tableView.registerNib(UINib(nibName: "TweetCell", bundle: nil), forCellReuseIdentifier: repliedTweetCellIdentifier)
         
+    }
+    
+    func getManagedContext() -> NSManagedObjectContext {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        
+        return appDelegate.managedObjectContext
+    }
+    
+    func initTweetFetchedResultsController(){
         let fetchedRequest = NSFetchRequest(entityName: "Tweet")
         let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
         let sortDescriptors = [sortDescriptor]
         fetchedRequest.sortDescriptors = sortDescriptors
         let predicate = NSPredicate(format: "id == \(tweetId)")
         fetchedRequest.predicate = predicate
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+        twitterFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: getManagedContext(), sectionNameKeyPath: nil, cacheName: nil)
+        twitterFetchedResultsController.delegate = self
         
         do {
-            try fetchedResultsController.performFetch()
+            try twitterFetchedResultsController.performFetch()
+        } catch let error as NSError {
+            NSLog("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func initConversationFetchedResultsController(){
+        let fetchedRequest = NSFetchRequest(entityName: "Tweet")
+        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
+        let sortDescriptors = [sortDescriptor]
+        fetchedRequest.sortDescriptors = sortDescriptors
+        let predicate = NSPredicate(format: "in_reply_to_status_id == \(tweetId)")
+        fetchedRequest.predicate = predicate
+        conversationFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: getManagedContext(), sectionNameKeyPath: nil, cacheName: nil)
+        conversationFetchedResultsController.delegate = self
+        
+        do {
+            try conversationFetchedResultsController.performFetch()
         } catch let error as NSError {
             NSLog("Error: \(error.localizedDescription)")
         }
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if(isConversationPresent){
-            return 2
-        } else {
-            return 1;
-        }
+//        if(isConversationPresent){
+//            return 2
+//        } else {
+//            return 1;
+//        }
+        return 2
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section == 0){
             return 3 + isRetweeted
         } else {
-            return 0
+            if let count = conversationFetchedResultsController?.fetchedObjects?.count {
+                return count
+            } else {
+                return 0
+            }
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let tweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
-            if(indexPath.section == 0){
+        if let tweet = twitterFetchedResultsController.fetchedObjects?[0] as? Tweet {
+            if (indexPath.section == 0){
                 switch indexPath.row {
                 case 0 + self.isRetweeted:
                     let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath)  as! ExtendedTweetCell
@@ -144,8 +177,19 @@ class TweetTableViewController: UITableViewController {
                     }
                     return cell
                 }
+            } else  if (indexPath.section == 1) {
+                if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! TweetCell
+                    let margin: CGFloat = 8
+                    let containerWidth = self.tableView.frame.size.width - margin*2
+                    cell.configureCell(tweet, containerWidth: containerWidth)
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet
+                    return cell
+                }
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath) as! ExtendedTweetCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet
                 return cell
             }
         } else {
@@ -161,8 +205,24 @@ extension TweetTableViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        if type == .Update {
-            tableView.reloadData()
+        if (controller == twitterFetchedResultsController) {
+            if type == .Update {
+                NSLog("Update")
+                //tableView.reloadData()
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+                if let tweet = controller.fetchedObjects?[0] as? Tweet {
+                    NSLog("search replies")
+                    NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!)
+                }
+            } else if type == .Insert {
+                NSLog("Insert")
+                if let tweet = controller.fetchedObjects?[0] as? Tweet {
+                    NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!)
+                }
+            }
+        } else if (controller == conversationFetchedResultsController) {
+            NSLog("Update conversation")
+            tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
         }
     }
     

@@ -11,6 +11,7 @@
 		36EBC7E3A4DACC47B2290793 /* Indices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EBC95815585CD747756DF1 /* Indices.swift */; };
 		CE0258721C748153007EBAC0 /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258711C748153007EBAC0 /* SimpleTextCell.swift */; };
 		CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */; };
+		CE0258761C775DEF007EBAC0 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0258751C775DEF007EBAC0 /* TweetCell.xib */; };
 		CE5DDAB81C68E31000A92BAC /* Symbol+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA71C68E31000A92BAC /* Symbol+CoreDataProperties.swift */; };
 		CE5DDAB91C68E31000A92BAC /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA81C68E31000A92BAC /* Symbol.swift */; };
 		CE5DDABA1C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DDAA91C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift */; };
@@ -71,6 +72,7 @@
 		B5E0169DD325CA36D9058219 /* Pods-TwitterApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TwitterApp/Pods-TwitterApp.release.xcconfig"; sourceTree = "<group>"; };
 		CE0258711C748153007EBAC0 /* SimpleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTextCell.swift; sourceTree = "<group>"; };
 		CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetButtonsCell.swift; sourceTree = "<group>"; };
+		CE0258751C775DEF007EBAC0 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
 		CE5DDAA71C68E31000A92BAC /* Symbol+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Symbol+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE5DDAA81C68E31000A92BAC /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
 		CE5DDAA91C68E31000A92BAC /* ExtendedEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExtendedEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		CEC7CF471C58FC1300B66BCD /* TwitterApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE0258751C775DEF007EBAC0 /* TweetCell.xib */,
 				CE5DDAA61C68E2E600A92BAC /* DataModel */,
 				CEB921A31C61F9DF0060E619 /* Services */,
 				CEB921A21C61F9A50060E619 /* Components */,
@@ -382,6 +385,7 @@
 				CEC7CF561C58FC1300B66BCD /* LaunchScreen.storyboard in Resources */,
 				CEC7CF531C58FC1300B66BCD /* Assets.xcassets in Resources */,
 				CEC7CF4E1C58FC1300B66BCD /* Main.storyboard in Resources */,
+				CE0258761C775DEF007EBAC0 /* TweetCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

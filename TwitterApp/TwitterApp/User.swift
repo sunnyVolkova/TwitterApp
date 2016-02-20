@@ -17,7 +17,7 @@ static let userCreatedAtKey = "created_at"
 static let userStatusKey = "status"
    
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
-// Insert code here to add functionality to your managed object subclass
+
     static func objectForUser(managedContext: NSManagedObjectContext, id: Int) -> User {
         var user: User
         var results: [User]? = nil
@@ -54,7 +54,9 @@ static let userStatusKey = "status"
                         self.setValue(tweet, forKey: keyName)
                     }
                 default:
-                    self.setValue(keyValue, forKey: keyName)
+                    if !(value is NSNull) {
+                        self.setValue(value, forKey: keyName)
+                    }
                 }
             }
         }

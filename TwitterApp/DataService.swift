@@ -24,26 +24,53 @@ class DataService{
         
     }
     
-    static func parseAndStoreTwitData(data: NSData, managedContext: NSManagedObjectContext) {
+    static func parseAndStoreFoundStatuses(data: NSData) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        parseAndStoreFoundStatuses(data, managedContext: managedContext)
+        
+    }
+    
+    static func parseAndStoreFoundStatuses(data: NSData, managedContext: NSManagedObjectContext) {
         let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         childContext.parentContext = managedContext
-        
-        if let tweetArray = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject] {
-            for tweetDict in tweetArray! {
-                if let tweetDict = tweetDict as? [String: AnyObject] {
-                    let id = tweetDict[Tweet.tweetIdKey] as! Int
-                    let tweet = Tweet.objectForTweet(childContext, tweetId: id)
-                    tweet.dataFromDictionary(tweetDict, managedContext: childContext)
+        do {
+            if let response = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                if let tweetArray = response!["statuses"] as? [AnyObject] {
+                    for tweetDict in tweetArray {
+                        if let tweetDict = tweetDict as? [String: AnyObject] {
+                            let id = tweetDict[Tweet.tweetIdKey] as! Int
+                            let tweet = Tweet.objectForTweet(childContext, tweetId: id)
+                            tweet.dataFromDictionary(tweetDict, managedContext: childContext)
+                        }
+                    }
                 }
             }
-        }
-        do {
             try childContext.save()
             try managedContext.save()
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }
-        
+    }
+    
+    static func parseAndStoreTwitData(data: NSData, managedContext: NSManagedObjectContext) {
+        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        childContext.parentContext = managedContext
+        do {
+            if let tweetArray = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject] {
+                for tweetDict in tweetArray {
+                    if let tweetDict = tweetDict as? [String: AnyObject] {
+                        let id = tweetDict[Tweet.tweetIdKey] as! Int
+                        let tweet = Tweet.objectForTweet(childContext, tweetId: id)
+                        tweet.dataFromDictionary(tweetDict, managedContext: childContext)
+                    }
+                }
+            }
+            try childContext.save()
+            try managedContext.save()
+        } catch let error as NSError {
+            NSLog("Could not save \(error), \(error.userInfo)")
+        }
     }
     
     static func parseAndStoreSingleTwitData(data: NSData, managedContext: NSManagedObjectContext) {

@@ -14,6 +14,8 @@ class HomeTableViewController: UITableViewController{
     var fetchedResultsController: NSFetchedResultsController!
     var maxId: Int = -1
     var sinceId: Int = -1
+    let cellIdentifier = "TweetCell"
+    var selectedIndexPath: NSIndexPath? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +25,17 @@ class HomeTableViewController: UITableViewController{
         self.refreshControl?.backgroundColor = UIColor.whiteColor()
         self.refreshControl?.tintColor = UIColor.redColor()
         self.refreshControl?.addTarget(self, action: Selector("getNewTweets"), forControlEvents: UIControlEvents.ValueChanged)
+        tableView.registerNib(UINib(nibName: "TweetCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         let fetchedRequest = NSFetchRequest(entityName: Tweet.entityName)
         let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
         let sortDescriptors = [sortDescriptor]
+        let predicate = NSPredicate(format :"user.following == 1")
         fetchedRequest.sortDescriptors = sortDescriptors
+        fetchedRequest.predicate = predicate
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
@@ -98,10 +104,14 @@ class HomeTableViewController: UITableViewController{
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellIdentifier = "TweetCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
         configureCell(cell, indexPath: indexPath)
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedIndexPath = indexPath
+        performSegueWithIdentifier("ViewTweet", sender: self)
     }
     
     func configureCell(cell: TweetCell, indexPath: NSIndexPath){
@@ -114,7 +124,7 @@ class HomeTableViewController: UITableViewController{
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ViewTweet"{
             let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
-            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+            if let indexPath = selectedIndexPath {
                 let tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
                 tweetTableViewController.tweetId = (tweet?.id)!
             }
@@ -132,7 +142,6 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
         case .Insert:
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
         case .Delete:
-            NSLog("deleteRowsAtIndexPaths)")
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
         case .Update:
             if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? TweetCell {

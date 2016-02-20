@@ -72,7 +72,6 @@ class Tweet: NSManagedObject{
                             self.setValue(tweet, forKey: keyName)
                         }
                     }
-                    NSLog("skip status parsing")
                 case Tweet.tweetExtendedEntitiesKey:
                     if let extendedEntitiesDictionary = value as? [String: AnyObject] {
                         if tweetId != nil {

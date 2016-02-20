@@ -13,6 +13,7 @@ import CoreData
 class NetworkService {
     static var oauthswift: OAuth1Swift?
     static let numberOfTweetsOnPage = 20
+    static let numberOfRepliesToFind = 100
     
     static func getTimeline() {
         let parameters: Dictionary = [
@@ -142,6 +143,19 @@ class NetworkService {
                 success: {
                     data, response in
                     DataService.parseAndStoreSingleTwitData(data)
+                }, failure: { error in
+                    NSLog("reload tweet failure \(error) \(error.userInfo)")
+            })
+        }
+    }
+    
+    static func searhRepliesOnTweet(tweetId: NSNumber, senderName: NSString) {
+        if let oauthswift = oauthswift{
+            oauthswift.client.get("https://api.twitter.com/1.1/search/tweets.json?q=\(senderName)&since_id=\(tweetId)&count=\(numberOfRepliesToFind)",
+                success: {
+                    data, response in
+                    NSLog("search success")
+                    DataService.parseAndStoreFoundStatuses(data)
                 }, failure: { error in
                     NSLog("reload tweet failure \(error) \(error.userInfo)")
             })

@@ -39,7 +39,7 @@
         <attribute name="current_user_retweet_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="favorite_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="in_reply_to_screen_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="in_reply_to_status_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="in_reply_to_user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -52,8 +52,10 @@
         <attribute name="truncated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="entities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entity" inverseName="tweet" inverseEntity="Entity" syncable="YES"/>
         <relationship name="extended_entities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExtendedEntity" inverseName="tweet" inverseEntity="ExtendedEntity" syncable="YES"/>
+        <relationship name="replies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tweet" inverseName="reply_to_status" inverseEntity="Tweet" syncable="YES"/>
+        <relationship name="reply_to_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" inverseName="replies" inverseEntity="Tweet" syncable="YES"/>
         <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="status" inverseEntity="User" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="statuses" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Url" representedClassName=".Url" syncable="YES">
         <attribute name="display_url" optional="YES" attributeType="String" syncable="YES"/>
@@ -84,8 +86,8 @@
         <attribute name="user_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="utc_offset" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="verified" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" inverseName="user" inverseEntity="Tweet" syncable="YES"/>
-        <relationship name="statuses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
+        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" syncable="YES"/>
+        <relationship name="statuses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tweet" inverseName="user" inverseEntity="Tweet" syncable="YES"/>
     </entity>
     <entity name="UserMention" representedClassName=".UserMention" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -94,15 +96,16 @@
         <attribute name="screen_name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="mention_entity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entity" inverseName="user_mentions" inverseEntity="Entity" syncable="YES"/>
     </entity>
+    <fetchRequest name="FetchRequest" entity="Tweet"/>
     <elements>
         <element name="Entity" positionX="-54" positionY="135" width="128" height="133"/>
         <element name="ExtendedEntity" positionX="115" positionY="-45" width="128" height="43"/>
         <element name="Hashtag" positionX="115" positionY="135" width="128" height="88"/>
         <element name="Media" positionX="-200" positionY="-6" width="128" height="178"/>
         <element name="Symbol" positionX="99" positionY="252" width="128" height="88"/>
-        <element name="Tweet" positionX="-252" positionY="378" width="128" height="343"/>
+        <element name="Tweet" positionX="-252" positionY="378" width="128" height="375"/>
         <element name="Url" positionX="-335" positionY="90" width="128" height="118"/>
-        <element name="User" positionX="43" positionY="431" width="128" height="388"/>
+        <element name="User" positionX="43" positionY="431" width="128" height="390"/>
         <element name="UserMention" positionX="-315" positionY="207" width="128" height="118"/>
     </elements>
 </model>

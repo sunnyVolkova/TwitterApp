@@ -297,8 +297,54 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TweetCell1" rowHeight="214" id="8xA-l0-fuo" customClass="TweetCell" customModule="TwitterApp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Table View Base Cell" id="SjB-9F-kWs" userLabel="Table View Base Cell" customClass="BaseCell" customModule="TwitterApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="214"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SjB-9F-kWs" id="GVG-NL-dB3">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eAz-gy-Qg5" customClass="TweetCellView" customModule="TwitterApp" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="eAz-gy-Qg5" secondAttribute="trailing" id="Z5n-HZ-wmH"/>
+                                        <constraint firstItem="eAz-gy-Qg5" firstAttribute="leading" secondItem="GVG-NL-dB3" secondAttribute="leading" id="aJN-oD-Sn1"/>
+                                        <constraint firstAttribute="bottom" secondItem="eAz-gy-Qg5" secondAttribute="bottom" id="bfZ-Gj-cpU"/>
+                                        <constraint firstItem="eAz-gy-Qg5" firstAttribute="top" secondItem="GVG-NL-dB3" secondAttribute="top" id="vnq-AH-S4x"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="tweetCell" destination="eAz-gy-Qg5" id="uNd-CT-cP0"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Table View Extended Cell" id="Iuz-Dw-ted" userLabel="Table View Extended Cell" customClass="ExtendedCell" customModule="TwitterApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="242" width="600" height="214"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Iuz-Dw-ted" id="zRk-LU-aGv">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P6B-Jl-DDS" customClass="ConversationalTweetCell" customModule="TwitterApp" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="P6B-Jl-DDS" firstAttribute="top" secondItem="zRk-LU-aGv" secondAttribute="top" id="3nS-W2-Dda"/>
+                                        <constraint firstAttribute="bottom" secondItem="P6B-Jl-DDS" secondAttribute="bottom" id="Dvf-xG-pC8"/>
+                                        <constraint firstItem="P6B-Jl-DDS" firstAttribute="leading" secondItem="zRk-LU-aGv" secondAttribute="leading" id="fqj-Qo-yN5"/>
+                                        <constraint firstAttribute="trailing" secondItem="P6B-Jl-DDS" secondAttribute="trailing" id="y0I-XG-IvI"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="tweetCell" destination="P6B-Jl-DDS" id="YKg-hS-7ja"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TweetCell1" rowHeight="214" id="8xA-l0-fuo" customClass="TweetCellView" customModule="TwitterApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="456" width="600" height="214"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8xA-l0-fuo" id="nh4-Ds-5dj">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>

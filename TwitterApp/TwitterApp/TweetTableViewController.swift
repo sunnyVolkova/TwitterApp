@@ -130,10 +130,10 @@ class TweetTableViewController: UITableViewController {
             if (indexPath.section == 0){
                 switch indexPath.row {
                 case 0 + self.isRetweeted:
-                    let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath)  as! ExtendedTweetCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath)  as! BaseCell
                     let margin: CGFloat = 8
                     let containerWidth = self.tableView.frame.size.width - margin*2
-                    cell.configureCell(tweet, containerWidth: containerWidth)
+                    cell.tweetCell.configureCell(tweet, containerWidth: containerWidth)
                     return cell
                     
                 case 1 + isRetweeted:
@@ -179,10 +179,10 @@ class TweetTableViewController: UITableViewController {
                 }
             } else  if (indexPath.section == 1) {
                 if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! TweetCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! BaseCell
                     let margin: CGFloat = 8
                     let containerWidth = self.tableView.frame.size.width - margin*2
-                    cell.configureCell(tweet, containerWidth: containerWidth)
+                    cell.tweetCell.configureCell(tweet, containerWidth: containerWidth)
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet

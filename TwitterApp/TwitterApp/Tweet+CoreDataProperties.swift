@@ -2,7 +2,7 @@
 //  Tweet+CoreDataProperties.swift
 //  TwitterApp
 //
-//  Created by RWuser on 12/02/16.
+//  Created by RWuser on 24/02/16.
 //  Copyright © 2016 RWuser. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -32,6 +32,8 @@ extension Tweet {
     @NSManaged var truncated: NSNumber?
     @NSManaged var entities: Entity?
     @NSManaged var extended_entities: ExtendedEntity?
+    @NSManaged var replies: NSSet?
+    @NSManaged var reply_to_status: Tweet?
     @NSManaged var retweeted_status: Tweet?
     @NSManaged var user: User?
 

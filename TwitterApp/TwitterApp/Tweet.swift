@@ -33,7 +33,7 @@ class Tweet: NSManagedObject{
         } catch let error as NSError {
             NSLog("Could not fetch \(error), \(error.userInfo)")
         }
-
+        
         if results != nil && results?.count > 0 {
             tweet = results![0]
         } else {
@@ -50,9 +50,9 @@ class Tweet: NSManagedObject{
             if (self.respondsToSelector(NSSelectorFromString(keyName))){
                 switch key {
                 case Tweet.tweetDateKey:
-                if let date = Tweet.dateFromString(keyValue!){
-                    self.setValue(date, forKey: keyName)
-                }
+                    if let date = Tweet.dateFromString(keyValue!){
+                        self.setValue(date, forKey: keyName)
+                    }
                 case Tweet.tweetUserKey:
                     if let userDictionary  = value as? [String: AnyObject] {
                         let user = User.getUserForDictionary(userDictionary, managedContext: managedContext)
@@ -102,5 +102,62 @@ class Tweet: NSManagedObject{
             return tweet
         }
         return nil
+    }
+    
+    static func fillReplies(managedContext: NSManagedObjectContext, tweetId: NSNumber){
+        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        childContext.parentContext = managedContext
+        
+        let tweetRequest = NSFetchRequest(entityName: Tweet.entityName)
+        tweetRequest.predicate = NSPredicate(format :"id == \(tweetId)")
+        var tweetResults: [Tweet]? = nil
+        do {
+            tweetResults = try childContext.executeFetchRequest(tweetRequest) as? [Tweet]
+        } catch let error as NSError {
+            NSLog("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        if tweetResults != nil && tweetResults?.count > 0 {
+            let twetToUpdate = tweetResults![0]
+            
+            let repliesRequest = NSFetchRequest(entityName: Tweet.entityName)
+            repliesRequest.predicate = NSPredicate(format :"in_reply_to_status_id == \(tweetId)")
+            var repliesResults: [Tweet]? = nil
+            do {
+                repliesResults = try childContext.executeFetchRequest(repliesRequest) as? [Tweet]
+            } catch let error as NSError {
+                NSLog("Could not fetch \(error), \(error.userInfo)")
+            }
+            
+            if repliesResults != nil && repliesResults?.count > 0 {
+                let replies = NSSet(array: repliesResults!)
+                twetToUpdate.replies = replies
+                for tweetObj in replies {
+                    if let tweet = tweetObj as? Tweet {
+                        fillReplies(childContext, tweetId: tweet.id!)
+                    }
+                }
+            }
+            do {
+                try childContext.save()
+            } catch let error as NSError {
+                NSLog("Could not update objects \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    static func getRepliesToShow(tweet: Tweet) -> [Tweet]? {
+        var replies = [Tweet]()
+        if tweet.replies != nil {
+            for reply in tweet.replies! {
+                replies.append(reply as! Tweet)
+                if let addReplies = getRepliesToShow(reply as! Tweet) {
+                    replies.appendContentsOf(addReplies)
+                }
+            }
+            return replies
+        } else {
+            return nil
+        }
     }
 }

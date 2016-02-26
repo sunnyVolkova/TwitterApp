@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class ExtendedTweetCell: TweetCell{
+class ExtendedTweetCell: TweetCellView {
     @IBOutlet weak var screenName: UILabel!
     @IBOutlet weak var followButton: UIButton!
     @IBAction func followButtonPressed(sender: AnyObject) {

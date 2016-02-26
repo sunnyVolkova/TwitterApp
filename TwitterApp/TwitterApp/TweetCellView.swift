@@ -9,23 +9,53 @@
 import UIKit
 import SDWebImage
 
-class TweetCell: UITableViewCell{
+class TweetCellView: UIView{
+    var mainView: UIView!
+    let nibName = "TweetCellView"
+    
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imagesContainer: UIView!
+    @IBOutlet weak var imagesContainer: UIView!   
     @IBOutlet weak var tweetText: UILabel!
     @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var topLineView: UIView!
+    @IBOutlet weak var bottomLineView: UIView!
     @IBOutlet weak var buttonFavorite: UIButton!
     @IBOutlet weak var buttonReply: UIButton!
     @IBOutlet weak var buttonRetweet: UIButton!
     
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        loadNib()
+    }
+    
+    required init?(coder aDecoder: NSCoder){
+        super.init(coder: aDecoder)
+        loadNib()
+    }
+    
+    func loadNib() {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        mainView = bundle.loadNibNamed(nibName, owner: self, options: nil)[0] as! UIView
+        addSubview(mainView)
+        let horizontalConstraintLeading = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
+        self.addConstraint(horizontalConstraintLeading)
+        let horizontalConstraintTrailing = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
+        self.addConstraint(horizontalConstraintTrailing)
+        let constraintTop = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+        self.addConstraint(constraintTop)
+        let constraintBottom = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
+        self.addConstraint(constraintBottom)
+    }
+    
     func configureCell(tweet: Tweet, containerWidth: CGFloat) {
+        
+        
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
         tweetText.numberOfLines = 0
         tweetText.text = tweet.text
-        //tweetText.text = "\(tweet.user?.follow_request_sent) \(tweet.user?.following)"
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
         //date.sizeToFit()
@@ -54,6 +84,19 @@ class TweetCell: UITableViewCell{
             drawAdditionalImages(tweet, containerWidth: containerWidth)
         } else {
             imageContainerHeightConstraint.constant = 0
+        }
+        
+        if tweet.replies != nil && tweet.replies!.count > 0{
+            NSLog("replies!.count > 0 \((tweet.replies!.allObjects[0] as! Tweet).text)")
+            bottomLineView.hidden = false
+        } else {
+            bottomLineView.hidden = true
+        }
+        
+        if tweet.in_reply_to_status_id != nil && tweet.in_reply_to_status_id! != 0 {
+            topLineView.hidden = false
+        } else {
+            topLineView.hidden = true
         }
     }
     
@@ -98,7 +141,7 @@ class TweetCell: UITableViewCell{
         mainView.contentMode = UIViewContentMode.ScaleAspectFill
         self.imagesContainer.addSubview(mainView)
         let tweetMedia =  images[0] as! Media
-        let tweetImageURL = tweetMedia.media_url!
+        let tweetImageURL = tweetMedia.media_url!         
         let urlMedia = NSURL(string: tweetImageURL)
         mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
         

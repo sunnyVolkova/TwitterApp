@@ -9,5 +9,5 @@
 import UIKit
 class ExtendedCell: UITableViewCell {
     
-    @IBOutlet weak var tweetCell: ConversationalTweetCell!
+    @IBOutlet weak var tweetCell: ConversationalTweetCellView!
 }

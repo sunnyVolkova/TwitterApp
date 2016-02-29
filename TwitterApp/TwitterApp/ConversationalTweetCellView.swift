@@ -7,9 +7,9 @@
 //
 
 import UIKit
-class ConversationalTweetCell: UIView{
+class ConversationalTweetCellView: UIView, ConfigureTweet{
     var mainView: UIView!
-    let nibName = "ConversationalTweetCell"
+    let nibName = "ConversationalTweetCellView"
     
     @IBOutlet weak var startCell: TweetCellView!
     @IBOutlet weak var moreRepliesButton: UIButton!
@@ -34,13 +34,18 @@ class ConversationalTweetCell: UIView{
         let bundle = NSBundle(forClass: self.dynamicType)
         mainView = bundle.loadNibNamed(nibName, owner: self, options: nil)[0] as! UIView
         addSubview(mainView)
+        
         let horizontalConstraintLeading = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
-        self.addConstraint(horizontalConstraintLeading)
+        
         let horizontalConstraintTrailing = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
-        self.addConstraint(horizontalConstraintTrailing)
+        
         let constraintTop = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
-        self.addConstraint(constraintTop)
+        
         let constraintBottom = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
+        
+        self.addConstraint(horizontalConstraintLeading)
+        self.addConstraint(horizontalConstraintTrailing)
+        self.addConstraint(constraintTop)
         self.addConstraint(constraintBottom)
     }
     
@@ -49,7 +54,6 @@ class ConversationalTweetCell: UIView{
             let count = replies.count
             NSLog("replies count = \(count)")
             switch count {
-                
             case 0:
                 cell2NullHeightConstraint.active = true
                 cell3NullHeightConstraint.active = true
@@ -61,25 +65,29 @@ class ConversationalTweetCell: UIView{
                 moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
                 
-                cell2.configureCell(replies[0], containerWidth: 100)
+                cell2.configureCell(replies[0])
             case 2:
                 cell2NullHeightConstraint.active = false
                 cell3NullHeightConstraint.active = false
                 moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
-                cell2.configureCell(replies[0], containerWidth: 100)
-                cell3.configureCell(replies[1], containerWidth: 100)
+                cell2.configureCell(replies[0])
+                cell3.configureCell(replies[1])
             default:
                 cell2NullHeightConstraint.active = false
                 cell3NullHeightConstraint.active = false
                 moreRepliesButtonHeightConstraint.constant = 30
                 moreRepliesButton.hidden = false
-                cell2.configureCell(replies[count - 2], containerWidth: 100)
-                cell3.configureCell(replies[count - 1], containerWidth: 100)
+                cell2.configureCell(replies[count - 2])
+                cell3.configureCell(replies[count - 1])
             }
             NSLog("configure main Cell with \(tweet.text)")
-            startCell.configureCell(tweet, containerWidth: 100)
+            startCell.configureCell(tweet)
         }
         
+    }
+    
+    func configureTweet(tweet: Tweet){
+        configureCell(tweet)
     }
 }

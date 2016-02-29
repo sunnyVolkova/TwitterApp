@@ -9,5 +9,11 @@
 import UIKit
 class BaseCell: UITableViewCell {
 
-    @IBOutlet weak var tweetCell: TweetCellView!
+    @IBOutlet weak var tweetCell: UIView!
+    
+    func configureCell(tweet: Tweet){
+        if let cell = tweetCell as? ConfigureTweet {
+            cell.configureTweet(tweet)
+        }
+    }
 }

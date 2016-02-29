@@ -60,9 +60,7 @@ class TweetTableViewController: UITableViewController {
         self.tableView.tableFooterView = UIView()
         initTweetFetchedResultsController()
         initConversationFetchedResultsController()
-        //TODO: add request conversation
-        tableView.registerNib(UINib(nibName: "TweetCell", bundle: nil), forCellReuseIdentifier: repliedTweetCellIdentifier)
-        
+        //TODO: add request conversation        
     }
     
     func getManagedContext() -> NSManagedObjectContext {
@@ -130,10 +128,9 @@ class TweetTableViewController: UITableViewController {
             if (indexPath.section == 0){
                 switch indexPath.row {
                 case 0 + self.isRetweeted:
-                    let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath)  as! BaseCell
-                    let margin: CGFloat = 8
-                    let containerWidth = self.tableView.frame.size.width - margin*2
-                    cell.tweetCell.configureCell(tweet, containerWidth: containerWidth)
+                    NSLog("dequeueReusableCellWithIdentifier(tweetCellIdentifier...")
+                    let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath) as! ExtendedTweetCell
+                    cell.configureCell(tweet)
                     return cell
                     
                 case 1 + isRetweeted:
@@ -180,9 +177,7 @@ class TweetTableViewController: UITableViewController {
             } else  if (indexPath.section == 1) {
                 if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
                     let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! BaseCell
-                    let margin: CGFloat = 8
-                    let containerWidth = self.tableView.frame.size.width - margin*2
-                    cell.tweetCell.configureCell(tweet, containerWidth: containerWidth)
+                    cell.configureCell(tweet)
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet

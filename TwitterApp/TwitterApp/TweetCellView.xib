@@ -26,14 +26,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hKf-Cl-hLK">
-                    <rect key="frame" x="8" y="8" width="60" height="58"/>
+                    <rect key="frame" x="8" y="8" width="60" height="60"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="cNS-zR-lGA"/>
-                        <constraint firstAttribute="height" constant="58" id="is1-WR-md6"/>
+                        <constraint firstAttribute="height" constant="60" id="is1-WR-md6"/>
                     </constraints>
                 </imageView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="maJ-Y9-iQC" userLabel="BottomLineView">
-                    <rect key="frame" x="33" y="66" width="10" height="534"/>
+                    <rect key="frame" x="33" y="68" width="10" height="532"/>
                     <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -104,7 +104,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pCe-tJ-gOx">
-                    <rect key="frame" x="76" y="45" width="516" height="509"/>
+                    <rect key="frame" x="76" y="45" width="509" height="509"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="ymJ-yh-WKF"/>
@@ -118,7 +118,7 @@
                 <constraint firstItem="1mq-ZH-weI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="8tG-8u-WxG"/>
                 <constraint firstItem="9Oc-9x-Kxk" firstAttribute="leading" secondItem="hKf-Cl-hLK" secondAttribute="trailing" constant="8" id="F5C-kQ-vyv"/>
                 <constraint firstItem="MoL-Ka-Gqo" firstAttribute="top" secondItem="pCe-tJ-gOx" secondAttribute="bottom" constant="8" id="Fzl-Hk-wR2"/>
-                <constraint firstAttribute="trailing" secondItem="pCe-tJ-gOx" secondAttribute="trailing" constant="8" id="Hd6-fD-F4R"/>
+                <constraint firstAttribute="trailing" secondItem="pCe-tJ-gOx" secondAttribute="trailing" constant="15" id="Hd6-fD-F4R"/>
                 <constraint firstItem="hKf-Cl-hLK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="MxB-TI-GFs"/>
                 <constraint firstAttribute="bottom" secondItem="maJ-Y9-iQC" secondAttribute="bottom" id="NXL-gh-JEN"/>
                 <constraint firstItem="9Oc-9x-Kxk" firstAttribute="top" secondItem="HYH-uu-QuQ" secondAttribute="bottom" constant="8" id="SSv-lF-hvS"/>

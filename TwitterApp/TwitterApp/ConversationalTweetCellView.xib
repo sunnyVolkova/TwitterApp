@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConversationalTweetCell" customModule="TwitterApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConversationalTweetCellView" customModule="TwitterApp" customModuleProvider="target">
             <connections>
                 <outlet property="cell2" destination="mQ3-4I-Pe6" id="i6Z-xs-pzK"/>
                 <outlet property="cell2NullHeightConstraint" destination="xUw-Y5-RAI" id="J7X-Qc-0Eo"/>
@@ -18,11 +18,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clipsSubviews="YES" contentMode="scaleToFill" id="OyZ-hl-L6J">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="620"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3Oh-sp-bIl">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="620"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUV-u2-J7Z" userLabel="Start Cell" customClass="TweetCellView" customModule="TwitterApp">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
@@ -53,7 +53,7 @@
                             </variation>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfK-5X-Ru7" userLabel="Cell3" customClass="TweetCellView" customModule="TwitterApp" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="430" width="600" height="190"/>
+                            <rect key="frame" x="0.0" y="430" width="600" height="170"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" id="NHt-pa-ETw"/>

@@ -14,8 +14,9 @@ class HomeTableViewController: UITableViewController{
     var fetchedResultsController: NSFetchedResultsController!
     var maxId: Int = -1
     var sinceId: Int = -1
-    let cellIdentifier = "TweetCell"
-    let conversationalCellIdentifier = "ConversationalTweetCell"
+    let cellIdentifier = "Table View Base Cell"
+    let extendedCellIdentifier = "Table View Extended Cell"
+    let viewTweetSegueIdentifier = "ViewTweet"
     var selectedIndexPath: NSIndexPath? = nil
     
     override func viewDidLoad() {
@@ -101,11 +102,6 @@ class HomeTableViewController: UITableViewController{
             getMoreTweets()
         }
     }
-    
-//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        NSLog("Section %ld Row %ld", indexPath.section, indexPath.row)
-//        return NSlayoutA
-//    }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -118,41 +114,29 @@ class HomeTableViewController: UITableViewController{
             NSLog("Could not update objects \(error), \(error.userInfo)")
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Table View Extended Cell", forIndexPath: indexPath) as? ExtendedCell
-            cell!.tweetCell.configureCell(tweet)
+        if(tweet.replies != nil && tweet.replies!.count > 0) {
+            let cell = tableView.dequeueReusableCellWithIdentifier(extendedCellIdentifier, forIndexPath: indexPath) as? BaseCell
+            cell!.configureCell(tweet)
             return cell!
-
-//
-//        if(tweet.replies != nil && tweet.replies!.count > 0){
-//            if let cell = tableView.dequeueReusableCellWithIdentifier("Table View Extended Cell", forIndexPath: indexPath) as? ExtendedCell{
-//                cell.tweetCell.configureCell(tweet)
-//                return cell
-//            }
-//            
-//        }
-//        let cell = tableView.dequeueReusableCellWithIdentifier("Table View Base Cell", forIndexPath: indexPath) as! BaseCell
-//        //cell.configureCell(tweet)
-//         NSLog("configureCell1 \(cell.bounds.size.height) \(cell.tweetCell.bounds.size.height)")
-//            configureCell(cell.tweetCell, indexPath: indexPath)
-//        NSLog("configureCell2 \(cell.bounds.size.height) \(cell.tweetCell.bounds.size.height)")
-//            return cell
-
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as? BaseCell
+            cell!.configureCell(tweet)
+            return cell!
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
-        performSegueWithIdentifier("ViewTweet", sender: self)
+        performSegueWithIdentifier(viewTweetSegueIdentifier, sender: self)
     }
     
     func configureCell(cell: TweetCellView, indexPath: NSIndexPath){
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
-        let margin: CGFloat = 8
-        let containerWidth = self.tableView.frame.size.width - margin*2
-        cell.configureCell(tweet, containerWidth: containerWidth)
+        cell.configureCell(tweet)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ViewTweet"{
+        if segue.identifier == viewTweetSegueIdentifier {
             let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
             if let indexPath = selectedIndexPath {
                 let tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
@@ -174,9 +158,9 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
         case .Delete:
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
         case .Update:
-            if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? ExtendedCell {
+            if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? BaseCell {
                 let tweet = fetchedResultsController.objectAtIndexPath(indexPath!) as! Tweet
-                cell.tweetCell.configureCell(tweet)
+                cell.configureCell(tweet)
             }
         case .Move:
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)

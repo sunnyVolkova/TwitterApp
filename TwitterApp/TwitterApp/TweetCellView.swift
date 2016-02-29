@@ -9,9 +9,9 @@
 import UIKit
 import SDWebImage
 
-class TweetCellView: UIView{
+class TweetCellView: UIView, ConfigureTweet{
     var mainView: UIView!
-    let nibName = "TweetCellView"
+    var nibName = "TweetCellView"
     
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
@@ -32,6 +32,14 @@ class TweetCellView: UIView{
     
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
+        NSLog("load nib1 \(nibName)")
+        loadNib()
+    }
+    
+    convenience init?(coder aDecoder: NSCoder, nibName: String){
+        self.init(coder: aDecoder)
+        self.nibName = nibName
+        NSLog("load nib2 \(nibName)")
         loadNib()
     }
     
@@ -49,8 +57,8 @@ class TweetCellView: UIView{
         self.addConstraint(constraintBottom)
     }
     
-    func configureCell(tweet: Tweet, containerWidth: CGFloat) {
-        
+    //func configureCell(tweet: Tweet, containerWidth: CGFloat) {
+    func configureCell(tweet: Tweet) {
         
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
@@ -81,7 +89,7 @@ class TweetCellView: UIView{
             view.removeFromSuperview()
         }
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0{
-            drawAdditionalImages(tweet, containerWidth: containerWidth)
+            drawAdditionalImages(tweet)
         } else {
             imageContainerHeightConstraint.constant = 0
         }
@@ -114,8 +122,8 @@ class TweetCellView: UIView{
         }
     }
     
-    func drawAdditionalImages(tweet: Tweet, containerWidth: CGFloat) {
-        let imageContainerWidth = getImageContainerWidth(containerWidth)
+    func drawAdditionalImages(tweet: Tweet) {
+        let imageContainerWidth = imagesContainer.frame.width//getImageContainerWidth(containerWidth)
         let marginBetweenImages: CGFloat = 1
         let imageCount = tweet.extended_entities!.media!.count
         let images = tweet.extended_entities!.media!.allObjects
@@ -157,8 +165,8 @@ class TweetCellView: UIView{
         }
     }
     
-    func getImageContainerWidth(containerWidth: CGFloat) -> CGFloat{
-        return containerWidth - self.avatarImage.frame.size.width
+    func configureTweet(tweet: Tweet){
+        configureCell(tweet)
     }
 }
 

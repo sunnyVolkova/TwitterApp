@@ -23,18 +23,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let authorized = NSUserDefaults.standardUserDefaults().boolForKey(LoginService.authorizedKey)
-        let navigationController = self.window?.rootViewController as? UINavigationController;
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if(authorized){
             NetworkService.oauthswift = LoginService.getOAuthTwitter()!
-            let viewController: HomeTableViewController = storyboard.instantiateViewControllerWithIdentifier("HomeTableViewController") as! HomeTableViewController
-            navigationController?.pushViewController(viewController, animated: true)
+            if let _ = LoginService.getCurrentUserId() {
+                self.launchHomeViewController()
+            } else {
+                LoginService.verifyCredentials(success: {
+                    id in
+                        self.launchHomeViewController()
+                    }, failure: {error in
+                        self.launchLoginViewController()
+                })
+            }
         } else {
-            let viewController: LoginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-            navigationController?.pushViewController(viewController, animated: true)
+           self.launchLoginViewController()
         }
         // Override point for customization after application launch.
         return true
+    }
+    
+    func launchHomeViewController() {
+        let navigationController = self.window?.rootViewController as? UINavigationController;
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController: HomeTableViewController = storyboard.instantiateViewControllerWithIdentifier("HomeTableViewController") as! HomeTableViewController
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func launchLoginViewController() {
+        let navigationController = self.window?.rootViewController as? UINavigationController;
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController: LoginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func applicationWillResignActive(application: UIApplication) {

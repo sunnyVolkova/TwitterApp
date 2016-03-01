@@ -32,14 +32,12 @@ class TweetCellView: UIView, ConfigureTweet{
     
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
-        NSLog("load nib1 \(nibName)")
         loadNib()
     }
     
     convenience init?(coder aDecoder: NSCoder, nibName: String){
         self.init(coder: aDecoder)
         self.nibName = nibName
-        NSLog("load nib2 \(nibName)")
         loadNib()
     }
     

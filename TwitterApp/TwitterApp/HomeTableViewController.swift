@@ -28,13 +28,22 @@ class HomeTableViewController: UITableViewController{
         self.refreshControl?.tintColor = UIColor.redColor()
         self.refreshControl?.addTarget(self, action: Selector("getNewTweets"), forControlEvents: UIControlEvents.ValueChanged)
         
+        var currentUserId = LoginService.getCurrentUserId()
+        if (currentUserId == nil){
+            currentUserId = -1
+        }
+        initFetchedResultsController(currentUserId: currentUserId!)
+        
+    }
+    
+    func initFetchedResultsController(currentUserId currentUserId: Int){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         let fetchedRequest = NSFetchRequest(entityName: Tweet.entityName)
         let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
         let sortDescriptors = [sortDescriptor]
-        let predicate = NSPredicate(format :"(in_reply_to_status_id = nil) || (in_reply_to_status_id == 0)")
+        let predicate = NSPredicate(format :"(in_reply_to_status_id = nil) || (in_reply_to_status_id == 0) && ((user.following = true)|| (user.id = \(currentUserId)))")
         fetchedRequest.sortDescriptors = sortDescriptors
         fetchedRequest.predicate = predicate
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)

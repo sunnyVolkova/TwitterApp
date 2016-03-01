@@ -31,6 +31,12 @@ class DataService{
         
     }
     
+    static func parseAndStoreUserData(data: NSData) -> User? {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        return parseAndStoreUserData(data, managedContext: managedContext)
+    }
+    
     static func parseAndStoreFoundStatuses(data: NSData, managedContext: NSManagedObjectContext) {
         let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         childContext.parentContext = managedContext
@@ -89,6 +95,25 @@ class DataService{
         } catch let error as NSError {
             NSLog("Could not save \(error), \(error.userInfo)")
         }
+    }
+    
+    static func parseAndStoreUserData(data: NSData, managedContext: NSManagedObjectContext) -> User? {
+        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        childContext.parentContext = managedContext
+        var user: User? = nil
+        
+        if let userDict = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+            let id = userDict![User.userIdKey] as! Int
+            user = User.objectForUser(childContext, id: id)
+            user!.dataFromDictionary(userDict!, managedContext: childContext)
+        }
+        do {
+            try childContext.save()
+            try managedContext.save()
+        } catch let error as NSError {
+            NSLog("Could not save \(error), \(error.userInfo)")
+        }
+        return user
     }
     
     static func getTweetsFromCoreData() -> [Tweet]?{

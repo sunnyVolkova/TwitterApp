@@ -160,4 +160,23 @@ class Tweet: NSManagedObject{
             return nil
         }
     }
+    
+    static func getRepliesToShowOnHome(tweet: Tweet) -> [Tweet]? {
+        var replies = [Tweet]()
+        if tweet.replies != nil {
+            for reply in tweet.replies! {
+                if let reply = reply as? Tweet {
+                    if(reply.user!.following as! Int > 0 || reply.user!.id == LoginService.getCurrentUserId()!) {
+                        replies.append(reply)
+                        if let addReplies = getRepliesToShow(reply) {
+                            replies.appendContentsOf(addReplies)
+                        }
+                    }
+                }
+            }
+            return replies
+        } else {
+            return nil
+        }
+    }
 }

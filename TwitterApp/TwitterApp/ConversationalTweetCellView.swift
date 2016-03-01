@@ -50,7 +50,8 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     }
     
     func configureCell(tweet: Tweet) {
-        if let replies = Tweet.getRepliesToShow(tweet) {
+        //TODO: move to another place
+        if let replies = Tweet.getRepliesToShowOnHome(tweet) {
             let count = replies.count
             NSLog("replies count = \(count)")
             switch count {

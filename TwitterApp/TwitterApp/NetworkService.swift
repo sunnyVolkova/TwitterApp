@@ -149,15 +149,17 @@ class NetworkService {
         }
     }
     
-    static func searhRepliesOnTweet(tweetId: NSNumber, senderName: NSString) {
+    static func searhRepliesOnTweet(tweetId: NSNumber, senderName: NSString, success: () -> Void, failure: (ErrorType) -> Void) {
         if let oauthswift = oauthswift{
             oauthswift.client.get("https://api.twitter.com/1.1/search/tweets.json?q=\(senderName)&since_id=\(tweetId)&count=\(numberOfRepliesToFind)",
                 success: {
                     data, response in
                     NSLog("search success")
                     DataService.parseAndStoreFoundStatuses(data)
+                    success()
                 }, failure: { error in
                     NSLog("reload tweet failure \(error) \(error.userInfo)")
+                    failure(error)
             })
         }
     }

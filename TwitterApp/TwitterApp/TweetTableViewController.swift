@@ -25,6 +25,8 @@ class TweetTableViewController: UITableViewController {
     var isConversationPresent = true;
     let isRetweeted = 0
     
+    var repliesToShow: [Tweet]?
+    
     @IBAction func sendButtonPressed(sender: AnyObject) {
         NSLog("sendButtonPressed")
     }
@@ -59,7 +61,7 @@ class TweetTableViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.tableFooterView = UIView()
         initTweetFetchedResultsController()
-        initConversationFetchedResultsController()
+        //initConversationFetchedResultsController()
         //TODO: add request conversation        
     }
     
@@ -82,6 +84,22 @@ class TweetTableViewController: UITableViewController {
             try twitterFetchedResultsController.performFetch()
         } catch let error as NSError {
             NSLog("Error: \(error.localizedDescription)")
+        }
+        if let tweet = twitterFetchedResultsController.fetchedObjects?[0] as? Tweet {
+            NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!, success: {
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let managedContext = appDelegate.managedObjectContext
+                Tweet.fillReplies(managedContext, tweetId: tweet.id!)
+                self.repliesToShow = Tweet.getRepliesToShow(tweet)
+                self.tableView.reloadData()
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    NSLog("Could not update objects \(error), \(error.userInfo)")
+                }
+                }, failure: { error in
+            
+            })
         }
     }
     
@@ -115,11 +133,15 @@ class TweetTableViewController: UITableViewController {
         if(section == 0){
             return 3 + isRetweeted
         } else {
-            if let count = conversationFetchedResultsController?.fetchedObjects?.count {
-                return count
-            } else {
-                return 0
+            if let repliesToShow = repliesToShow {
+                return repliesToShow.count
             }
+            return 0
+//            if let count = conversationFetchedResultsController?.fetchedObjects?.count {
+//                return count
+//            } else {
+//                return 0
+//            }
         }
     }
     
@@ -175,11 +197,15 @@ class TweetTableViewController: UITableViewController {
                     return cell
                 }
             } else  if (indexPath.section == 1) {
-                if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
+                NSLog("add cell")
+                //if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
+                if let repliesToShow = repliesToShow {
+                    let tweet = repliesToShow[indexPath.row]
                     let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! BaseCell
                     cell.configureCell(tweet)
+                    NSLog("configureCell with tweet \(tweet.text)")
                     return cell
-                } else {
+            } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet
                     return cell
                 }
@@ -205,15 +231,8 @@ extension TweetTableViewController: NSFetchedResultsControllerDelegate {
                 NSLog("Update")
                 //tableView.reloadData()
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-                if let tweet = controller.fetchedObjects?[0] as? Tweet {
-                    NSLog("search replies")
-                    NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!)
-                }
             } else if type == .Insert {
                 NSLog("Insert")
-                if let tweet = controller.fetchedObjects?[0] as? Tweet {
-                    NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!)
-                }
             }
         } else if (controller == conversationFetchedResultsController) {
             NSLog("Update conversation")

@@ -66,13 +66,17 @@ class ExtendedTweetCell: UITableViewCell {
             view.removeFromSuperview()
         }
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
-            imageContainerAspectRatioConstraint.active = true
+            if let imageContainerAspectRatioConstraint = imageContainerAspectRatioConstraint {
+                imageContainerAspectRatioConstraint.active = true
+            }
             //drawAdditionalImages(tweet)
             NSLog("self.frame.width1 \(self.frame.width)")
 
             //imageContainerHeightConstraint.constant = self.frame.width
         } else {
-            imageContainerAspectRatioConstraint.active = false
+            if let imageContainerAspectRatioConstraint = imageContainerAspectRatioConstraint {
+                imageContainerAspectRatioConstraint.active = false
+            }
             imageContainerHeightConstraint.constant = 0
         }
         if let screenNameText = tweet.user?.screen_name {

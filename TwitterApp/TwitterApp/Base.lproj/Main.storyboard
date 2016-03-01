@@ -266,6 +266,29 @@
                                     <outlet property="sendButton" destination="d0o-og-MVq" id="phM-iH-Hhi"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" id="pIS-7t-xPe" userLabel="ReplyCell" customClass="BaseCell" customModule="TwitterApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="884" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIS-7t-xPe" id="DdK-Wm-TOQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wtE-ZS-j1H" customClass="TweetCellView" customModule="TwitterApp" customModuleProvider="target">
+                                            <rect key="frame" x="8" y="8" width="584" height="27"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="wtE-ZS-j1H" secondAttribute="trailing" id="KpQ-81-l9m"/>
+                                        <constraint firstItem="wtE-ZS-j1H" firstAttribute="leading" secondItem="DdK-Wm-TOQ" secondAttribute="leadingMargin" id="aRu-og-kXe"/>
+                                        <constraint firstItem="wtE-ZS-j1H" firstAttribute="top" secondItem="DdK-Wm-TOQ" secondAttribute="topMargin" id="edX-rc-kos"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="wtE-ZS-j1H" secondAttribute="bottom" id="tAR-DU-Aby"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="tweetCell" destination="wtE-ZS-j1H" id="gdd-5b-5AN"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>

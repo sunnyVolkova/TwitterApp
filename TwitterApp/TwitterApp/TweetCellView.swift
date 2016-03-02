@@ -55,7 +55,6 @@ class TweetCellView: UIView, ConfigureTweet{
         self.addConstraint(constraintBottom)
     }
     
-    //func configureCell(tweet: Tweet, containerWidth: CGFloat) {
     func configureCell(tweet: Tweet) {
         
         userName.text = tweet.user?.name
@@ -91,19 +90,6 @@ class TweetCellView: UIView, ConfigureTweet{
         } else {
             imageContainerHeightConstraint.constant = 0
         }
-        
-        if tweet.replies != nil && tweet.replies!.count > 0{
-            NSLog("replies!.count > 0 \((tweet.replies!.allObjects[0] as! Tweet).text)")
-            bottomLineView.hidden = false
-        } else {
-            bottomLineView.hidden = true
-        }
-        
-        if tweet.in_reply_to_status_id != nil && tweet.in_reply_to_status_id! != 0 {
-            topLineView.hidden = false
-        } else {
-            topLineView.hidden = true
-        }
     }
     
     func initButtons(tweet: Tweet){
@@ -121,7 +107,7 @@ class TweetCellView: UIView, ConfigureTweet{
     }
     
     func drawAdditionalImages(tweet: Tweet) {
-        let imageContainerWidth = imagesContainer.frame.width//getImageContainerWidth(containerWidth)
+        let imageContainerWidth = imagesContainer.frame.width
         let marginBetweenImages: CGFloat = 1
         let imageCount = tweet.extended_entities!.media!.count
         let images = tweet.extended_entities!.media!.allObjects

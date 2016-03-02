@@ -50,16 +50,19 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     }
     
     func configureCell(tweet: Tweet) {
-        //TODO: move to another place
+        //TODO: slow performance
         if let replies = Tweet.getRepliesToShowOnHome(tweet) {
             let count = replies.count
-            NSLog("replies count = \(count)")
             switch count {
             case 0:
                 cell2NullHeightConstraint.active = true
                 cell3NullHeightConstraint.active = true
                 moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
+                
+                startCell.topLineView.hidden = true
+                startCell.bottomLineView.hidden = true
+                
             case 1:
                 cell2NullHeightConstraint.active = false
                 cell3NullHeightConstraint.active = true
@@ -67,6 +70,12 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 moreRepliesButton.hidden = true
                 
                 cell2.configureCell(replies[0])
+                
+                cell2.topLineView.hidden = false
+                cell2.bottomLineView.hidden = true
+                startCell.topLineView.hidden = true
+                startCell.bottomLineView.hidden = false
+                
             case 2:
                 cell2NullHeightConstraint.active = false
                 cell3NullHeightConstraint.active = false
@@ -74,6 +83,14 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 moreRepliesButton.hidden = true
                 cell2.configureCell(replies[0])
                 cell3.configureCell(replies[1])
+                
+                cell2.topLineView.hidden = false
+                cell2.bottomLineView.hidden = false
+                cell3.topLineView.hidden = false
+                cell3.bottomLineView.hidden = true
+                startCell.topLineView.hidden = true
+                startCell.bottomLineView.hidden = false
+                
             default:
                 cell2NullHeightConstraint.active = false
                 cell3NullHeightConstraint.active = false
@@ -81,8 +98,14 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 moreRepliesButton.hidden = false
                 cell2.configureCell(replies[count - 2])
                 cell3.configureCell(replies[count - 1])
+                
+                cell2.topLineView.hidden = false
+                cell2.bottomLineView.hidden = false
+                cell3.topLineView.hidden = false
+                cell3.bottomLineView.hidden = true
+                startCell.topLineView.hidden = true
+                startCell.bottomLineView.hidden = false
             }
-            NSLog("configure main Cell with \(tweet.text)")
             startCell.configureCell(tweet)
         }
         

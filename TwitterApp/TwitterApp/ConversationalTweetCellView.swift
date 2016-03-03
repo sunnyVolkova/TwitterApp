@@ -51,7 +51,86 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     
     func configureCell(tweet: Tweet) {
         //TODO: slow performance
-        if let replies = Tweet.getRepliesToShowOnHome(tweet) {
+        initMainCell(tweet)
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)){
+            if let replies = Tweet.getRepliesToShowOnHome(tweet) {
+                dispatch_async(dispatch_get_main_queue()){
+                    self.initReplies(tweet, replies: replies)
+                    self.setNeedsLayout()
+                }
+            }
+        }
+//        if let replies = Tweet.getRepliesToShowOnHome(tweet) {
+//            let count = replies.count
+//            switch count {
+//            case 0:
+//                cell2NullHeightConstraint.active = true
+//                cell3NullHeightConstraint.active = true
+//                moreRepliesButtonHeightConstraint.constant = 0
+//                moreRepliesButton.hidden = true
+//                
+//                startCell.topLineView.hidden = true
+//                startCell.bottomLineView.hidden = true
+//                
+//            case 1:
+//                cell2NullHeightConstraint.active = false
+//                cell3NullHeightConstraint.active = true
+//                moreRepliesButtonHeightConstraint.constant = 0
+//                moreRepliesButton.hidden = true
+//                
+//                cell2.configureCell(replies[0])
+//                
+//                cell2.topLineView.hidden = false
+//                cell2.bottomLineView.hidden = true
+//                startCell.topLineView.hidden = true
+//                startCell.bottomLineView.hidden = false
+//                
+//            case 2:
+//                cell2NullHeightConstraint.active = false
+//                cell3NullHeightConstraint.active = false
+//                moreRepliesButtonHeightConstraint.constant = 0
+//                moreRepliesButton.hidden = true
+//                cell2.configureCell(replies[0])
+//                cell3.configureCell(replies[1])
+//                
+//                cell2.topLineView.hidden = false
+//                cell2.bottomLineView.hidden = false
+//                cell3.topLineView.hidden = false
+//                cell3.bottomLineView.hidden = true
+//                startCell.topLineView.hidden = true
+//                startCell.bottomLineView.hidden = false
+//                
+//            default:
+//                cell2NullHeightConstraint.active = false
+//                cell3NullHeightConstraint.active = false
+//                moreRepliesButtonHeightConstraint.constant = 30
+//                moreRepliesButton.hidden = false
+//                cell2.configureCell(replies[count - 2])
+//                cell3.configureCell(replies[count - 1])
+//                
+//                cell2.topLineView.hidden = false
+//                cell2.bottomLineView.hidden = false
+//                cell3.topLineView.hidden = false
+//                cell3.bottomLineView.hidden = true
+//                startCell.topLineView.hidden = true
+//                startCell.bottomLineView.hidden = false
+//            }
+//            startCell.configureCell(tweet)
+//        }
+        
+    }
+    func initMainCell(tweet: Tweet){
+        cell2NullHeightConstraint.active = true
+        cell3NullHeightConstraint.active = true
+        moreRepliesButtonHeightConstraint.constant = 0
+        moreRepliesButton.hidden = true
+        
+        startCell.topLineView.hidden = true
+        startCell.bottomLineView.hidden = true
+        startCell.configureCell(tweet)
+    }
+    func initReplies(tweet: Tweet, replies: [Tweet]?){
+        if let replies = replies {
             let count = replies.count
             switch count {
             case 0:
@@ -106,9 +185,7 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = false
             }
-            startCell.configureCell(tweet)
         }
-        
     }
     
     func configureTweet(tweet: Tweet){

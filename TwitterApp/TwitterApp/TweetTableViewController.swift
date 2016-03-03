@@ -61,8 +61,6 @@ class TweetTableViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.tableFooterView = UIView()
         initTweetFetchedResultsController()
-        //initConversationFetchedResultsController()
-        //TODO: add request conversation        
     }
     
     func getManagedContext() -> NSManagedObjectContext {
@@ -89,7 +87,7 @@ class TweetTableViewController: UITableViewController {
             NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!, success: {
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 let managedContext = appDelegate.managedObjectContext
-                Tweet.fillReplies(managedContext, tweetId: tweet.id!)
+                //Tweet.fillReplies(managedContext, tweetId: tweet.id!)
                 self.repliesToShow = Tweet.getRepliesToShow(tweet)
                 self.tableView.reloadData()
                 do {
@@ -121,11 +119,6 @@ class TweetTableViewController: UITableViewController {
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        if(isConversationPresent){
-//            return 2
-//        } else {
-//            return 1;
-//        }
         return 2
     }
     
@@ -137,11 +130,6 @@ class TweetTableViewController: UITableViewController {
                 return repliesToShow.count
             }
             return 0
-//            if let count = conversationFetchedResultsController?.fetchedObjects?.count {
-//                return count
-//            } else {
-//                return 0
-//            }
         }
     }
     
@@ -150,7 +138,6 @@ class TweetTableViewController: UITableViewController {
             if (indexPath.section == 0){
                 switch indexPath.row {
                 case 0 + self.isRetweeted:
-                    NSLog("dequeueReusableCellWithIdentifier(tweetCellIdentifier...")
                     let cell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath) as! ExtendedTweetCell
                     cell.configureCell(tweet)
                     return cell
@@ -197,13 +184,10 @@ class TweetTableViewController: UITableViewController {
                     return cell
                 }
             } else  if (indexPath.section == 1) {
-                NSLog("add cell")
-                //if let tweet = conversationFetchedResultsController.fetchedObjects?[indexPath.row] as? Tweet {
                 if let repliesToShow = repliesToShow {
                     let tweet = repliesToShow[indexPath.row]
                     let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! BaseCell
                     cell.configureCell(tweet)
-                    NSLog("configureCell with tweet \(tweet.text)")
                     return cell
             } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet
@@ -226,17 +210,8 @@ extension TweetTableViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        if (controller == twitterFetchedResultsController) {
-            if type == .Update {
-                NSLog("Update")
-                //tableView.reloadData()
-                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-            } else if type == .Insert {
-                NSLog("Insert")
-            }
-        } else if (controller == conversationFetchedResultsController) {
-            NSLog("Update conversation")
-            tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
+        if (controller == twitterFetchedResultsController) && (type == .Update) {
+            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         }
     }
     

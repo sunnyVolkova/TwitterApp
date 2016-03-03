@@ -111,18 +111,9 @@ class HomeTableViewController: UITableViewController{
             getMoreTweets()
         }
     }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        Tweet.fillReplies(managedContext, tweetId: tweet.id!)
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            NSLog("Could not update objects \(error), \(error.userInfo)")
-        }
-        
         if(tweet.replies != nil && tweet.replies!.count > 0) {
             let cell = tableView.dequeueReusableCellWithIdentifier(extendedCellIdentifier, forIndexPath: indexPath) as? BaseCell
             cell!.configureCell(tweet)

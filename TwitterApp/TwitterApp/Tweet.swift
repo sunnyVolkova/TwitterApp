@@ -20,8 +20,28 @@ class Tweet: NSManagedObject{
     static let tweetEntitiesKey = "entities"
     static let tweetRetweetedStatusKey = "retweeted_status"
     static let tweetExtendedEntitiesKey = "extended_entities"
+    static let tweetReplyToStatusIdKey = "in_reply_to_status_id"
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    
+    static func optionalObjectForTweet(managedContext: NSManagedObjectContext, tweetId: Int) -> Tweet? {
+        var results: [Tweet]? = nil
+        let predicate = NSPredicate(format: "id = \(tweetId)")
+        let request = NSFetchRequest(entityName: entityName)
+        request.predicate = predicate
+        do {
+            results = try managedContext.executeFetchRequest(request) as? [Tweet]
+        } catch let error as NSError {
+            NSLog("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        if results != nil && results?.count > 0 {
+            return results![0]
+        } else {
+            return nil
+        }
+    }
+    
     static func objectForTweet(managedContext: NSManagedObjectContext, tweetId: Int) -> Tweet {
         var tweet: Tweet
         var results: [Tweet]? = nil
@@ -84,6 +104,15 @@ class Tweet: NSManagedObject{
                         self.setValue(value, forKey: keyName)
                     }
                 }
+            }
+        }
+
+        if let in_reply_to_status_id = self.in_reply_to_status_id {
+            if (in_reply_to_status_id as Int > 0){
+                let tweet = Tweet.objectForTweet(managedContext, tweetId: in_reply_to_status_id as Int)
+                tweet.id = in_reply_to_status_id
+                self.reply_to_status = tweet
+                self.setValue(tweet, forKey: "self.reply_to_status")
             }
         }
     }
@@ -164,6 +193,7 @@ class Tweet: NSManagedObject{
     static func getRepliesToShowOnHome(tweet: Tweet) -> [Tweet]? {
         var replies = [Tweet]()
         if tweet.replies != nil {
+            NSLog("tweet.replies!.count = \(tweet.replies!.count)")
             for reply in tweet.replies! {
                 if let reply = reply as? Tweet {
                     if(reply.user!.following as! Int > 0 || reply.user!.id == LoginService.getCurrentUserId()!) {

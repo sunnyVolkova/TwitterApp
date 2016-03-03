@@ -60,7 +60,7 @@ class DataService{
     }
     
     static func parseAndStoreTwitData(data: NSData, managedContext: NSManagedObjectContext) {
-        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        let childContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         childContext.parentContext = managedContext
         do {
             if let tweetArray = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject] {
@@ -164,17 +164,20 @@ class DataService{
     }
     
     static func removeTweetsWithIdsFromCoreData(tweetIds: [NSNumber], managedContext: NSManagedObjectContext){
+        let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        childContext.parentContext = managedContext
         do {
             for tweetId in tweetIds {
                 let request = NSFetchRequest(entityName:"Tweet")
                 let predicate = NSPredicate(format: "id == \(tweetId)")
                 request.predicate = predicate
                 
-                let results = try managedContext.executeFetchRequest(request)
+                let results = try childContext.executeFetchRequest(request)
                 for object in results {
-                    managedContext.deleteObject(object as! NSManagedObject)
+                    childContext.deleteObject(object as! NSManagedObject)
                 }
             }
+            try childContext.save()
             try managedContext.save()
         } catch let error as NSError {
             NSLog("Could not delete objects \(error), \(error.userInfo)")

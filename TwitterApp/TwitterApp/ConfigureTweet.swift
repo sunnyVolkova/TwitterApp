@@ -8,6 +8,6 @@
 
 import UIKit
 @objc protocol ConfigureTweet: class {
-    func configureTweet(tweet: Tweet)
+    func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate)
 }
 

@@ -217,14 +217,14 @@
                                             <rect key="frame" x="8" y="8" width="140" height="27"/>
                                             <state key="normal" title="Reply"/>
                                             <connections>
-                                                <action selector="replyButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="V6X-EP-wZ5"/>
+                                                <action selector="mainReplyButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="YWK-Ly-xwH"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JzQ-ct-Qxx" userLabel="ButtonRetweet">
                                             <rect key="frame" x="156" y="8" width="140" height="27"/>
                                             <state key="normal" title="Retweet"/>
                                             <connections>
-                                                <action selector="retweetButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="qpc-Yj-py2"/>
+                                                <action selector="mainRetweetButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="KXD-k4-0cs"/>
                                             </connections>
                                         </button>
                                     </subviews>

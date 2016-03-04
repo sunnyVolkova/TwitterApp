@@ -116,11 +116,11 @@ class HomeTableViewController: UITableViewController{
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
         if(tweet.replies != nil && tweet.replies!.count > 0) {
             let cell = tableView.dequeueReusableCellWithIdentifier(extendedCellIdentifier, forIndexPath: indexPath) as? BaseCell
-            cell!.configureCell(tweet)
+            cell!.configureCell(tweet, tweetCellClickDelegate: self)
             return cell!
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as? BaseCell
-            cell!.configureCell(tweet)
+            cell!.configureCell(tweet, tweetCellClickDelegate: self)
             return cell!
         }
     }
@@ -132,7 +132,7 @@ class HomeTableViewController: UITableViewController{
     
     func configureCell(cell: TweetCellView, indexPath: NSIndexPath){
         let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
-        cell.configureCell(tweet)
+        cell.configureCell(tweet, tweetCellClickDelegate: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -160,7 +160,7 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
         case .Update:
             if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? BaseCell {
                 let tweet = fetchedResultsController.objectAtIndexPath(indexPath!) as! Tweet
-                cell.configureCell(tweet)
+                cell.configureCell(tweet, tweetCellClickDelegate: self)
             }
         case .Move:
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
@@ -179,6 +179,40 @@ extension HomeTableViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.endUpdates()
         //TODO: add correct scrolling
+    }
+}
+
+extension HomeTableViewController: TweeCellButtonsClickDelegate {
+    func favoriteButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.favorited == 1 {
+                NetworkService.sendUnFavorite(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendFavorite(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func retweetButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.retweeted == 1 {
+                NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func replyButtonPressed(sender: UIButton!) {
+        NSLog("replyButtonPressed")
+        //let tweetId = sender.tag
+        //TODO: reply tweetId
     }
 }
 

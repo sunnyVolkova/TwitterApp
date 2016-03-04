@@ -41,7 +41,7 @@ class TweetTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func retweetButtonPressed(sender: AnyObject) {
+    @IBAction func mainRetweetButtonPressed(sender: AnyObject) {
         if let tweet = twitterFetchedResultsController.fetchedObjects?[0] as? Tweet {
             if tweet.retweeted == 1 {
                 NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweet.id as! Int)
@@ -51,7 +51,7 @@ class TweetTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func replyButtonPressed(sender: AnyObject) {
+    @IBAction func mainReplyButtonPressed(sender: AnyObject) {
         NSLog("replyButtonPressed")
     }
     
@@ -187,7 +187,7 @@ class TweetTableViewController: UITableViewController {
                 if let repliesToShow = repliesToShow {
                     let tweet = repliesToShow[indexPath.row]
                     let cell = tableView.dequeueReusableCellWithIdentifier(repliedTweetCellIdentifier, forIndexPath: indexPath) as! BaseCell
-                    cell.configureCell(tweet)
+                    cell.configureCell(tweet, tweetCellClickDelegate: self)
                     return cell
             } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(retweetedtweetCellIdentifier, forIndexPath: indexPath) //TODO: show empty tweet
@@ -217,5 +217,39 @@ extension TweetTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.endUpdates()
+    }
+}
+
+extension TweetTableViewController: TweeCellButtonsClickDelegate {
+    func favoriteButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.favorited == 1 {
+                NetworkService.sendUnFavorite(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendFavorite(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func retweetButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.retweeted == 1 {
+                NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func replyButtonPressed(sender: UIButton!) {
+        NSLog("replyButtonPressed")
+        //let tweetId = sender.tag
+        //TODO: reply tweetId
     }
 }

@@ -79,6 +79,9 @@
                         <constraint firstAttribute="height" constant="30" id="REA-k6-AA4"/>
                     </constraints>
                     <state key="normal" title="Reply"/>
+                    <connections>
+                        <action selector="onButtonReplyClick:" destination="-1" eventType="touchUpInside" id="iEh-h3-qqt"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MoL-Ka-Gqo">
                     <rect key="frame" x="251" y="562" width="166" height="30"/>
@@ -86,6 +89,9 @@
                         <constraint firstAttribute="height" constant="30" id="0FD-B8-d96"/>
                     </constraints>
                     <state key="normal" title="Retweet"/>
+                    <connections>
+                        <action selector="onButtonRetweetClick:" destination="-1" eventType="touchUpInside" id="JcC-hr-NSj"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UIz-zh-XMM">
                     <rect key="frame" x="425" y="562" width="167" height="30"/>
@@ -93,6 +99,9 @@
                         <constraint firstAttribute="height" constant="30" id="oQ7-xg-htY"/>
                     </constraints>
                     <state key="normal" title="Favorite"/>
+                    <connections>
+                        <action selector="onButtonFavoriteClick:" destination="-1" eventType="touchUpInside" id="x7e-eW-y15"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mq-ZH-weI">
                     <rect key="frame" x="76" y="8" width="364" height="21"/>

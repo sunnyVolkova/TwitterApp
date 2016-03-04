@@ -24,7 +24,7 @@ class Tweet: NSManagedObject{
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
     
-    static func optionalObjectForTweet(managedContext: NSManagedObjectContext, tweetId: Int) -> Tweet? {
+    static func getTweetById(managedContext: NSManagedObjectContext, tweetId: Int) -> Tweet? {
         var results: [Tweet]? = nil
         let predicate = NSPredicate(format: "id = \(tweetId)")
         let request = NSFetchRequest(entityName: entityName)

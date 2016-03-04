@@ -8,10 +8,19 @@
 
 import UIKit
 import SDWebImage
+@objc protocol TweeCellButtonsClickDelegate {
+    func favoriteButtonPressed(sender: UIButton!)
+    
+    func retweetButtonPressed(sender: UIButton!)
+    
+    func replyButtonPressed(sender: UIButton!)
+}
 
 class TweetCellView: UIView, ConfigureTweet{
     var mainView: UIView!
     var nibName = "TweetCellView"
+    weak var tweetCellButtonsClickDelegate: TweeCellButtonsClickDelegate?
+    var tweetId: Int?
     
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
@@ -24,6 +33,25 @@ class TweetCellView: UIView, ConfigureTweet{
     @IBOutlet weak var buttonFavorite: UIButton!
     @IBOutlet weak var buttonReply: UIButton!
     @IBOutlet weak var buttonRetweet: UIButton!
+    
+    @IBAction func onButtonReplyClick(sender: AnyObject) {
+        if let tweetId = tweetId {
+            buttonReply.tag = tweetId
+        }
+        tweetCellButtonsClickDelegate?.replyButtonPressed(buttonReply)
+    }
+    @IBAction func onButtonFavoriteClick(sender: AnyObject) {
+        if let tweetId = tweetId {
+            buttonFavorite.tag = tweetId
+        }
+        tweetCellButtonsClickDelegate?.favoriteButtonPressed(buttonFavorite)
+    }
+    @IBAction func onButtonRetweetClick(sender: AnyObject) {
+        if let tweetId = tweetId {
+            buttonRetweet.tag = tweetId
+        }
+        tweetCellButtonsClickDelegate?.retweetButtonPressed(buttonRetweet)
+    }
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -55,8 +83,9 @@ class TweetCellView: UIView, ConfigureTweet{
         self.addConstraint(constraintBottom)
     }
     
-    func configureCell(tweet: Tweet) {
-        
+    func configureCell(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate) {
+        tweetId = tweet.id as? Int
+        tweetCellButtonsClickDelegate = tweetCellClickDelegate
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
         tweetText.numberOfLines = 0
@@ -65,7 +94,7 @@ class TweetCellView: UIView, ConfigureTweet{
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
         //date.sizeToFit()
         date.text = dateFormatter.stringFromDate(tweet.created_at!)
-        
+        initButtons(tweet)
         
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
@@ -149,8 +178,8 @@ class TweetCellView: UIView, ConfigureTweet{
         }
     }
     
-    func configureTweet(tweet: Tweet){
-        configureCell(tweet)
+    func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
+        configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
     }
 }
 

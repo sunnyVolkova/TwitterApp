@@ -49,7 +49,7 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
         self.addConstraint(constraintBottom)
     }
     
-    func configureCell(tweet: Tweet) {
+    func configureCell(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate) {
         //TODO: slow performance
         if let replies = Tweet.getRepliesToShowOnHome(tweet) {
             let count = replies.count
@@ -69,7 +69,7 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
                 
-                cell2.configureCell(replies[0])
+                cell2.configureCell(replies[0], tweetCellClickDelegate: tweetCellClickDelegate)
                 
                 cell2.topLineView.hidden = false
                 cell2.bottomLineView.hidden = true
@@ -81,8 +81,8 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 cell3NullHeightConstraint.active = false
                 moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
-                cell2.configureCell(replies[0])
-                cell3.configureCell(replies[1])
+                cell2.configureCell(replies[0], tweetCellClickDelegate: tweetCellClickDelegate)
+                cell3.configureCell(replies[1], tweetCellClickDelegate: tweetCellClickDelegate)
                 
                 cell2.topLineView.hidden = false
                 cell2.bottomLineView.hidden = false
@@ -96,8 +96,8 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 cell3NullHeightConstraint.active = false
                 moreRepliesButtonHeightConstraint.constant = 30
                 moreRepliesButton.hidden = false
-                cell2.configureCell(replies[count - 2])
-                cell3.configureCell(replies[count - 1])
+                cell2.configureCell(replies[count - 2], tweetCellClickDelegate: tweetCellClickDelegate)
+                cell3.configureCell(replies[count - 1], tweetCellClickDelegate: tweetCellClickDelegate)
                 
                 cell2.topLineView.hidden = false
                 cell2.bottomLineView.hidden = false
@@ -106,12 +106,12 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = false
             }
-            startCell.configureCell(tweet)
+            startCell.configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
         }
         
     }
     
-    func configureTweet(tweet: Tweet){
-        configureCell(tweet)
+    func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
+        configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
     }
 }

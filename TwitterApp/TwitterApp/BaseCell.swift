@@ -11,9 +11,9 @@ class BaseCell: UITableViewCell {
 
     @IBOutlet weak var tweetCell: UIView!
     
-    func configureCell(tweet: Tweet){
+    func configureCell(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
         if let cell = tweetCell as? ConfigureTweet {
-            cell.configureTweet(tweet)
+            cell.configureTweet(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
         }
     }
 }

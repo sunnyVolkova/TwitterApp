@@ -296,6 +296,9 @@
                             <outlet property="delegate" destination="kiz-Za-sM2" id="OkE-ie-XUz"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="BNf-v6-Zhe" kind="show" identifier="ShowImageFromTweetCell" id="rne-zX-eNT"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hCe-X9-fsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -335,6 +338,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="958" y="-464"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="AA8-rb-GRq">
+            <objects>
+                <viewController id="BNf-v6-Zhe" userLabel="Image View Controller" customClass="SingleImageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bnb-zK-pqn"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mkm-XY-T6d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3Bi-zG-W4c">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d4c-xi-Y9T">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DjD-uD-y2b">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Reply" id="6mE-nl-2lH"/>
+                                    <barButtonItem title="Retweet" id="ARh-lW-hxP"/>
+                                    <barButtonItem title="Favorite" id="hvx-5y-4I5"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="d4c-xi-Y9T" firstAttribute="leading" secondItem="3Bi-zG-W4c" secondAttribute="leading" id="1hT-1d-nN0"/>
+                            <constraint firstAttribute="trailing" secondItem="d4c-xi-Y9T" secondAttribute="trailing" id="2Kk-yJ-MuO"/>
+                            <constraint firstItem="d4c-xi-Y9T" firstAttribute="top" secondItem="3Bi-zG-W4c" secondAttribute="top" id="KAW-27-Qe2"/>
+                            <constraint firstItem="Mkm-XY-T6d" firstAttribute="top" secondItem="d4c-xi-Y9T" secondAttribute="bottom" id="qYz-U3-lAa"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7bi-iR-iLj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1613" y="-464"/>
         </scene>
         <!--HomeTableViewController-->
         <scene sceneID="KeU-Pk-kdn">
@@ -403,6 +443,7 @@
                     </refreshControl>
                     <connections>
                         <segue destination="kiz-Za-sM2" kind="show" identifier="ViewTweet" id="inZ-1g-VTW"/>
+                        <segue destination="BNf-v6-Zhe" kind="show" identifier="ShowImageFromHome" id="IBu-QD-Ob4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="drZ-Ts-EIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -435,5 +476,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="btl-Np-wgq"/>
+        <segue reference="rne-zX-eNT"/>
     </inferredMetricsTieBreakers>
 </document>

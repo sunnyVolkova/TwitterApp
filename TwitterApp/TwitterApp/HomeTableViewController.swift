@@ -143,7 +143,7 @@ class HomeTableViewController: UITableViewController{
                 tweetTableViewController.tweetId = (tweet?.id)!
             }
         }
-    }
+    }   
 }
 
 extension HomeTableViewController: NSFetchedResultsControllerDelegate {
@@ -213,6 +213,10 @@ extension HomeTableViewController: TweeCellButtonsClickDelegate {
         NSLog("replyButtonPressed")
         //let tweetId = sender.tag
         //TODO: reply tweetId
+    }
+    
+    func imageTapped(imageUrl: String){
+        NSLog("imageTapped 1")
     }
 }
 

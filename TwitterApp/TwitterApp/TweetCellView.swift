@@ -14,6 +14,8 @@ import SDWebImage
     func retweetButtonPressed(sender: UIButton!)
     
     func replyButtonPressed(sender: UIButton!)
+    
+    func imageTapped(imageUrl: String)
 }
 
 class TweetCellView: UIView, ConfigureTweet{
@@ -165,7 +167,7 @@ class TweetCellView: UIView, ConfigureTweet{
         let tweetImageURL = tweetMedia.media_url!         
         let urlMedia = NSURL(string: tweetImageURL)
         mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        
+        addTap(mainView)
         for i in 1..<imageCount {
             let additionalView = UIImageView()
             additionalView.contentMode = UIViewContentMode.ScaleAspectFill
@@ -175,11 +177,30 @@ class TweetCellView: UIView, ConfigureTweet{
             let tweetImageURL = tweetMedia.media_url!
             let urlMedia = NSURL(string: tweetImageURL)
             additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+            addTap(additionalView)
         }
     }
     
     func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
         configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
+    }
+    
+    func addTap(imageView: UIImageView) {
+        let singleTap = UITapGestureRecognizer(target: self, action: "tapDetected:")
+        singleTap.numberOfTapsRequired = 1
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(singleTap)
+        
+    
+    }
+    
+    func tapDetected(sender: AnyObject){
+        NSLog("tapDetected sender: \(sender)")
+        if let imageView = sender.view as? UIImageView {
+            let imageUrl = imageView.sd_imageURL().absoluteString
+            NSLog("imageUrl: \(imageUrl)")
+            tweetCellButtonsClickDelegate?.imageTapped(imageUrl)
+        }
     }
 }
 

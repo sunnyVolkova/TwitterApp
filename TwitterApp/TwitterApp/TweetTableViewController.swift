@@ -252,4 +252,8 @@ extension TweetTableViewController: TweeCellButtonsClickDelegate {
         //let tweetId = sender.tag
         //TODO: reply tweetId
     }
+    
+    func imageTapped(imageUrl: String){
+        NSLog("imageTapped 2")
+    }
 }

@@ -50,6 +50,7 @@
 		CEC7CF6C1C58FC1400B66BCD /* TwitterAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7CF6B1C58FC1400B66BCD /* TwitterAppUITests.swift */; };
 		CEC89C5A1C5A5BE100B1C986 /* TweetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC89C591C5A5BE100B1C986 /* TweetCellView.swift */; };
 		CEC89C5C1C5A5DAD00B1C986 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */; };
+		CEF3683C1C89CEC900B3BEDA /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF3683B1C89CEC900B3BEDA /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		CEC7CF6D1C58FC1400B66BCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEC89C591C5A5BE100B1C986 /* TweetCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCellView.swift; sourceTree = "<group>"; };
 		CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
+		CEF3683B1C89CEC900B3BEDA /* SingleImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +230,7 @@
 				CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */,
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
 				CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */,
+				CEF3683B1C89CEC900B3BEDA /* SingleImageViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				CE5DDAC41C68E31000A92BAC /* Media.swift in Sources */,
 				CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */,
 				CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */,
+				CEF3683C1C89CEC900B3BEDA /* SingleImageViewController.swift in Sources */,
 				CE5DDAC01C68E31000A92BAC /* Entity+CoreDataProperties.swift in Sources */,
 				CE5DDAC61C68E31000A92BAC /* Hashtag.swift in Sources */,
 				CEC1BD8D1C73328B00001203 /* ExtendedTweetCell.swift in Sources */,

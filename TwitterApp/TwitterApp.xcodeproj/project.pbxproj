@@ -36,6 +36,7 @@
 		CE7249D81C5A19AA005AA2E1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */; };
 		CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7683B21C6C76A0002FD46B /* DataService.swift */; };
 		CE7850841C5A809C00448E5A /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7850831C5A809C00448E5A /* Tweet.swift */; };
+		CEB632781C904FC900D66F2A /* CreateTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB632771C904FC900D66F2A /* CreateTweetViewController.swift */; };
 		CEB921A01C61F0D80060E619 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9219F1C61F0D80060E619 /* ReplaceSegue.swift */; };
 		CEBE21161C842F10003B6900 /* ConfigureTweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE21151C842F10003B6900 /* ConfigureTweet.swift */; };
 		CEC1BD8B1C732E6400001203 /* TweetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */; };
@@ -102,6 +103,7 @@
 		CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkService.swift; path = TwitterApp/NetworkService.swift; sourceTree = "<group>"; };
 		CE7683B21C6C76A0002FD46B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CE7850831C5A809C00448E5A /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		CEB632771C904FC900D66F2A /* CreateTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTweetViewController.swift; sourceTree = "<group>"; };
 		CEB9219F1C61F0D80060E619 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
 		CEBE21151C842F10003B6900 /* ConfigureTweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureTweet.swift; sourceTree = "<group>"; };
 		CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				CEC89C5B1C5A5DAD00B1C986 /* HomeTableViewController.swift */,
+				CEB632771C904FC900D66F2A /* CreateTweetViewController.swift */,
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
 				CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */,
 				CEF3683B1C89CEC900B3BEDA /* SingleImageViewController.swift */,
@@ -508,6 +511,7 @@
 				CE5DDAC41C68E31000A92BAC /* Media.swift in Sources */,
 				CE7683B31C6C76A0002FD46B /* DataService.swift in Sources */,
 				CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */,
+				CEB632781C904FC900D66F2A /* CreateTweetViewController.swift in Sources */,
 				CEF3683C1C89CEC900B3BEDA /* SingleImageViewController.swift in Sources */,
 				CE5DDAC01C68E31000A92BAC /* Entity+CoreDataProperties.swift in Sources */,
 				CE5DDAC61C68E31000A92BAC /* Hashtag.swift in Sources */,

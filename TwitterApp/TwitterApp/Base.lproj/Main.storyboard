@@ -402,6 +402,57 @@
             </objects>
             <point key="canvasLocation" x="1613" y="-464"/>
         </scene>
+        <!--Create Tweet View Controller-->
+        <scene sceneID="6hc-dB-hvv">
+            <objects>
+                <viewController id="OjS-is-oPK" userLabel="Create Tweet View Controller" customClass="CreateTweetViewController" customModule="TwitterApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="efX-k1-wG4"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ib4-Kh-XAj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SCx-eb-7sS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOA-Cj-4oA">
+                                <rect key="frame" x="0.0" y="512" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="O8a-yU-anR"/>
+                                    <barButtonItem title="140" id="YYV-VI-LwA" userLabel="ItemSymbolsCount"/>
+                                    <barButtonItem title="Tweet" id="khZ-wd-U86" userLabel="ItemTweet">
+                                        <connections>
+                                            <action selector="TweetPressed:" destination="OjS-is-oPK" id="KCm-e9-O29"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EV0-zD-i6h">
+                                <rect key="frame" x="0.0" y="20" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="EV0-zD-i6h" secondAttribute="trailing" id="7Im-lG-s3T"/>
+                            <constraint firstItem="EV0-zD-i6h" firstAttribute="top" secondItem="efX-k1-wG4" secondAttribute="bottom" id="S0P-jU-ij6"/>
+                            <constraint firstItem="jOA-Cj-4oA" firstAttribute="top" secondItem="EV0-zD-i6h" secondAttribute="bottom" id="eeB-bj-lK9"/>
+                            <constraint firstItem="Ib4-Kh-XAj" firstAttribute="top" secondItem="jOA-Cj-4oA" secondAttribute="bottom" id="jBV-Dy-S2i"/>
+                            <constraint firstAttribute="trailing" secondItem="jOA-Cj-4oA" secondAttribute="trailing" id="kpJ-Fx-2g6"/>
+                            <constraint firstItem="EV0-zD-i6h" firstAttribute="leading" secondItem="SCx-eb-7sS" secondAttribute="leading" id="pQb-CG-nRW"/>
+                            <constraint firstItem="jOA-Cj-4oA" firstAttribute="leading" secondItem="SCx-eb-7sS" secondAttribute="leading" id="vCp-iL-aUc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="SymbolsCountItem" destination="YYV-VI-LwA" id="vmR-gi-KGo"/>
+                        <outlet property="tweetText" destination="EV0-zD-i6h" id="Z93-Rr-PSF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qVQ-cP-Qjp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="267" y="400"/>
+        </scene>
         <!--HomeTableViewController-->
         <scene sceneID="KeU-Pk-kdn">
             <objects>
@@ -463,13 +514,22 @@
                             <outlet property="delegate" destination="kDO-Of-A6N" id="aWL-AY-kwQ"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="Tweet" id="NNH-dy-kUt" userLabel="ItemCreateTweet">
+                            <connections>
+                                <action selector="createTweetitemClick:" destination="kDO-Of-A6N" id="ffb-OQ-Mye"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Twitter" id="kft-J0-ddM"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Imv-5u-tEq">
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
                         <segue destination="kiz-Za-sM2" kind="show" identifier="ViewTweet" id="inZ-1g-VTW"/>
                         <segue destination="BNf-v6-Zhe" kind="show" identifier="ShowImageFromHome" id="IBu-QD-Ob4"/>
+                        <segue destination="OjS-is-oPK" kind="show" identifier="CreateTweet" id="hNV-2g-LlO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="drZ-Ts-EIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -501,7 +561,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dUg-gQ-gUN"/>
+        <segue reference="btl-Np-wgq"/>
         <segue reference="IBu-QD-Ob4"/>
     </inferredMetricsTieBreakers>
 </document>

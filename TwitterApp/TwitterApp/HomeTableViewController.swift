@@ -18,9 +18,14 @@ class HomeTableViewController: UITableViewController{
     let extendedCellIdentifier = "Table View Extended Cell"
     let viewTweetSegueIdentifier = "ViewTweet"
     let showImageFromHomeSegueIdentifier = "ShowImageFromHome"
+    let createTweetSegueIdentifier = "CreateTweet"
     var selectedIndexPath: NSIndexPath? = nil
     var selectedImageUrlString: String?
     var selectedTweetId: Int?
+    
+    @IBAction func createTweetitemClick(sender: AnyObject) {
+        performSegueWithIdentifier(createTweetSegueIdentifier, sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +42,18 @@ class HomeTableViewController: UITableViewController{
         }
         initFetchedResultsController(currentUserId: currentUserId!)
         
+        
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.toolbarHidden = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.toolbarHidden = true
+    }
+    
+    
     
     func initFetchedResultsController(currentUserId currentUserId: Int){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

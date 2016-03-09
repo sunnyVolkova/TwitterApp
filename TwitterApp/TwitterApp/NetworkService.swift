@@ -163,4 +163,21 @@ class NetworkService {
             })
         }
     }
+    
+    static func createTweet(tweetText tweetText: String, success: () -> Void, failure: (ErrorType) -> Void){
+        let parameters:Dictionary = [
+            "status"           : "\(tweetText)",
+        ]
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/statuses/update.json", parameters: parameters,
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    NSLog("error \(error) \(error.userInfo)")
+                    failure(error)
+            })
+        }
+    }
 }

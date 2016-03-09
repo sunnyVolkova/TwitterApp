@@ -17,7 +17,10 @@ class HomeTableViewController: UITableViewController{
     let cellIdentifier = "Table View Base Cell"
     let extendedCellIdentifier = "Table View Extended Cell"
     let viewTweetSegueIdentifier = "ViewTweet"
+    let showImageFromHomeSegueIdentifier = "ShowImageFromHome"
     var selectedIndexPath: NSIndexPath? = nil
+    var selectedImageUrlString: String?
+    var selectedTweetId: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,8 +145,16 @@ class HomeTableViewController: UITableViewController{
                 let tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
                 tweetTableViewController.tweetId = (tweet?.id)!
             }
+        } else if segue.identifier == showImageFromHomeSegueIdentifier {
+            let singleImageViewController = segue.destinationViewController as! SingleImageViewController
+            if let selectedImageUrlString = selectedImageUrlString {
+                singleImageViewController.imageUrlString = selectedImageUrlString
+            }
+            if let selectedTweetId = selectedTweetId {
+                singleImageViewController.tweetId = selectedTweetId
+            }
         }
-    }   
+    }
 }
 
 extension HomeTableViewController: NSFetchedResultsControllerDelegate {
@@ -215,8 +226,10 @@ extension HomeTableViewController: TweeCellButtonsClickDelegate {
         //TODO: reply tweetId
     }
     
-    func imageTapped(imageUrl: String){
-        NSLog("imageTapped 1")
+    func imageTapped(imageUrl imageUrl: String, tweetId: Int){
+        selectedImageUrlString = imageUrl
+        selectedTweetId = tweetId
+        performSegueWithIdentifier(showImageFromHomeSegueIdentifier, sender: self)
     }
 }
 

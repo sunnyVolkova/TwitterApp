@@ -15,7 +15,7 @@ import SDWebImage
     
     func replyButtonPressed(sender: UIButton!)
     
-    func imageTapped(imageUrl: String)
+    func imageTapped(imageUrl imageUrl: String, tweetId: Int)
 }
 
 class TweetCellView: UIView, ConfigureTweet{
@@ -190,8 +190,6 @@ class TweetCellView: UIView, ConfigureTweet{
         singleTap.numberOfTapsRequired = 1
         imageView.userInteractionEnabled = true
         imageView.addGestureRecognizer(singleTap)
-        
-    
     }
     
     func tapDetected(sender: AnyObject){
@@ -199,7 +197,7 @@ class TweetCellView: UIView, ConfigureTweet{
         if let imageView = sender.view as? UIImageView {
             let imageUrl = imageView.sd_imageURL().absoluteString
             NSLog("imageUrl: \(imageUrl)")
-            tweetCellButtonsClickDelegate?.imageTapped(imageUrl)
+            tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: tweetId!)
         }
     }
 }

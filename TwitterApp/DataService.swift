@@ -82,14 +82,13 @@ class DataService{
     static func parseAndStoreSingleTwitData(data: NSData, managedContext: NSManagedObjectContext) {
         let childContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         childContext.parentContext = managedContext
-        
-        if let tweetDict = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
-                                 NSLog("data: \(tweetDict)")
-            let id = tweetDict![Tweet.tweetIdKey] as! Int
-            let tweet = Tweet.objectForTweet(childContext, tweetId: id)
-            tweet.dataFromDictionary(tweetDict!, managedContext: childContext)
-        }
         do {
+            if let tweetDict = try? NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                NSLog("data: \(tweetDict)")
+                let id = tweetDict![Tweet.tweetIdKey] as! Int
+                let tweet = Tweet.objectForTweet(childContext, tweetId: id)
+                tweet.dataFromDictionary(tweetDict!, managedContext: childContext)
+            }
             try childContext.save()
             try managedContext.save()
         } catch let error as NSError {

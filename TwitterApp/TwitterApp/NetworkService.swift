@@ -14,6 +14,7 @@ class NetworkService {
     static var oauthswift: OAuth1Swift?
     static let numberOfTweetsOnPage = 20
     static let numberOfRepliesToFind = 100
+    static let mediaIdKey = "media_id"
     
     static func getTimeline() {
         let parameters: Dictionary = [
@@ -164,10 +165,18 @@ class NetworkService {
         }
     }
     
-    static func createTweet(tweetText tweetText: String, success: () -> Void, failure: (ErrorType) -> Void){
-        let parameters:Dictionary = [
-            "status"           : "\(tweetText)",
+    static func createTweet(tweetText tweetText: String, mediaIds: [Int]?, success: () -> Void, failure: (ErrorType) -> Void){
+        var parameters: Dictionary = [
+            "status"           : "\(tweetText)"
         ]
+        if let mediaIds = mediaIds {
+            if mediaIds.count > 0 {
+                let map = mediaIds.flatMap({String($0)}) as [String]
+                let mediaIdsString = "\(map.joinWithSeparator(","))"
+                parameters["media_ids"] = mediaIdsString
+            }
+        }
+        
         if let oauthswift = oauthswift{
             oauthswift.client.post("https://api.twitter.com/1.1/statuses/update.json", parameters: parameters,
                 success: {
@@ -178,6 +187,27 @@ class NetworkService {
                     NSLog("error \(error) \(error.userInfo)")
                     failure(error)
             })
+        }
+    }
+    
+    static func uploadImage(image image: UIImage, success: (Int) -> Void, failure: (ErrorType) -> Void){
+        if let imgData = UIImageJPEGRepresentation(image, 0.0) {
+            let parameters = [String: AnyObject]()
+            if let oauthswift = oauthswift{
+                oauthswift.client.postImage("https://upload.twitter.com/1.1/media/upload.json", parameters: parameters, image: imgData, success: { data, response in
+                    NSLog("success")
+                    do{
+                        if let response = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                            let mediaId = response[mediaIdKey] as! Int
+                            success(mediaId)
+                            NSLog("response \(response)")
+                        }
+                    } catch let error as NSError {
+                        NSLog("Could not save \(error), \(error.userInfo)")
+                    }
+                    }, failure: { (error) -> Void in
+                        NSLog("error \(error) \(error.userInfo)")
+                })        }
         }
     }
 }

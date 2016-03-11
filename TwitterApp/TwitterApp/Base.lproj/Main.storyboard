@@ -418,6 +418,11 @@
                                 <rect key="frame" x="0.0" y="512" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="O8a-yU-anR"/>
+                                    <barButtonItem title="Add Image" id="fmI-ts-wNg" userLabel="ItemAddImage">
+                                        <connections>
+                                            <action selector="addImageItemPressed:" destination="OjS-is-oPK" id="r9F-yR-rA5"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="140" id="YYV-VI-LwA" userLabel="ItemSymbolsCount"/>
                                     <barButtonItem title="Tweet" id="khZ-wd-U86" userLabel="ItemTweet">
                                         <connections>
@@ -427,25 +432,48 @@
                                 </items>
                             </toolbar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EV0-zD-i6h">
-                                <rect key="frame" x="0.0" y="20" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="392"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uiw-2V-I0j">
+                                <rect key="frame" x="8" y="412" width="584" height="100"/>
+                                <subviews>
+                                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rvl-nE-Glm">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" placeholder="YES" id="bK4-AQ-gPW"/>
+                                            <constraint firstAttribute="height" constant="100" id="tJC-4R-gSc"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="rvl-nE-Glm" secondAttribute="bottom" id="LhJ-sf-enk"/>
+                                    <constraint firstAttribute="trailing" secondItem="rvl-nE-Glm" secondAttribute="trailing" id="OY3-Vs-XbW"/>
+                                    <constraint firstItem="rvl-nE-Glm" firstAttribute="leading" secondItem="Uiw-2V-I0j" secondAttribute="leading" id="R3I-9h-TNn"/>
+                                    <constraint firstItem="rvl-nE-Glm" firstAttribute="top" secondItem="Uiw-2V-I0j" secondAttribute="top" id="YJK-8U-WaQ"/>
+                                    <constraint firstAttribute="height" constant="100" id="Yt6-yz-elb"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Uiw-2V-I0j" secondAttribute="trailing" constant="8" id="3db-XO-IOP"/>
                             <constraint firstAttribute="trailing" secondItem="EV0-zD-i6h" secondAttribute="trailing" id="7Im-lG-s3T"/>
+                            <constraint firstItem="Uiw-2V-I0j" firstAttribute="leading" secondItem="SCx-eb-7sS" secondAttribute="leading" constant="8" id="E4M-4O-TpA"/>
                             <constraint firstItem="EV0-zD-i6h" firstAttribute="top" secondItem="efX-k1-wG4" secondAttribute="bottom" id="S0P-jU-ij6"/>
-                            <constraint firstItem="jOA-Cj-4oA" firstAttribute="top" secondItem="EV0-zD-i6h" secondAttribute="bottom" id="eeB-bj-lK9"/>
                             <constraint firstItem="Ib4-Kh-XAj" firstAttribute="top" secondItem="jOA-Cj-4oA" secondAttribute="bottom" id="jBV-Dy-S2i"/>
                             <constraint firstAttribute="trailing" secondItem="jOA-Cj-4oA" secondAttribute="trailing" id="kpJ-Fx-2g6"/>
                             <constraint firstItem="EV0-zD-i6h" firstAttribute="leading" secondItem="SCx-eb-7sS" secondAttribute="leading" id="pQb-CG-nRW"/>
                             <constraint firstItem="jOA-Cj-4oA" firstAttribute="leading" secondItem="SCx-eb-7sS" secondAttribute="leading" id="vCp-iL-aUc"/>
+                            <constraint firstItem="Uiw-2V-I0j" firstAttribute="top" secondItem="EV0-zD-i6h" secondAttribute="bottom" id="vPs-bA-p5R"/>
+                            <constraint firstItem="jOA-Cj-4oA" firstAttribute="top" secondItem="Uiw-2V-I0j" secondAttribute="bottom" id="yDm-fg-taQ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="SymbolsCountItem" destination="YYV-VI-LwA" id="vmR-gi-KGo"/>
+                        <outlet property="stackViewForImages" destination="rvl-nE-Glm" id="ug5-oc-ARE"/>
                         <outlet property="tweetText" destination="EV0-zD-i6h" id="Z93-Rr-PSF"/>
                     </connections>
                 </viewController>

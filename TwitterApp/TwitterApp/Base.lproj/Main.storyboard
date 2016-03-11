@@ -418,6 +418,11 @@
                                 <rect key="frame" x="0.0" y="512" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="O8a-yU-anR"/>
+                                    <barButtonItem title="Take Photo" id="Mp5-6a-XaP">
+                                        <connections>
+                                            <action selector="takePhotoItemPressed:" destination="OjS-is-oPK" id="iVm-gi-KNc"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="Add Image" id="fmI-ts-wNg" userLabel="ItemAddImage">
                                         <connections>
                                             <action selector="addImageItemPressed:" destination="OjS-is-oPK" id="r9F-yR-rA5"/>

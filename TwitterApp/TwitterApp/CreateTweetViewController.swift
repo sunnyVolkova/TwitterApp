@@ -53,6 +53,12 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate, UIImagePi
     }
     
     
+    @IBAction func takePhotoItemPressed(sender: AnyObject) {
+        if(images.count < 4){
+            takePhoto()
+        }
+    }
+    
     @IBAction func addImageItemPressed(sender: AnyObject) {
         if(images.count < 4){
             addImage()
@@ -90,6 +96,19 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate, UIImagePi
         imagePicker.mediaTypes = [kUTTypeImage as String]
         imagePicker.allowsEditing = true
         self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func takePhoto() {
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .Camera
+            imagePicker.mediaTypes = [kUTTypeImage as String]
+            imagePicker.allowsEditing = true
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        } else {
+            NSLog("Camera is not available")
+        }
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {

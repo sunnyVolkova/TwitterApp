@@ -45,13 +45,22 @@ class LoginViewController: UIViewController {
         LoginService.oauthswift.authorizeWithCallbackURL( NSURL(string: "twitterApp://oauth-callback/twitter")!, success: {
             credential, response, parameters in
             LoginService.saveCredentials(authorized: true, accessToken: credential.oauth_token, accessTokenSecret: credential.oauth_token_secret)
-            self.updateUI(true)
+            self.getUserInfo()
+            //self.updateUI(true)
             }, failure: { error in
-                print(error.localizedDescription)
                 LoginService.saveCredentials(authorized: false, accessToken: "", accessTokenSecret: "")
                 self.updateUI(false)
             }
         )
+    }
+    
+    func getUserInfo(){
+        LoginService.verifyCredentials(success: { id in
+            self.updateUI(true)
+            }, failure: { error in
+                LoginService.saveCredentials(authorized: false, accessToken: "", accessTokenSecret: "")
+                self.updateUI(false)
+        })
     }
     
     func showTokenAlert(name: String?, credential: OAuthSwiftCredential) {

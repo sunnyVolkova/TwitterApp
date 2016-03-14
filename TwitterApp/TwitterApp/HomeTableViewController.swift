@@ -8,75 +8,83 @@
 
 import UIKit
 import SDWebImage
+import CoreData
 
 class HomeTableViewController: UITableViewController{
-    var tweets: [Tweet] = []
-    var wasDragged = false;
+    var fetchedResultsController: NSFetchedResultsController!
+    var maxId: Int = -1
+    var sinceId: Int = -1
+    let cellIdentifier = "Table View Base Cell"
+    let extendedCellIdentifier = "Table View Extended Cell"
+    let viewTweetSegueIdentifier = "ViewTweet"
+    let showImageFromHomeSegueIdentifier = "ShowImageFromHome"
+    var selectedIndexPath: NSIndexPath? = nil
+    var selectedImageUrlString: String?
+    var selectedTweetId: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.estimatedRowHeight = 20.0;
+        self.tableView.estimatedRowHeight = 150.0;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.backgroundColor = UIColor.whiteColor()
         self.refreshControl?.tintColor = UIColor.redColor()
         self.refreshControl?.addTarget(self, action: Selector("getNewTweets"), forControlEvents: UIControlEvents.ValueChanged)
         
+        var currentUserId = LoginService.getCurrentUserId()
+        if (currentUserId == nil){
+            currentUserId = -1
+        }
+        initFetchedResultsController(currentUserId: currentUserId!)
+        
     }
     
+    func initFetchedResultsController(currentUserId currentUserId: Int){
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        let fetchedRequest = NSFetchRequest(entityName: Tweet.entityName)
+        let sortDescriptor = NSSortDescriptor(key: "created_at", ascending: false)
+        let sortDescriptors = [sortDescriptor]
+        let predicate = NSPredicate(format :"(in_reply_to_status_id = nil) || (in_reply_to_status_id == 0) && ((user.following = true)|| (user.id = \(currentUserId)))")
+        fetchedRequest.sortDescriptors = sortDescriptors
+        fetchedRequest.predicate = predicate
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            NSLog("Error: \(error.localizedDescription)")
+        }
+    }
+
     func getNewTweets(){
-        NetworkService.getNewTweets(success: {tweets in
+        NetworkService.getNewTweets(success: {
             self.refreshControl?.endRefreshing()
-            var indexPaths: [NSIndexPath] = []
-            var count = 0
-            for tweet in tweets! {
-                self.tweets.insert(tweet, atIndex: count)
-                indexPaths.append(NSIndexPath(forRow: count, inSection: 0))
-                count++
-            }
-            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
-            }, sinceId: NetworkService.sinceId)
+            }, sinceId: sinceId)
     }
     
     func getMoreTweets(){
-        NetworkService.getMoreTweets(success: {tweets in
+        NetworkService.getMoreTweets(success: {
             self.refreshControl?.endRefreshing()
-            var indexPaths: [NSIndexPath] = []
-            var count = 0
-            let prevRowCount = self.tweets.count
-            for tweet in tweets! {
-                self.tweets.append(tweet)
-                indexPaths.append(NSIndexPath(forRow: prevRowCount + count - 1, inSection: 0))
-                count++
-            }
-            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-            self.tableView.scrollToRowAtIndexPath(indexPaths.last!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
             }, failure: { error in
                 self.refreshControl?.endRefreshing()
                 NSLog("Error getting tweets")
-            }, maxId: NetworkService.maxId)
+            }, maxId: maxId)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        NetworkService.getTimeline(success: { tweets in
-            self.tweets = tweets!
-            self.tableView.reloadData()
-            NSLog("tweets number : \(self.tweets.count)")
-            }, failure: { error in
-                NSLog("Error getting tweets")
-        })
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController!.setNavigationBarHidden(false, animated: false)
+        NetworkService.getTimeline()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if(tweets.count > 0){
-            return 1
+        if(fetchedResultsController.sections!.count > 0){
+            return fetchedResultsController.sections!.count
         } else {
             let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
             messageLabel.text = "No data is currently available."
@@ -92,7 +100,8 @@ class HomeTableViewController: UITableViewController{
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets.count
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -101,88 +110,126 @@ class HomeTableViewController: UITableViewController{
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
         
         // Change 10.0 to adjust the distance from bottom
-        if (maximumOffset - currentOffset <= 10.0) {
+        if (maximumOffset - currentOffset <= 10.0) { 
             getMoreTweets()
         }
-        NSLog("End dragging")
     }
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellIdentifier = "TweetCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! TweetCell
-        let tweet = self.tweets[indexPath.row]
-        cell.userName.text = tweet.username
-        cell.tweetText.lineBreakMode = .ByWordWrapping
-        cell.tweetText.numberOfLines = 0
-        cell.tweetText.text = tweet.tweetText
-       
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
-        cell.date.sizeToFit()
-        cell.date.text = dateFormatter.stringFromDate(tweet.date)
-
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-        }
-        
-        let url = NSURL(string: tweet.avatarURL)
-        cell.avatarImage.sd_cancelCurrentImageLoad()
-        cell.avatarImage.sd_setImageWithURL(url, placeholderImage: UIImage(named: "PlaceholderImage") , completed: block)
-        for view in cell.imagesContainer.subviews{
-            view.removeFromSuperview()
-        }  
-        if tweet.tweetImageURLs != nil && tweet.tweetImageURLs?.count > 0 {
-            drawAdditionalImages(cell: cell, tweet: tweet)
+        let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
+        if(tweet.replies != nil && tweet.replies!.count > 0) {
+            let cell = tableView.dequeueReusableCellWithIdentifier(extendedCellIdentifier, forIndexPath: indexPath) as? BaseCell
+            cell!.configureCell(tweet, tweetCellClickDelegate: self)
+            return cell!
         } else {
-            cell.imageContainerHeightConstraint.constant = 0
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as? BaseCell
+            cell!.configureCell(tweet, tweetCellClickDelegate: self)
+            return cell!
         }
-        return cell
     }
     
-    func drawAdditionalImages(cell cell: TweetCell, tweet: Tweet){
-        let margin: CGFloat = 8
-        let marginBetweenImages: CGFloat = 1
-        let containerWidth = self.tableView.frame.size.width - cell.avatarImage.frame.size.width - margin*2
-        let imageCount = tweet.tweetImageURLs!.count
-        let divider: CGFloat = CGFloat(imageCount)
-        let startX = CGFloat(0)
-        let startY = CGFloat(0)
-        var smallSize = CGFloat(0)
-        if(imageCount > 1){
-            smallSize = CGFloat(containerWidth - marginBetweenImages)/divider
-        }
-        let mainSize = (containerWidth - marginBetweenImages) - smallSize
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedIndexPath = indexPath
+        performSegueWithIdentifier(viewTweetSegueIdentifier, sender: self)
+    }
+    
+    func configureCell(cell: TweetCellView, indexPath: NSIndexPath){
+        let tweet = fetchedResultsController.objectAtIndexPath(indexPath) as! Tweet
+        cell.configureCell(tweet, tweetCellClickDelegate: self)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == viewTweetSegueIdentifier {
+            let tweetTableViewController = segue.destinationViewController as! TweetTableViewController
+            if let indexPath = selectedIndexPath {
+                let tweet = fetchedResultsController.fetchedObjects![indexPath.row] as? Tweet
+                tweetTableViewController.tweetId = (tweet?.id)!
+            }
+        } else if segue.identifier == showImageFromHomeSegueIdentifier {
+            let singleImageViewController = segue.destinationViewController as! SingleImageViewController
+            if let selectedImageUrlString = selectedImageUrlString {
+                singleImageViewController.imageUrlString = selectedImageUrlString
+            }
+            if let selectedTweetId = selectedTweetId {
+                singleImageViewController.tweetId = selectedTweetId
             }
         }
+    }
+}
+
+extension HomeTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .Insert:
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        case .Delete:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+        case .Update:
+            if let cell = tableView.cellForRowAtIndexPath(indexPath!) as? BaseCell {
+                let tweet = fetchedResultsController.objectAtIndexPath(indexPath!) as! Tweet
+                cell.configureCell(tweet, tweetCellClickDelegate: self)
+            }
+        case .Move:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        }
         
-        cell.imageContainerHeightConstraint.constant = mainSize
+        if let firstTweet = fetchedResultsController.fetchedObjects?[0] as? Tweet {
+            sinceId = firstTweet.id as! Int
+        }
         
-        let mainView = UIImageView()
-        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
-        mainView.contentMode = UIViewContentMode.ScaleAspectFill
-        cell.imagesContainer.addSubview(mainView)
-        let tweetImageURL = tweet.tweetImageURLs![0]
-        let urlMedia = NSURL(string: tweetImageURL)
-        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        
-        for i in 1..<imageCount {
-            let additionalView = UIImageView()
-            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
-            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
-            cell.imagesContainer.addSubview(additionalView)
-            let tweetImageURL = tweet.tweetImageURLs![i]
-            let urlMedia = NSURL(string: tweetImageURL)
-            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+        if let lastTweet = fetchedResultsController.fetchedObjects?[(fetchedResultsController.fetchedObjects?.count)! - 1] as? Tweet {
+            maxId = lastTweet.id as! Int
         }
     }
     
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        tableView.endUpdates()
+        //TODO: add correct scrolling
+    }
+}
+
+extension HomeTableViewController: TweeCellButtonsClickDelegate {
+    func favoriteButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.favorited == 1 {
+                NetworkService.sendUnFavorite(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendFavorite(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func retweetButtonPressed(sender: UIButton!) {
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+            if tweet.retweeted == 1 {
+                NetworkService.sendUnRetweet(success: {}, failure: {_ in }, tweetId: tweetId)
+            } else {
+                NetworkService.sendRetweet(success: {}, failure: {_ in}, tweetId: tweetId)
+            }
+        }
+    }
+    
+    func replyButtonPressed(sender: UIButton!) {
+        NSLog("replyButtonPressed")
+        //let tweetId = sender.tag
+        //TODO: reply tweetId
+    }
+    
+    func imageTapped(imageUrl imageUrl: String, tweetId: Int){
+        selectedImageUrlString = imageUrl
+        selectedTweetId = tweetId
+        performSegueWithIdentifier(showImageFromHomeSegueIdentifier, sender: self)
+    }
 }
 

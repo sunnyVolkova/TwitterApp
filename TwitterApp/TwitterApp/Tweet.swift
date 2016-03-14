@@ -193,7 +193,6 @@ class Tweet: NSManagedObject{
     static func getRepliesToShowOnHome(tweet: Tweet) -> [Tweet]? {
         var replies = [Tweet]()
         if tweet.replies != nil {
-            NSLog("tweet.replies!.count = \(tweet.replies!.count)")
             for reply in tweet.replies! {
                 if let reply = reply as? Tweet {
                     if(reply.user!.following as! Int > 0 || reply.user!.id == LoginService.getCurrentUserId()!) {

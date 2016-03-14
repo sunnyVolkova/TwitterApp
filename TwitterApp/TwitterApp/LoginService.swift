@@ -92,7 +92,6 @@ extension NSUserDefaults {
     }
     
     func integerForKey(key: String) -> Int? {
-    NSLog("optional int for key")
         if let objectForKey = objectForKey(key){
             if let integerForKey = objectForKey as? Int {
                 return integerForKey

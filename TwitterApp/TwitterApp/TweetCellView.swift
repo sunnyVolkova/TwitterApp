@@ -74,6 +74,7 @@ class TweetCellView: UIView, ConfigureTweet{
     func loadNib() {
         let bundle = NSBundle(forClass: self.dynamicType)
         mainView = bundle.loadNibNamed(nibName, owner: self, options: nil)[0] as! UIView
+        mainView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mainView)
         let horizontalConstraintLeading = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
         self.addConstraint(horizontalConstraintLeading)
@@ -193,10 +194,8 @@ class TweetCellView: UIView, ConfigureTweet{
     }
     
     func tapDetected(sender: AnyObject){
-        NSLog("tapDetected sender: \(sender)")
         if let imageView = sender.view as? UIImageView {
             let imageUrl = imageView.sd_imageURL().absoluteString
-            NSLog("imageUrl: \(imageUrl)")
             tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: tweetId!)
         }
     }

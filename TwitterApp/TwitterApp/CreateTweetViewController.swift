@@ -12,6 +12,7 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate, UIImagePi
     let maxTweetSize = 140
     let symbolsInFirstImageLink = 23
     var images = [UIImage: Int]()
+    var inReplyToTweet: Tweet?
     
     @IBOutlet weak var tweetText: UITextView!
     @IBOutlet weak var SymbolsCountItem: UIBarButtonItem!
@@ -21,6 +22,9 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate, UIImagePi
         tweetText.delegate = self
         updateSymbolsCount()
         images.removeAll()
+        if let inReplyToTweet = inReplyToTweet {
+            tweetText.text = "@ \(inReplyToTweet.user!.name!) "
+        }
     }
     
     @IBAction func TweetPressed(sender: AnyObject) {
@@ -45,11 +49,20 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate, UIImagePi
             }
         }
         let text = tweetText.text
-        NetworkService.createTweet(tweetText: text, mediaIds: Array(images.values), success: {
-            self.navigationController?.popViewControllerAnimated(true)
-            }, failure: {error in
-                NSLog("Error creating tweet")
-        })
+        
+        if let inReplyToTweet = inReplyToTweet {
+            NetworkService.createTweet(tweetText: text, mediaIds: Array(images.values), inReplyToStatusId: inReplyToTweet.id!,  success: {
+                self.navigationController?.popViewControllerAnimated(true)
+                }, failure: {error in
+                    NSLog("Error creating tweet")
+            })
+        } else {
+            NetworkService.createTweet(tweetText: text, mediaIds: Array(images.values), success: {
+                self.navigationController?.popViewControllerAnimated(true)
+                }, failure: {error in
+                    NSLog("Error creating tweet")
+            })
+        }
     }
     
     

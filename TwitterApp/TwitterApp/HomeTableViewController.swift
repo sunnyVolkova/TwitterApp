@@ -21,6 +21,7 @@ class HomeTableViewController: UITableViewController{
     let createTweetSegueIdentifier = "CreateTweet"
     var selectedIndexPath: NSIndexPath? = nil
     var selectedImageUrlString: String?
+    var selectedTweet: Tweet?
     var selectedTweetId: Int?
     
     @IBAction func createTweetitemClick(sender: AnyObject) {
@@ -169,6 +170,11 @@ class HomeTableViewController: UITableViewController{
             if let selectedTweetId = selectedTweetId {
                 singleImageViewController.tweetId = selectedTweetId
             }
+        } else if segue.identifier == createTweetSegueIdentifier {
+            let createTweetViewController = segue.destinationViewController as! CreateTweetViewController
+            if let selectedTweet = selectedTweet {
+                createTweetViewController.inReplyToTweet = selectedTweet
+            }
         }
     }
 }
@@ -238,8 +244,13 @@ extension HomeTableViewController: TweeCellButtonsClickDelegate {
     
     func replyButtonPressed(sender: UIButton!) {
         NSLog("replyButtonPressed")
-        //let tweetId = sender.tag
-        //TODO: reply tweetId
+        let tweetId = sender.tag
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        if let tweet = Tweet.getTweetById(managedContext, tweetId: tweetId) {
+           selectedTweet = tweet
+        }
+        performSegueWithIdentifier(createTweetSegueIdentifier, sender: self)
     }
     
     func imageTapped(imageUrl imageUrl: String, tweetId: Int){

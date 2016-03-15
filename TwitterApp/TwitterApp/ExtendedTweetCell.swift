@@ -45,7 +45,6 @@ class ExtendedTweetCell: UITableViewCell {
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
         date.text = dateFormatter.stringFromDate(tweet.created_at!)
         
-        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")

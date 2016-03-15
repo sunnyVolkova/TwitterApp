@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Mk-HN-OcO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Mk-HN-OcO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -176,28 +176,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Chg-CZ-h0N" userLabel="ButtonLike">
-                                            <rect key="frame" x="304" y="8" width="140" height="27"/>
+                                            <rect key="frame" x="403" y="8" width="189" height="27"/>
                                             <state key="normal" title="Like"/>
                                             <connections>
                                                 <action selector="likeButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="aEO-Al-x3H"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0o-og-MVq" userLabel="ButtonSend">
-                                            <rect key="frame" x="452" y="8" width="140" height="29"/>
-                                            <state key="normal" title="Send"/>
-                                            <connections>
-                                                <action selector="sendButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="9SA-m4-eAu"/>
-                                            </connections>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wf-dv-f0G" userLabel="ButtonReply">
-                                            <rect key="frame" x="8" y="8" width="140" height="27"/>
+                                            <rect key="frame" x="8" y="8" width="189" height="27"/>
                                             <state key="normal" title="Reply"/>
                                             <connections>
                                                 <action selector="mainReplyButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="YWK-Ly-xwH"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JzQ-ct-Qxx" userLabel="ButtonRetweet">
-                                            <rect key="frame" x="156" y="8" width="140" height="27"/>
+                                            <rect key="frame" x="205" y="8" width="190" height="27"/>
                                             <state key="normal" title="Retweet"/>
                                             <connections>
                                                 <action selector="mainRetweetButtonPressed:" destination="kiz-Za-sM2" eventType="touchUpInside" id="KXD-k4-0cs"/>
@@ -205,41 +198,29 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="d0o-og-MVq" firstAttribute="top" secondItem="CIx-Nb-WzN" secondAttribute="top" constant="8" id="7lh-u2-XpU"/>
                                         <constraint firstItem="Chg-CZ-h0N" firstAttribute="leading" secondItem="JzQ-ct-Qxx" secondAttribute="trailing" constant="8" id="Br4-9y-d3t"/>
                                         <constraint firstItem="JzQ-ct-Qxx" firstAttribute="leading" secondItem="9wf-dv-f0G" secondAttribute="trailing" constant="8" id="GE4-Tm-gS2"/>
                                         <constraint firstAttribute="bottom" secondItem="JzQ-ct-Qxx" secondAttribute="bottom" constant="8" id="HWy-eC-Jay"/>
                                         <constraint firstItem="Chg-CZ-h0N" firstAttribute="baseline" secondItem="9wf-dv-f0G" secondAttribute="baseline" id="Ic3-1P-6z0"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Chg-CZ-h0N" secondAttribute="trailing" id="Irc-S0-7yN"/>
                                         <constraint firstItem="9wf-dv-f0G" firstAttribute="leading" secondItem="CIx-Nb-WzN" secondAttribute="leading" constant="8" id="K8m-PN-nvG"/>
-                                        <constraint firstItem="d0o-og-MVq" firstAttribute="height" secondItem="9wf-dv-f0G" secondAttribute="height" id="KbH-g6-MiI"/>
                                         <constraint firstItem="Chg-CZ-h0N" firstAttribute="height" secondItem="9wf-dv-f0G" secondAttribute="height" id="LZX-kU-Xrt"/>
-                                        <constraint firstItem="d0o-og-MVq" firstAttribute="baseline" secondItem="9wf-dv-f0G" secondAttribute="baseline" id="T4j-Mf-mED"/>
                                         <constraint firstAttribute="bottom" secondItem="Chg-CZ-h0N" secondAttribute="bottom" constant="8" id="WuE-xV-nm1"/>
                                         <constraint firstItem="JzQ-ct-Qxx" firstAttribute="baseline" secondItem="9wf-dv-f0G" secondAttribute="baseline" id="Zco-63-9bB"/>
                                         <constraint firstItem="JzQ-ct-Qxx" firstAttribute="top" secondItem="CIx-Nb-WzN" secondAttribute="top" constant="8" id="f2l-2Z-aVJ"/>
-                                        <constraint firstItem="d0o-og-MVq" firstAttribute="width" secondItem="9wf-dv-f0G" secondAttribute="width" id="g2c-ic-HLR"/>
                                         <constraint firstItem="JzQ-ct-Qxx" firstAttribute="height" secondItem="9wf-dv-f0G" secondAttribute="height" id="h4Y-gm-NdW"/>
-                                        <constraint firstAttribute="trailing" secondItem="d0o-og-MVq" secondAttribute="trailing" constant="8" id="hRJ-zt-YQe"/>
                                         <constraint firstItem="Chg-CZ-h0N" firstAttribute="width" secondItem="9wf-dv-f0G" secondAttribute="width" id="hRv-xV-fRC"/>
                                         <constraint firstItem="JzQ-ct-Qxx" firstAttribute="width" secondItem="9wf-dv-f0G" secondAttribute="width" id="ke0-FV-M2f"/>
                                         <constraint firstAttribute="bottom" secondItem="9wf-dv-f0G" secondAttribute="bottom" constant="8" id="qBt-nw-BYl"/>
                                         <constraint firstItem="9wf-dv-f0G" firstAttribute="top" secondItem="CIx-Nb-WzN" secondAttribute="top" constant="8" id="rMe-Ry-9gN"/>
                                         <constraint firstItem="Chg-CZ-h0N" firstAttribute="top" secondItem="CIx-Nb-WzN" secondAttribute="top" constant="8" id="ul8-g1-ev8"/>
-                                        <constraint firstItem="d0o-og-MVq" firstAttribute="leading" secondItem="Chg-CZ-h0N" secondAttribute="trailing" constant="8" id="wBg-Gu-xWd"/>
-                                        <constraint firstAttribute="bottom" secondItem="d0o-og-MVq" secondAttribute="bottom" constant="6" id="x4O-8l-6Fx"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="KbH-g6-MiI"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="likeButton" destination="Chg-CZ-h0N" id="Tgl-MP-rMF"/>
                                     <outlet property="replyButton" destination="9wf-dv-f0G" id="srQ-eQ-B04"/>
                                     <outlet property="retweetButton" destination="JzQ-ct-Qxx" id="UrW-LC-xeZ"/>
-                                    <outlet property="sendButton" destination="d0o-og-MVq" id="phM-iH-Hhi"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" id="pIS-7t-xPe" userLabel="ReplyCell" customClass="BaseCell" customModule="TwitterApp" customModuleProvider="target">

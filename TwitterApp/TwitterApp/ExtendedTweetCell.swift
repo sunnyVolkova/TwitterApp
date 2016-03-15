@@ -17,7 +17,6 @@ class ExtendedTweetCell: UITableViewCell {
     @IBOutlet weak var date: UILabel!
     
     @IBOutlet weak var screenName: UILabel!
-    @IBOutlet weak var imageContainerAspectRatioConstraint: NSLayoutConstraint!
     @IBOutlet weak var followButton: UIButton!
     
     var tweet: Tweet?
@@ -66,17 +65,8 @@ class ExtendedTweetCell: UITableViewCell {
             view.removeFromSuperview()
         }
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
-            if let imageContainerAspectRatioConstraint = imageContainerAspectRatioConstraint {
-                imageContainerAspectRatioConstraint.active = true
-            }
-            //drawAdditionalImages(tweet)
-            NSLog("self.frame.width1 \(self.frame.width)")
 
-            //imageContainerHeightConstraint.constant = self.frame.width
         } else {
-            if let imageContainerAspectRatioConstraint = imageContainerAspectRatioConstraint {
-                imageContainerAspectRatioConstraint.active = false
-            }
             imageContainerHeightConstraint.constant = 0
         }
         if let screenNameText = tweet.user?.screen_name {
@@ -90,9 +80,8 @@ class ExtendedTweetCell: UITableViewCell {
     }
     
     func drawAdditionalImages(tweet: Tweet) {
-        let imageContainerWidth = self.frame.width
-        NSLog("self.frame.width2 \(self.frame.width)")
-        let marginBetweenImages: CGFloat = 1
+        let imageContainerWidth = self.imagesContainer.frame.width
+        let marginBetweenImages: CGFloat = 8
         let imageCount = tweet.extended_entities!.media!.count
         let images = tweet.extended_entities!.media!.allObjects
         let divider: CGFloat = CGFloat(imageCount)
@@ -103,18 +92,16 @@ class ExtendedTweetCell: UITableViewCell {
             smallSize = CGFloat(imageContainerWidth - marginBetweenImages)/divider
         }
         let mainSize = (imageContainerWidth - marginBetweenImages) - smallSize
-        
+        imageContainerHeightConstraint.constant = mainSize - 1
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
         }
-        
-        //self.imageContainerHeightConstraint.constant = mainSize
-        
         let mainView = UIImageView()
         mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
         mainView.contentMode = UIViewContentMode.ScaleAspectFill
+        mainView.clipsToBounds = true
         self.imagesContainer.addSubview(mainView)
         let tweetMedia =  images[0] as! Media
         let tweetImageURL = tweetMedia.media_url!
@@ -124,6 +111,7 @@ class ExtendedTweetCell: UITableViewCell {
         for i in 1..<imageCount {
             let additionalView = UIImageView()
             additionalView.contentMode = UIViewContentMode.ScaleAspectFill
+            additionalView.clipsToBounds = true
             additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
             self.imagesContainer.addSubview(additionalView)
             let tweetMedia =  images[i] as! Media

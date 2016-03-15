@@ -34,31 +34,8 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Big Tweet Cell" id="nZT-4d-19k" userLabel="Big Tweet Cell" customClass="BaseCell" customModule="TwitterApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="52" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nZT-4d-19k" id="4zr-C7-Cmc">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vqg-T0-1Uh" customClass="BigTweetView" customModule="TwitterApp" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="vqg-T0-1Uh" firstAttribute="top" secondItem="4zr-C7-Cmc" secondAttribute="top" id="IeM-x8-MEI"/>
-                                        <constraint firstItem="vqg-T0-1Uh" firstAttribute="leading" secondItem="4zr-C7-Cmc" secondAttribute="leading" id="KWx-FW-1rg"/>
-                                        <constraint firstAttribute="bottom" secondItem="vqg-T0-1Uh" secondAttribute="bottom" id="MSn-DE-yQV"/>
-                                        <constraint firstAttribute="trailing" secondItem="vqg-T0-1Uh" secondAttribute="trailing" id="OUl-z1-JDD"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="tweetCell" destination="vqg-T0-1Uh" id="Quo-kp-V2D"/>
-                                </connections>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainTweetCell" rowHeight="706" id="Agi-Yq-3xg" userLabel="Main Tweet Cell" customClass="ExtendedTweetCell" customModule="TwitterApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="96" width="600" height="706"/>
+                                <rect key="frame" x="0.0" y="52" width="600" height="706"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Agi-Yq-3xg" id="9Wx-iS-ZTk">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="705"/>
@@ -112,8 +89,8 @@
                                             <rect key="frame" x="8" y="84" width="584" height="584"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" id="P8g-kK-yGs"/>
-                                                <constraint firstAttribute="width" secondItem="p12-oz-CAd" secondAttribute="height" multiplier="1:1" id="l4K-xo-kNN"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" id="P8g-kK-yGs"/>
+                                                <constraint firstAttribute="width" secondItem="p12-oz-CAd" secondAttribute="height" multiplier="1:1" placeholder="YES" id="l4K-xo-kNN"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9a-76-qbg" userLabel="Name">
@@ -154,7 +131,6 @@
                                     <outlet property="avatarImage" destination="t3j-LT-JxE" id="DcL-Z9-93x"/>
                                     <outlet property="date" destination="fhZ-w8-pyr" id="j7g-SQ-pLU"/>
                                     <outlet property="followButton" destination="KGU-Om-Fh6" id="0DP-as-kFQ"/>
-                                    <outlet property="imageContainerAspectRatioConstraint" destination="l4K-xo-kNN" id="YCC-m5-Q4s"/>
                                     <outlet property="imageContainerHeightConstraint" destination="P8g-kK-yGs" id="i50-qV-Hu9"/>
                                     <outlet property="imagesContainer" destination="p12-oz-CAd" id="PYY-yQ-2HJ"/>
                                     <outlet property="screenName" destination="Men-Pm-zVN" id="vlU-Gm-6r9"/>
@@ -163,7 +139,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="8" reuseIdentifier="Like Retweet Cell" rowHeight="38" id="czm-gx-cVE" userLabel="Like Retweet Cell" customClass="SimpleTextCell" customModule="TwitterApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="802" width="600" height="38"/>
+                                <rect key="frame" x="0.0" y="758" width="600" height="38"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" tableViewCell="czm-gx-cVE" id="RVV-eQ-WZv">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="37"/>
@@ -193,7 +169,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Buttons Cell" id="k0Q-dB-2db" userLabel="Buttons Cell" customClass="TweetButtonsCell" customModule="TwitterApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="840" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="796" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k0Q-dB-2db" id="CIx-Nb-WzN">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -267,7 +243,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" id="pIS-7t-xPe" userLabel="ReplyCell" customClass="BaseCell" customModule="TwitterApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="884" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="840" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIS-7t-xPe" id="DdK-Wm-TOQ">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -351,11 +327,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d4c-xi-Y9T">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d4c-xi-Y9T">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="512"/>
                             </imageView>
-                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DjD-uD-y2b">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DjD-uD-y2b">
+                                <rect key="frame" x="0.0" y="512" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NVn-KT-mPX"/>
                                 </constraints>
@@ -595,6 +571,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="btl-Np-wgq"/>
-        <segue reference="IBu-QD-Ob4"/>
+        <segue reference="rne-zX-eNT"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -106,15 +106,16 @@ class TweetCellView: UIView, ConfigureTweet{
         tweetText.text = tweet.text
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
-        date.text = dateFormatter.stringFromDate(tweet.created_at!)
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        if let createdAt = tweet.created_at {
+            date.text = dateFormatter.stringFromDate(createdAt)
+        }
         initButtons(tweet)
-        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
         }
-        
         avatarImage.sd_cancelCurrentImageLoad()
         if let urlString = tweet.user?.profile_image_url {
             let url = NSURL(string: urlString)
@@ -122,7 +123,6 @@ class TweetCellView: UIView, ConfigureTweet{
         } else {
             avatarImage.image = UIImage(named: "PlaceholderImage")
         }
-        
         for view in self.imagesContainer.subviews{
             view.removeFromSuperview()
         }

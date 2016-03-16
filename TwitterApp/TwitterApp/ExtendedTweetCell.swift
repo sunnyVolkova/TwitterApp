@@ -43,7 +43,10 @@ class ExtendedTweetCell: UITableViewCell {
         tweetText.text = tweet.text
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
-        date.text = dateFormatter.stringFromDate(tweet.created_at!)
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        if let createdAt = tweet.created_at {
+            date.text = dateFormatter.stringFromDate(createdAt)
+        }
         
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){

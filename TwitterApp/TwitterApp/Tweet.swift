@@ -118,9 +118,12 @@ class Tweet: NSManagedObject{
     }
     
     static func dateFromString(dateString: String) -> NSDate? {
+        NSLog("dateString \(dateString)")
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = Tweet.dateFormat
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         let date = dateFormatter.dateFromString(dateString)
+        NSLog("date \(date)")
         return date
     }
     

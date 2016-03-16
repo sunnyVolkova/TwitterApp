@@ -47,6 +47,7 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     }
     
     func configureCell(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate) {
+        NSLog("configure conversational Cell")
         //TODO: slow performance
         if let replies = Tweet.getRepliesToShowOnHome(tweet) {
             let count = replies.count

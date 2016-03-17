@@ -14,7 +14,7 @@
                 <outlet property="buttonReply" destination="niT-yg-rEt" id="YKt-hU-gEa"/>
                 <outlet property="buttonRetweet" destination="MoL-Ka-Gqo" id="CPG-fm-Fjd"/>
                 <outlet property="date" destination="HYH-uu-QuQ" id="cek-wk-v16"/>
-                <outlet property="imagesContainer" destination="YcZ-H0-oeJ" id="vyX-BV-hP6"/>
+                <outlet property="imagesContainer" destination="YcZ-H0-oeJ" id="JVz-Lh-2v9"/>
                 <outlet property="topLineView" destination="YvZ-2e-HNg" id="wKo-E3-peH"/>
                 <outlet property="tweetText" destination="9Oc-9x-Kxk" id="JLV-6j-ncS"/>
                 <outlet property="userName" destination="1mq-ZH-weI" id="hBg-Q9-mhO"/>
@@ -112,7 +112,7 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YcZ-H0-oeJ" userLabel="ImagesContainer">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YcZ-H0-oeJ" userLabel="ImagesContainer" customClass="ImagesContainerView" customModule="TwitterApp" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="207" width="516" height="310"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>

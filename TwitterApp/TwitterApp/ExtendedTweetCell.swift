@@ -19,6 +19,13 @@ class ExtendedTweetCell: UITableViewCell {
     @IBOutlet weak var screenName: UILabel!
     @IBOutlet weak var followButton: UIButton!
     
+    @IBOutlet weak var imageView2Width: NSLayoutConstraint!
+    @IBOutlet weak var imageView3Height: NSLayoutConstraint!
+    @IBOutlet weak var imageView4Height: NSLayoutConstraint!
+    @IBOutlet weak var imageView1: UIImageView!
+    @IBOutlet weak var imageView2: UIImageView!
+    @IBOutlet weak var imageView3: UIImageView!
+    @IBOutlet weak var imageView4: UIImageView!
     var tweet: Tweet?
     
     @IBAction func followButtonPressed(sender: AnyObject) {
@@ -28,7 +35,7 @@ class ExtendedTweetCell: UITableViewCell {
         super.layoutSubviews()
         if let tweet = tweet {
             if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
-                drawAdditionalImages(tweet)
+                drawAdditionalImages(tweet.extended_entities!.media?.allObjects as! [Media])
             }
         }
     }
@@ -61,16 +68,13 @@ class ExtendedTweetCell: UITableViewCell {
         } else {
             avatarImage.image = UIImage(named: "PlaceholderImage")
         }
-        
-        
-        for view in self.imagesContainer.subviews{
-            view.removeFromSuperview()
-        }
-        if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
 
+        if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
+            drawAdditionalImages(tweet.extended_entities!.media?.allObjects as! [Media])
         } else {
             imageContainerHeightConstraint.constant = 0
         }
+        
         if let screenNameText = tweet.user?.screen_name {
             screenName.text = "@" + screenNameText
         }        
@@ -81,45 +85,47 @@ class ExtendedTweetCell: UITableViewCell {
         }
     }
     
-    func drawAdditionalImages(tweet: Tweet) {
-        let imageContainerWidth = self.imagesContainer.frame.width
-        let marginBetweenImages: CGFloat = 8
-        let imageCount = tweet.extended_entities!.media!.count
-        let images = tweet.extended_entities!.media!.allObjects
-        let divider: CGFloat = CGFloat(imageCount)
-        let startX = CGFloat(0)
-        let startY = CGFloat(0)
-        var smallSize = CGFloat(0)
-        if(imageCount > 1){
-            smallSize = CGFloat(imageContainerWidth - marginBetweenImages)/divider
-        }
-        let mainSize = (imageContainerWidth - marginBetweenImages) - smallSize
-        imageContainerHeightConstraint.constant = mainSize - 1
+    func drawAdditionalImages(images: [Media]) {
+        let imageCount = images.count
+            switch imageCount {
+            case 1:
+                imageView2Width.active = true
+                imageView3Height.active = true
+                imageView4Height.active = true
+            case 2:
+                imageView2Width.active = false
+                imageView3Height.active = true
+                imageView4Height.active = true
+            case 3:
+                imageView2Width.active = false
+                imageView3Height.active = false
+                imageView4Height.active = true
+            case 4:
+                imageView2Width.active = false
+                imageView3Height.active = false
+                imageView4Height.active = false
+            default:
+                imageView2Width.active = false
+                imageView3Height.active = false
+                imageView4Height.active = false
+            }
+        
+        
+        let imageViews = [imageView1, imageView2, imageView3, imageView4]
+        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
         }
-        let mainView = UIImageView()
-        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
-        mainView.contentMode = UIViewContentMode.ScaleAspectFill
-        mainView.clipsToBounds = true
-        self.imagesContainer.addSubview(mainView)
-        let tweetMedia =  images[0] as! Media
-        let tweetImageURL = tweetMedia.media_url!
-        let urlMedia = NSURL(string: tweetImageURL)
-        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        
-        for i in 1..<imageCount {
-            let additionalView = UIImageView()
-            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
-            additionalView.clipsToBounds = true
-            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
-            self.imagesContainer.addSubview(additionalView)
-            let tweetMedia =  images[i] as! Media
-            let tweetImageURL = tweetMedia.media_url!
-            let urlMedia = NSURL(string: tweetImageURL)
-            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+        for i in 0..<imageCount {
+            if let imageView = imageViews[i] {
+                let tweetMedia =  images[i]
+                let tweetImageURL = tweetMedia.media_url!
+                let urlMedia = NSURL(string: tweetImageURL)
+                imageView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+            }
         }
+        updateConstraintsIfNeeded()
     }
 }

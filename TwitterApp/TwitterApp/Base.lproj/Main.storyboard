@@ -197,6 +197,8 @@
                                     <outlet property="imageView3Height" destination="FTq-E7-4vc" id="7bc-Xh-Cox"/>
                                     <outlet property="imageView4" destination="lUv-47-h9E" id="GBe-6b-ot4"/>
                                     <outlet property="imageView4Height" destination="148-gK-Yrp" id="PbQ-t6-Hzc"/>
+                                    <outlet property="imageViews23Margin" destination="Sxq-Dr-Byh" id="dtJ-Zu-dDh"/>
+                                    <outlet property="imageViews34Margin" destination="Ycu-su-uVZ" id="BAH-3S-XlI"/>
                                     <outlet property="imagesContainer" destination="p12-oz-CAd" id="PYY-yQ-2HJ"/>
                                     <outlet property="screenName" destination="Men-Pm-zVN" id="vlU-Gm-6r9"/>
                                     <outlet property="tweetText" destination="ytB-5S-kdt" id="MJa-DB-1HB"/>

@@ -9,6 +9,8 @@
 import UIKit
 import SDWebImage
 class ExtendedTweetCell: UITableViewCell {
+    let defaultMargin: CGFloat = 8
+    
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
@@ -19,6 +21,8 @@ class ExtendedTweetCell: UITableViewCell {
     @IBOutlet weak var screenName: UILabel!
     @IBOutlet weak var followButton: UIButton!
     
+    @IBOutlet weak var imageViews34Margin: NSLayoutConstraint!
+    @IBOutlet weak var imageViews23Margin: NSLayoutConstraint!
     @IBOutlet weak var imageView2Width: NSLayoutConstraint!
     @IBOutlet weak var imageView3Height: NSLayoutConstraint!
     @IBOutlet weak var imageView4Height: NSLayoutConstraint!
@@ -30,19 +34,12 @@ class ExtendedTweetCell: UITableViewCell {
     
     @IBAction func followButtonPressed(sender: AnyObject) {
     }
-   
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if let tweet = tweet {
-            if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
-                drawAdditionalImages(tweet.extended_entities!.media?.allObjects as! [Media])
-            }
-        }
-    }
+
     func configureCell(tweet: Tweet) {
         self.tweet = tweet
         configureCellWithTweet(tweet)
     }
+    
     func configureCellWithTweet(tweet: Tweet) {
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
@@ -71,8 +68,9 @@ class ExtendedTweetCell: UITableViewCell {
 
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
             drawAdditionalImages(tweet.extended_entities!.media?.allObjects as! [Media])
+            imagesContainer.hidden = false
         } else {
-            imageContainerHeightConstraint.constant = 0
+            imagesContainer.hidden = true
         }
         
         if let screenNameText = tweet.user?.screen_name {
@@ -92,22 +90,32 @@ class ExtendedTweetCell: UITableViewCell {
                 imageView2Width.active = true
                 imageView3Height.active = true
                 imageView4Height.active = true
+                imageViews23Margin.constant = 0
+                imageViews34Margin.constant = 0
             case 2:
                 imageView2Width.active = false
                 imageView3Height.active = true
                 imageView4Height.active = true
+                imageViews23Margin.constant = 0
+                imageViews34Margin.constant = 0
             case 3:
                 imageView2Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = true
+                imageViews23Margin.constant = defaultMargin
+                imageViews34Margin.constant = 0
             case 4:
                 imageView2Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = false
+                imageViews23Margin.constant = defaultMargin
+                imageViews34Margin.constant = defaultMargin
             default:
                 imageView2Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = false
+                imageViews23Margin.constant = defaultMargin
+                imageViews34Margin.constant = defaultMargin
             }
         
         

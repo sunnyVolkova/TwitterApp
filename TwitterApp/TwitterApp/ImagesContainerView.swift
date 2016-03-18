@@ -11,12 +11,14 @@ import SDWebImage
 class ImagesContainerView: UIView {
     var nibName = "ImagesContainerView"
     var images: [Media]?
+    let defaultMargin: CGFloat = 8
     
     @IBOutlet var imageView2Width: NSLayoutConstraint!
     @IBOutlet var imageView3Width: NSLayoutConstraint!
     @IBOutlet var imageView3Height: NSLayoutConstraint!
     @IBOutlet var imageView4Height: NSLayoutConstraint!
-
+    @IBOutlet weak var imageViews14Margin: NSLayoutConstraint!
+    
     @IBOutlet weak var imageView1: UIImageView!
     @IBOutlet weak var imageView2: UIImageView!
     @IBOutlet weak var imageView3: UIImageView!
@@ -58,26 +60,31 @@ class ImagesContainerView: UIView {
                 imageView3Width.active = true
                 imageView3Height.active = false
                 imageView4Height.active = true
+                imageViews14Margin.constant = defaultMargin
             case 2:
                 imageView2Width.active = false
                 imageView3Width.active = false
                 imageView3Height.active = true
                 imageView4Height.active = true
+                imageViews14Margin.constant = defaultMargin
             case 3:
                 imageView2Width.active = false
                 imageView3Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = true
+                imageViews14Margin.constant = 0
             case 4:
                 imageView2Width.active = false
                 imageView3Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = false
+                imageViews14Margin.constant = defaultMargin
             default:
                 imageView2Width.active = false
                 imageView3Width.active = false
                 imageView3Height.active = false
                 imageView4Height.active = false
+                imageViews14Margin.constant = defaultMargin
             }
         }
 

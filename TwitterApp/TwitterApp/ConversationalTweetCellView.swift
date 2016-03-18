@@ -16,10 +16,6 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     @IBOutlet weak var cell2: TweetCellView!
     @IBOutlet weak var cell3: TweetCellView!
     
-    @IBOutlet weak var cell3NullHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var cell2NullHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var moreRepliesButtonHeightConstraint: NSLayoutConstraint!
-    
     override init(frame: CGRect){
         super.init(frame: frame)
         loadNib()
@@ -33,6 +29,7 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
     func loadNib() {
         let bundle = NSBundle(forClass: self.dynamicType)
         mainView = bundle.loadNibNamed(nibName, owner: self, options: nil)[0] as! UIView
+        mainView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mainView)
         
         let horizontalConstraintLeading = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
@@ -55,18 +52,16 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
             let count = replies.count
             switch count {
             case 0:
-                cell2NullHeightConstraint.active = true
-                cell3NullHeightConstraint.active = true
-                moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
                 
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = true
                 
+                startCell.hidden = false
+                cell2.hidden = true
+                cell3.hidden = true
+                
             case 1:
-                cell2NullHeightConstraint.active = false
-                cell3NullHeightConstraint.active = true
-                moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
                 
                 cell2.configureCell(replies[0], tweetCellClickDelegate: tweetCellClickDelegate)
@@ -76,10 +71,11 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = false
                 
+                startCell.hidden = false
+                cell2.hidden = false
+                cell3.hidden = true
+                
             case 2:
-                cell2NullHeightConstraint.active = false
-                cell3NullHeightConstraint.active = false
-                moreRepliesButtonHeightConstraint.constant = 0
                 moreRepliesButton.hidden = true
                 cell2.configureCell(replies[0], tweetCellClickDelegate: tweetCellClickDelegate)
                 cell3.configureCell(replies[1], tweetCellClickDelegate: tweetCellClickDelegate)
@@ -91,10 +87,11 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = false
                 
+                startCell.hidden = false
+                cell2.hidden = false
+                cell3.hidden = false
+                
             default:
-                cell2NullHeightConstraint.active = false
-                cell3NullHeightConstraint.active = false
-                moreRepliesButtonHeightConstraint.constant = 30
                 moreRepliesButton.hidden = false
                 cell2.configureCell(replies[count - 2], tweetCellClickDelegate: tweetCellClickDelegate)
                 cell3.configureCell(replies[count - 1], tweetCellClickDelegate: tweetCellClickDelegate)
@@ -105,6 +102,10 @@ class ConversationalTweetCellView: UIView, ConfigureTweet{
                 cell3.bottomLineView.hidden = true
                 startCell.topLineView.hidden = true
                 startCell.bottomLineView.hidden = false
+                
+                startCell.hidden = false
+                cell2.hidden = false
+                cell3.hidden = false
             }
             startCell.configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
         }

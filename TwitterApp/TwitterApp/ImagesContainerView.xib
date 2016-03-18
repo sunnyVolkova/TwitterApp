@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImagesContainerView" customModule="TwitterApp" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView1" destination="BTx-ht-RyV" id="nyz-PY-PJ0"/>
+                <outlet property="imageView2" destination="x3u-Hx-yde" id="Yaz-Ju-bww"/>
+                <outlet property="imageView2Width" destination="ojR-3Q-TQH" id="pq0-YN-ZmZ"/>
+                <outlet property="imageView3" destination="oq5-3x-hPa" id="Qi7-5H-xdi"/>
+                <outlet property="imageView3Height" destination="rT4-SH-BTS" id="7fr-fJ-Kh1"/>
+                <outlet property="imageView3Width" destination="DxV-BD-AM7" id="6fa-rz-cmo"/>
+                <outlet property="imageView4" destination="QvO-5t-B5M" id="Agh-B7-EWv"/>
+                <outlet property="imageView4Height" destination="WkC-Xw-gqs" id="cZA-Ev-ur6"/>
+                <outlet property="imageViews14Margin" destination="tBQ-2U-Hco" id="gyF-Ab-fOa"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x3u-Hx-yde" userLabel="Image View 2">
+                    <rect key="frame" x="304" y="0.0" width="296" height="296"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="ojR-3Q-TQH"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="ojR-3Q-TQH"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oq5-3x-hPa" userLabel="Image View 3">
+                    <rect key="frame" x="304" y="304" width="296" height="296"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="DxV-BD-AM7"/>
+                        <constraint firstAttribute="height" id="rT4-SH-BTS"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="DxV-BD-AM7"/>
+                            <exclude reference="rT4-SH-BTS"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BTx-ht-RyV" userLabel="Image View 1">
+                    <rect key="frame" x="0.0" y="0.0" width="296" height="296"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QvO-5t-B5M" userLabel="Image View 4">
+                    <rect key="frame" x="0.0" y="304" width="296" height="296"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="WkC-Xw-gqs"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="WkC-Xw-gqs"/>
+                        </mask>
+                    </variation>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="x3u-Hx-yde" secondAttribute="trailing" id="D9h-ug-IBw"/>
+                <constraint firstItem="QvO-5t-B5M" firstAttribute="height" secondItem="BTx-ht-RyV" secondAttribute="height" priority="999" id="Eml-hy-dmB"/>
+                <constraint firstAttribute="trailing" secondItem="oq5-3x-hPa" secondAttribute="trailing" id="Gcr-1X-qZv"/>
+                <constraint firstAttribute="bottom" secondItem="oq5-3x-hPa" secondAttribute="bottom" id="HYi-1m-znN"/>
+                <constraint firstItem="oq5-3x-hPa" firstAttribute="top" secondItem="x3u-Hx-yde" secondAttribute="bottom" constant="8" id="K6I-v4-KC2"/>
+                <constraint firstItem="x3u-Hx-yde" firstAttribute="width" secondItem="BTx-ht-RyV" secondAttribute="width" priority="999" id="OXG-dY-7bi"/>
+                <constraint firstItem="oq5-3x-hPa" firstAttribute="width" secondItem="QvO-5t-B5M" secondAttribute="width" priority="999" id="PxX-82-syL"/>
+                <constraint firstItem="BTx-ht-RyV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="V99-6t-PrL"/>
+                <constraint firstItem="x3u-Hx-yde" firstAttribute="leading" secondItem="BTx-ht-RyV" secondAttribute="trailing" constant="8" id="Yey-Sb-HG1"/>
+                <constraint firstItem="x3u-Hx-yde" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ZYg-Qf-lAn"/>
+                <constraint firstItem="oq5-3x-hPa" firstAttribute="leading" secondItem="QvO-5t-B5M" secondAttribute="trailing" constant="8" id="ahB-4y-6t2"/>
+                <constraint firstItem="BTx-ht-RyV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gCe-30-fsD"/>
+                <constraint firstItem="QvO-5t-B5M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mgg-MH-5em"/>
+                <constraint firstAttribute="bottom" secondItem="QvO-5t-B5M" secondAttribute="bottom" id="t3s-3i-24T"/>
+                <constraint firstItem="QvO-5t-B5M" firstAttribute="top" secondItem="BTx-ht-RyV" secondAttribute="bottom" constant="8" id="tBQ-2U-Hco"/>
+                <constraint firstItem="oq5-3x-hPa" firstAttribute="height" secondItem="x3u-Hx-yde" secondAttribute="height" priority="999" id="yec-WY-tjt"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

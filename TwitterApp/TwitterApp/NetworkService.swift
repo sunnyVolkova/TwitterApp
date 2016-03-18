@@ -190,6 +190,33 @@ class NetworkService {
         }
     }
     
+    static func createTweet(tweetText tweetText: String, mediaIds: [Int]?, inReplyToStatusId: NSNumber, success: () -> Void, failure: (ErrorType) -> Void){
+        var parameters: Dictionary = [
+            "status"                : "\(tweetText)",
+            "in_reply_to_status_id" : "\(inReplyToStatusId)"
+        ]
+        
+        if let mediaIds = mediaIds {
+            if mediaIds.count > 0 {
+                let map = mediaIds.flatMap({String($0)}) as [String]
+                let mediaIdsString = "\(map.joinWithSeparator(","))"
+                parameters["media_ids"] = mediaIdsString
+            }
+        }
+        
+        if let oauthswift = oauthswift{
+            oauthswift.client.post("https://api.twitter.com/1.1/statuses/update.json", parameters: parameters,
+                success: {
+                    data, response in
+                    DataService.parseAndStoreSingleTwitData(data)
+                    success()
+                }, failure: { error in
+                    NSLog("error \(error) \(error.userInfo)")
+                    failure(error)
+            })
+        }
+    }
+    
     static func uploadImage(image image: UIImage, success: (Int) -> Void, failure: (ErrorType) -> Void){
         if let imgData = UIImageJPEGRepresentation(image, 0.0) {
             let parameters = [String: AnyObject]()

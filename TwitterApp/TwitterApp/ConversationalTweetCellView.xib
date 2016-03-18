@@ -8,11 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConversationalTweetCellView" customModule="TwitterApp" customModuleProvider="target">
             <connections>
                 <outlet property="cell2" destination="mQ3-4I-Pe6" id="i6Z-xs-pzK"/>
-                <outlet property="cell2NullHeightConstraint" destination="xUw-Y5-RAI" id="J7X-Qc-0Eo"/>
                 <outlet property="cell3" destination="HfK-5X-Ru7" id="20g-Jy-5XW"/>
-                <outlet property="cell3NullHeightConstraint" destination="NHt-pa-ETw" id="bih-k1-gxy"/>
                 <outlet property="moreRepliesButton" destination="gL0-XH-xKC" id="mIT-Sb-qfh"/>
-                <outlet property="moreRepliesButtonHeightConstraint" destination="MVf-mD-56R" id="vRc-fQ-ZCr"/>
                 <outlet property="startCell" destination="FUV-u2-J7Z" id="pq0-aB-JDK"/>
             </connections>
         </placeholder>
@@ -44,25 +41,11 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="200" placeholder="YES" id="dLz-9v-qpB"/>
-                                <constraint firstAttribute="height" id="xUw-Y5-RAI"/>
                             </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="xUw-Y5-RAI"/>
-                                </mask>
-                            </variation>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfK-5X-Ru7" userLabel="Cell3" customClass="TweetCellView" customModule="TwitterApp" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="430" width="600" height="170"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" id="NHt-pa-ETw"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="NHt-pa-ETw"/>
-                                </mask>
-                            </variation>
                         </view>
                     </subviews>
                     <constraints>

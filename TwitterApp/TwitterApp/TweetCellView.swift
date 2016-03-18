@@ -23,11 +23,10 @@ class TweetCellView: UIView, ConfigureTweet{
     var nibName = "TweetCellView"
     weak var tweetCellButtonsClickDelegate: TweeCellButtonsClickDelegate?
     var tweetId: Int?
+    var tweet: Tweet?
     
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var imageContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imagesContainer: UIView!   
     @IBOutlet weak var tweetText: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var topLineView: UIView!
@@ -35,10 +34,12 @@ class TweetCellView: UIView, ConfigureTweet{
     @IBOutlet weak var buttonFavorite: UIButton!
     @IBOutlet weak var buttonReply: UIButton!
     @IBOutlet weak var buttonRetweet: UIButton!
+    @IBOutlet weak var imagesContainer: ImagesContainerView!
     
     @IBAction func onButtonReplyClick(sender: AnyObject) {
         if let tweetId = tweetId {
             buttonReply.tag = tweetId
+
         }
         tweetCellButtonsClickDelegate?.replyButtonPressed(buttonReply)
     }
@@ -71,9 +72,22 @@ class TweetCellView: UIView, ConfigureTweet{
         loadNib()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let tweet = tweet {
+            if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
+                imagesContainer.drawAdditionalImages(tweet.extended_entities!.media!.allObjects as! [Media])
+                imagesContainer.addTapToImages{imageUrl in
+                        self.tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: self.tweetId!)
+                }
+            }
+        }
+    }
+    
     func loadNib() {
         let bundle = NSBundle(forClass: self.dynamicType)
         mainView = bundle.loadNibNamed(nibName, owner: self, options: nil)[0] as! UIView
+        mainView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mainView)
         let horizontalConstraintLeading = NSLayoutConstraint(item: mainView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
         self.addConstraint(horizontalConstraintLeading)
@@ -87,6 +101,7 @@ class TweetCellView: UIView, ConfigureTweet{
     
     func configureCell(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate) {
         tweetId = tweet.id as? Int
+        self.tweet = tweet
         tweetCellButtonsClickDelegate = tweetCellClickDelegate
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
@@ -94,16 +109,16 @@ class TweetCellView: UIView, ConfigureTweet{
         tweetText.text = tweet.text
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd' 'MMM' 'HH':'mm"
-        //date.sizeToFit()
-        date.text = dateFormatter.stringFromDate(tweet.created_at!)
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        if let createdAt = tweet.created_at {
+            date.text = dateFormatter.stringFromDate(createdAt)
+        }
         initButtons(tweet)
-        
         let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
             if (error != nil){
                 NSLog("error: \(error.description)")
             }
         }
-        
         avatarImage.sd_cancelCurrentImageLoad()
         if let urlString = tweet.user?.profile_image_url {
             let url = NSURL(string: urlString)
@@ -111,15 +126,10 @@ class TweetCellView: UIView, ConfigureTweet{
         } else {
             avatarImage.image = UIImage(named: "PlaceholderImage")
         }
-        
-        
-        for view in self.imagesContainer.subviews{
-            view.removeFromSuperview()
-        }
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0{
-            drawAdditionalImages(tweet)
+            imagesContainer.hidden = false
         } else {
-            imageContainerHeightConstraint.constant = 0
+            imagesContainer.hidden = true
         }
     }
     
@@ -137,68 +147,8 @@ class TweetCellView: UIView, ConfigureTweet{
         }
     }
     
-    func drawAdditionalImages(tweet: Tweet) {
-        let imageContainerWidth = imagesContainer.frame.width
-        let marginBetweenImages: CGFloat = 1
-        let imageCount = tweet.extended_entities!.media!.count
-        let images = tweet.extended_entities!.media!.allObjects
-        let divider: CGFloat = CGFloat(imageCount)
-        let startX = CGFloat(0)
-        let startY = CGFloat(0)
-        var smallSize = CGFloat(0)
-        if(imageCount > 1){
-            smallSize = CGFloat(imageContainerWidth - marginBetweenImages)/divider
-        }
-        let mainSize = (imageContainerWidth - marginBetweenImages) - smallSize
-        
-        let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
-            if (error != nil){
-                NSLog("error: \(error.description)")
-            }
-        }
-        
-        self.imageContainerHeightConstraint.constant = mainSize
-        
-        let mainView = UIImageView()
-        mainView.frame = CGRectMake(startX, startY, mainSize, mainSize)
-        mainView.contentMode = UIViewContentMode.ScaleAspectFill
-        self.imagesContainer.addSubview(mainView)
-        let tweetMedia =  images[0] as! Media
-        let tweetImageURL = tweetMedia.media_url!         
-        let urlMedia = NSURL(string: tweetImageURL)
-        mainView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-        addTap(mainView)
-        for i in 1..<imageCount {
-            let additionalView = UIImageView()
-            additionalView.contentMode = UIViewContentMode.ScaleAspectFill
-            additionalView.frame = CGRectMake(startX + mainSize + marginBetweenImages, startY + smallSize * CGFloat(i-1), smallSize, smallSize)
-            self.imagesContainer.addSubview(additionalView)
-            let tweetMedia =  images[i] as! Media
-            let tweetImageURL = tweetMedia.media_url!
-            let urlMedia = NSURL(string: tweetImageURL)
-            additionalView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
-            addTap(additionalView)
-        }
-    }
-    
     func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
         configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
-    }
-    
-    func addTap(imageView: UIImageView) {
-        let singleTap = UITapGestureRecognizer(target: self, action: "tapDetected:")
-        singleTap.numberOfTapsRequired = 1
-        imageView.userInteractionEnabled = true
-        imageView.addGestureRecognizer(singleTap)
-    }
-    
-    func tapDetected(sender: AnyObject){
-        NSLog("tapDetected sender: \(sender)")
-        if let imageView = sender.view as? UIImageView {
-            let imageUrl = imageView.sd_imageURL().absoluteString
-            NSLog("imageUrl: \(imageUrl)")
-            tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: tweetId!)
-        }
     }
 }
 

@@ -87,7 +87,6 @@ class TweetTableViewController: UITableViewController {
             NetworkService.searhRepliesOnTweet(tweet.id!, senderName: tweet.user!.screen_name!, success: {
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 let managedContext = appDelegate.managedObjectContext
-                //Tweet.fillReplies(managedContext, tweetId: tweet.id!)
                 self.repliesToShow = Tweet.getRepliesToShow(tweet)
                 self.tableView.reloadData()
                 do {

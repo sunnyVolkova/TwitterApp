@@ -243,7 +243,6 @@ extension HomeTableViewController: TweeCellButtonsClickDelegate {
     }
     
     func replyButtonPressed(sender: UIButton!) {
-        NSLog("replyButtonPressed")
         let tweetId = sender.tag
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext

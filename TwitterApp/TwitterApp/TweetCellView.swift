@@ -77,6 +77,9 @@ class TweetCellView: UIView, ConfigureTweet{
         if let tweet = tweet {
             if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
                 imagesContainer.drawAdditionalImages(tweet.extended_entities!.media!.allObjects as! [Media])
+                imagesContainer.addTapToImages{imageUrl in
+                        self.tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: self.tweetId!)
+                }
             }
         }
     }
@@ -146,20 +149,6 @@ class TweetCellView: UIView, ConfigureTweet{
     
     func configureTweet(tweet: Tweet, tweetCellClickDelegate: TweeCellButtonsClickDelegate){
         configureCell(tweet, tweetCellClickDelegate: tweetCellClickDelegate)
-    }
-    
-    func addTap(imageView: UIImageView) {
-        let singleTap = UITapGestureRecognizer(target: self, action: "tapDetected:")
-        singleTap.numberOfTapsRequired = 1
-        imageView.userInteractionEnabled = true
-        imageView.addGestureRecognizer(singleTap)
-    }
-    
-    func tapDetected(sender: AnyObject){
-        if let imageView = sender.view as? UIImageView {
-            let imageUrl = imageView.sd_imageURL().absoluteString
-            tweetCellButtonsClickDelegate?.imageTapped(imageUrl: imageUrl, tweetId: tweetId!)
-        }
     }
 }
 

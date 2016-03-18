@@ -29,6 +29,15 @@ class ExtendedTweetCell: UITableViewCell {
         configureCellWithTweet(tweet)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let tweet = tweet {
+            if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
+                imagesContainer.drawAdditionalImages(tweet.extended_entities!.media!.allObjects as! [Media])
+            }
+        }
+    }
+    
     func configureCellWithTweet(tweet: Tweet) {
         userName.text = tweet.user?.name
         tweetText.lineBreakMode = .ByWordWrapping
@@ -56,8 +65,6 @@ class ExtendedTweetCell: UITableViewCell {
         }
 
         if tweet.extended_entities != nil && tweet.extended_entities!.media != nil && tweet.extended_entities!.media!.count > 0 {
-            
-            imagesContainer.drawAdditionalImages(tweet.extended_entities!.media?.allObjects as! [Media])
             imagesContainer.hidden = false
         } else {
             imagesContainer.hidden = true

@@ -12,6 +12,7 @@ class ImagesContainerView: UIView {
     var nibName = "ImagesContainerView"
     var images: [Media]?
     let defaultMargin: CGFloat = 8
+    var imageTapBlock: ((String) -> Void)?
     
     @IBOutlet var imageView2Width: NSLayoutConstraint!
     @IBOutlet var imageView3Width: NSLayoutConstraint!
@@ -101,8 +102,28 @@ class ImagesContainerView: UIView {
                 let tweetImageURL = tweetMedia.media_url!
                 let urlMedia = NSURL(string: tweetImageURL)
                 imageView.sd_setImageWithURL(urlMedia, placeholderImage: UIImage(named: "PlaceholderImage") ,completed: block)
+                addTap(imageView)
             }
         }
         updateConstraintsIfNeeded()
+    }
+    
+    func addTapToImages(tapBlock: ((String) -> Void)){
+        imageTapBlock = tapBlock
+    }
+    
+    
+    func addTap(imageView: UIImageView) {
+        let singleTap = UITapGestureRecognizer(target: self, action: "tapDetected:")
+        singleTap.numberOfTapsRequired = 1
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(singleTap)
+    }
+    
+    func tapDetected(sender: AnyObject){
+        if let imageView = sender.view as? UIImageView {
+            let imageUrl = imageView.sd_imageURL().absoluteString
+            imageTapBlock?(imageUrl)
+        }
     }
 }

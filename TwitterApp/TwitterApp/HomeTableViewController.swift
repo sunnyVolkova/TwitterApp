@@ -163,9 +163,9 @@ class HomeTableViewController: UITableViewController{
                 tweetTableViewController.tweetId = (tweet?.id)!
             }
         } else if segue.identifier == showImageFromHomeSegueIdentifier {
-            let singleImageViewController = segue.destinationViewController as! SingleImageViewController
+            let singleImageViewController = segue.destinationViewController as! SingleImageViewController2
             if let selectedImageUrlString = selectedImageUrlString {
-                singleImageViewController.imageUrlString = selectedImageUrlString
+                singleImageViewController.imageUrl = selectedImageUrlString
             }
             if let selectedTweetId = selectedTweetId {
                 singleImageViewController.tweetId = selectedTweetId

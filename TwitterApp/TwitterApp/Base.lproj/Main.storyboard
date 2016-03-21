@@ -299,7 +299,7 @@
         <!--Image View Controller-->
         <scene sceneID="AA8-rb-GRq">
             <objects>
-                <viewController id="BNf-v6-Zhe" userLabel="Image View Controller" customClass="SingleImageViewController" customModule="TwitterApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BNf-v6-Zhe" userLabel="Image View Controller" customClass="SingleImageViewController2" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bnb-zK-pqn"/>
                         <viewControllerLayoutGuide type="bottom" id="Mkm-XY-T6d"/>
@@ -319,19 +319,19 @@
                                 <items>
                                     <barButtonItem title="Reply" width="51" id="6mE-nl-2lH">
                                         <connections>
-                                            <action selector="replyButtonPressed:" destination="BNf-v6-Zhe" id="YFR-4J-WEx"/>
+                                            <action selector="replyButtonPressed:" destination="BNf-v6-Zhe" id="UQb-6f-0jm"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Dcd-yb-5q2"/>
                                     <barButtonItem title="Retweet" id="ARh-lW-hxP">
                                         <connections>
-                                            <action selector="retweetButtonPressed:" destination="BNf-v6-Zhe" id="S65-Id-l8X"/>
+                                            <action selector="retweetButtonPressed:" destination="BNf-v6-Zhe" id="LbC-A8-MSX"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="PyF-3Q-y1C"/>
                                     <barButtonItem title="Favorite" width="71" id="hvx-5y-4I5">
                                         <connections>
-                                            <action selector="favoriteButtonPressed:" destination="BNf-v6-Zhe" id="mBh-JM-pWZ"/>
+                                            <action selector="favoriteButtonPressed:" destination="BNf-v6-Zhe" id="rdO-tm-yRC"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -349,10 +349,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="favoriteButton" destination="hvx-5y-4I5" id="rrT-rN-j7u"/>
-                        <outlet property="imageView" destination="d4c-xi-Y9T" id="rhJ-yD-mqy"/>
-                        <outlet property="replyButton" destination="6mE-nl-2lH" id="jR7-3X-pFl"/>
-                        <outlet property="retweetButton" destination="ARh-lW-hxP" id="jzf-CF-PdC"/>
+                        <outlet property="favoriteButton" destination="hvx-5y-4I5" id="5gy-FQ-wvn"/>
+                        <outlet property="imageView" destination="d4c-xi-Y9T" id="yBz-Yt-GvO"/>
+                        <outlet property="replyButton" destination="6mE-nl-2lH" id="IqN-eG-p8O"/>
+                        <outlet property="retweetButton" destination="ARh-lW-hxP" id="fBB-Ws-jHJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7bi-iR-iLj" userLabel="First Responder" sceneMemberID="firstResponder"/>

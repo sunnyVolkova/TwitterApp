@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		11F9D3407AF4AE8E94941FEF /* Pods_TwitterApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A0C633E4E0B29F08399A32 /* Pods_TwitterApp.framework */; };
 		36EBC7E3A4DACC47B2290793 /* Indices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EBC95815585CD747756DF1 /* Indices.swift */; };
+		A393894B1C9FE92600112492 /* SingleImageViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = A393894A1C9FE92600112492 /* SingleImageViewController2.m */; };
+		A393894F1CA027E600112492 /* NetworkServiceBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A393894E1CA027E600112492 /* NetworkServiceBridge.swift */; };
 		CE0258721C748153007EBAC0 /* SimpleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258711C748153007EBAC0 /* SimpleTextCell.swift */; };
 		CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0258731C749D6D007EBAC0 /* TweetButtonsCell.swift */; };
 		CE0258761C775DEF007EBAC0 /* TweetCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0258751C775DEF007EBAC0 /* TweetCellView.xib */; };
@@ -78,6 +80,10 @@
 /* Begin PBXFileReference section */
 		36EBC95815585CD747756DF1 /* Indices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indices.swift; sourceTree = "<group>"; };
 		96A0C633E4E0B29F08399A32 /* Pods_TwitterApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A393894A1C9FE92600112492 /* SingleImageViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImageViewController2.m; sourceTree = "<group>"; };
+		A393894C1C9FE93900112492 /* SingleImageViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleImageViewController2.h; sourceTree = "<group>"; };
+		A393894D1C9FF97F00112492 /* TwitterApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TwitterApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		A393894E1CA027E600112492 /* NetworkServiceBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkServiceBridge.swift; sourceTree = "<group>"; };
 		B4211BD14001D4B39953986A /* Pods-TwitterApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TwitterApp/Pods-TwitterApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B5E0169DD325CA36D9058219 /* Pods-TwitterApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TwitterApp/Pods-TwitterApp.release.xcconfig"; sourceTree = "<group>"; };
 		CE0258711C748153007EBAC0 /* SimpleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTextCell.swift; sourceTree = "<group>"; };
@@ -246,6 +252,8 @@
 				CEC7CF4A1C58FC1300B66BCD /* LoginViewController.swift */,
 				CEC1BD8A1C732E6400001203 /* TweetTableViewController.swift */,
 				CEF3683B1C89CEC900B3BEDA /* SingleImageViewController.swift */,
+				A393894A1C9FE92600112492 /* SingleImageViewController2.m */,
+				A393894C1C9FE93900112492 /* SingleImageViewController2.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -266,6 +274,7 @@
 			children = (
 				CE7249BA1C591065005AA2E1 /* LoginService.swift */,
 				CE7249D71C5A19AA005AA2E1 /* NetworkService.swift */,
+				A393894E1CA027E600112492 /* NetworkServiceBridge.swift */,
 				CE7683B21C6C76A0002FD46B /* DataService.swift */,
 			);
 			name = Services;
@@ -275,6 +284,7 @@
 		CEC7CF3C1C58FC1300B66BCD = {
 			isa = PBXGroup;
 			children = (
+				A393894D1C9FF97F00112492 /* TwitterApp-Bridging-Header.h */,
 				CEC7CF471C58FC1300B66BCD /* TwitterApp */,
 				CEC7CF5F1C58FC1400B66BCD /* TwitterAppTests */,
 				CEC7CF6A1C58FC1400B66BCD /* TwitterAppUITests */,
@@ -528,6 +538,7 @@
 				CE0258741C749D6D007EBAC0 /* TweetButtonsCell.swift in Sources */,
 				CEB632781C904FC900D66F2A /* CreateTweetViewController.swift in Sources */,
 				CEB6327C1C9155D700D66F2A /* ImageWithButton.swift in Sources */,
+				A393894B1C9FE92600112492 /* SingleImageViewController2.m in Sources */,
 				CEF3683C1C89CEC900B3BEDA /* SingleImageViewController.swift in Sources */,
 				CE5DDAC01C68E31000A92BAC /* Entity+CoreDataProperties.swift in Sources */,
 				CE5DDAC61C68E31000A92BAC /* Hashtag.swift in Sources */,
@@ -539,6 +550,7 @@
 				CE5DDABF1C68E31000A92BAC /* UserMention.swift in Sources */,
 				CE5DDABC1C68E31000A92BAC /* User+CoreDataProperties.swift in Sources */,
 				CEC7CF511C58FC1300B66BCD /* TwitterApp.xcdatamodeld in Sources */,
+				A393894F1CA027E600112492 /* NetworkServiceBridge.swift in Sources */,
 				CE5DDAC31C68E31000A92BAC /* Media+CoreDataProperties.swift in Sources */,
 				CEC1BD8B1C732E6400001203 /* TweetTableViewController.swift in Sources */,
 				CE5DDABE1C68E31000A92BAC /* UserMention+CoreDataProperties.swift in Sources */,
@@ -700,7 +712,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weezlabs.TwitterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TwitterApp-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -713,7 +725,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weezlabs.TwitterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TwitterApp-Bridging-Header.h";
 			};
 			name = Release;
 		};
